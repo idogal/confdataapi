@@ -1,0 +1,1523 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Papers>
+    <Paper>
+        <ID>2101893102</ID>
+        <Conference_Year>2012</Conference_Year>
+        <Paper_Name>why developers don t pair more often</Paper_Name>
+    </Paper>
+    <Paper>
+        <ID>2083970733</ID>
+        <Conference_Year>2012</Conference_Year>
+        <Paper_Name>what makes it hard to design instructional software towards a collaborative platform for stakeholder</Paper_Name>
+    </Paper>
+    <Paper>
+        <ID>1992072862</ID>
+        <Conference_Year>2012</Conference_Year>
+        <Paper_Name>a redefinition of roles and collaboration under model driven development</Paper_Name>
+    </Paper>
+    <Paper>
+        <ID>2044967531</ID>
+        <Conference_Year>2012</Conference_Year>
+        <Paper_Name>first results from an investigation into the validity of developer reputation derived from wiki arti</Paper_Name>
+    </Paper>
+    <Paper>
+        <ID>2122676969</ID>
+        <Conference_Year>2013</Conference_Year>
+        <Paper_Name>why do newcomers abandon open source software projects</Paper_Name>
+    </Paper>
+    <Paper>
+        <ID>2143354134</ID>
+        <Conference_Year>2013</Conference_Year>
+        <Paper_Name>what is social debt in software engineering</Paper_Name>
+    </Paper>
+    <Paper>
+        <ID>2012429071</ID>
+        <Conference_Year>2013</Conference_Year>
+        <Paper_Name>how does kanban impact communication and collaboration in software engineering teams</Paper_Name>
+    </Paper>
+    <Paper>
+        <ID>2066045860</ID>
+        <Conference_Year>2013</Conference_Year>
+        <Paper_Name>improving developer participation rates in surveys</Paper_Name>
+    </Paper>
+    <Paper>
+        <ID>1994588695</ID>
+        <Conference_Year>2013</Conference_Year>
+        <Paper_Name>soft skills in software engineering a study of its demand by software companies in uruguay</Paper_Name>
+    </Paper>
+    <Paper>
+        <ID>2293798798</ID>
+        <Conference_Year>2013</Conference_Year>
+        <Paper_Name>crowd development</Paper_Name>
+    </Paper>
+    <Paper>
+        <ID>2100323504</ID>
+        <Conference_Year>2013</Conference_Year>
+        <Paper_Name>collaborative bug triaging using textual similarities and change set analysis</Paper_Name>
+    </Paper>
+    <Paper>
+        <ID>2002158216</ID>
+        <Conference_Year>2013</Conference_Year>
+        <Paper_Name>social media in transparent work environments</Paper_Name>
+    </Paper>
+    <Paper>
+        <ID>1995488392</ID>
+        <Conference_Year>2013</Conference_Year>
+        <Paper_Name>the rise and fall of a central contributor dynamics of social organization and performance in the ge</Paper_Name>
+    </Paper>
+    <Paper>
+        <ID>2154498177</ID>
+        <Conference_Year>2013</Conference_Year>
+        <Paper_Name>less is more architecture documentation for agile development</Paper_Name>
+    </Paper>
+    <Paper>
+        <ID>1980199054</ID>
+        <Conference_Year>2013</Conference_Year>
+        <Paper_Name>emergence of developer teams in the collaboration network</Paper_Name>
+    </Paper>
+    <Paper>
+        <ID>2066040773</ID>
+        <Conference_Year>2013</Conference_Year>
+        <Paper_Name>understanding cheap talk and the emergence of trust in global software engineering an evolutionary g</Paper_Name>
+    </Paper>
+    <Paper>
+        <ID>2105407546</ID>
+        <Conference_Year>2013</Conference_Year>
+        <Paper_Name>meeting intensity as an indicator for project pressure exploring meeting profiles</Paper_Name>
+    </Paper>
+    <Paper>
+        <ID>1992326339</ID>
+        <Conference_Year>2013</Conference_Year>
+        <Paper_Name>how software architects collaborate insights from collaborative software design in practice</Paper_Name>
+    </Paper>
+    <Paper>
+        <ID>2064744566</ID>
+        <Conference_Year>2013</Conference_Year>
+        <Paper_Name>motivation of software engineers a qualitative case study of a research and development organisation</Paper_Name>
+    </Paper>
+    <Paper>
+        <ID>2167784654</ID>
+        <Conference_Year>2013</Conference_Year>
+        <Paper_Name>cooperation wordle using pre attentive processing techniques</Paper_Name>
+    </Paper>
+    <Paper>
+        <ID>1986136221</ID>
+        <Conference_Year>2013</Conference_Year>
+        <Paper_Name>app directed learning an exploratory study</Paper_Name>
+    </Paper>
+    <Paper>
+        <ID>1995658248</ID>
+        <Conference_Year>2013</Conference_Year>
+        <Paper_Name>a descriptive classification for end user relevant decisions of large scale it projects</Paper_Name>
+    </Paper>
+    <Paper>
+        <ID>2043429202</ID>
+        <Conference_Year>2013</Conference_Year>
+        <Paper_Name>analyzing the friendliness of exchanges in an online software developer community</Paper_Name>
+    </Paper>
+    <Paper>
+        <ID>2098619173</ID>
+        <Conference_Year>2013</Conference_Year>
+        <Paper_Name>a study of architectural decision practices</Paper_Name>
+    </Paper>
+    <Paper>
+        <ID>1995705296</ID>
+        <Conference_Year>2013</Conference_Year>
+        <Paper_Name>the need of a person oriented approach to software process assessment</Paper_Name>
+    </Paper>
+    <Paper>
+        <ID>2168947376</ID>
+        <Conference_Year>2013</Conference_Year>
+        <Paper_Name>toward social technical code search</Paper_Name>
+    </Paper>
+    <Paper>
+        <ID>1967647918</ID>
+        <Conference_Year>2013</Conference_Year>
+        <Paper_Name>using experimental games to understand communication and trust in agile software teams</Paper_Name>
+    </Paper>
+    <Paper>
+        <ID>2025255333</ID>
+        <Conference_Year>2013</Conference_Year>
+        <Paper_Name>a qualitative study about the life cycle of lessons learned</Paper_Name>
+    </Paper>
+    <Paper>
+        <ID>2003474436</ID>
+        <Conference_Year>2013</Conference_Year>
+        <Paper_Name>agile offsharing using pair work to overcome nearshoring difficulties</Paper_Name>
+    </Paper>
+    <Paper>
+        <ID>2158297173</ID>
+        <Conference_Year>2013</Conference_Year>
+        <Paper_Name>exploring social structures in extended team model</Paper_Name>
+    </Paper>
+    <Paper>
+        <ID>2066457191</ID>
+        <Conference_Year>2013</Conference_Year>
+        <Paper_Name>6 th international workshop on cooperative and human aspects of software engineering chase</Paper_Name>
+    </Paper>
+    <Paper>
+        <ID>1997231968</ID>
+        <Conference_Year>2013</Conference_Year>
+        <Paper_Name>motivations for collaboration in software design decision making</Paper_Name>
+    </Paper>
+    <Paper>
+        <ID>2058885776</ID>
+        <Conference_Year>2013</Conference_Year>
+        <Paper_Name>differences in jazz project leaders competencies and behaviors a preliminary empirical investigation</Paper_Name>
+    </Paper>
+    <Paper>
+        <ID>2083909759</ID>
+        <Conference_Year>2013</Conference_Year>
+        <Paper_Name>towards collaboration centric pattern based software development support</Paper_Name>
+    </Paper>
+    <Paper>
+        <ID>2026997812</ID>
+        <Conference_Year>2013</Conference_Year>
+        <Paper_Name>aduno real time collaborative work design in a shared workspace</Paper_Name>
+    </Paper>
+    <Paper>
+        <ID>2127375004</ID>
+        <Conference_Year>2013</Conference_Year>
+        <Paper_Name>on the development of a theoretical model of the impact of trust in the performance of distributed s</Paper_Name>
+    </Paper>
+    <Paper>
+        <ID>1979374124</ID>
+        <Conference_Year>2013</Conference_Year>
+        <Paper_Name>an examination of shared understanding in free libre open source project maintenance</Paper_Name>
+    </Paper>
+    <Paper>
+        <ID>2963327436</ID>
+        <Conference_Year>2019</Conference_Year>
+        <Paper_Name>activity based analysis of open source software contributors roles and dynamics</Paper_Name>
+    </Paper>
+    <Paper>
+        <ID>2963024052</ID>
+        <Conference_Year>2019</Conference_Year>
+        <Paper_Name>what makes research software sustainable an interview study with research software engineers</Paper_Name>
+    </Paper>
+    <Paper>
+        <ID>2920871265</ID>
+        <Conference_Year>2019</Conference_Year>
+        <Paper_Name>a methodology for using gitlab for software engineering learning analytics</Paper_Name>
+    </Paper>
+    <Paper>
+        <ID>2947198526</ID>
+        <Conference_Year>2019</Conference_Year>
+        <Paper_Name>reflections on onboarding practices in mid sized companies</Paper_Name>
+    </Paper>
+    <Paper>
+        <ID>2947571466</ID>
+        <Conference_Year>2019</Conference_Year>
+        <Paper_Name>cognitive load drivers in large scale software development</Paper_Name>
+    </Paper>
+    <Paper>
+        <ID>2947026240</ID>
+        <Conference_Year>2019</Conference_Year>
+        <Paper_Name>investigating the social representations of code smell identification a preliminary study</Paper_Name>
+    </Paper>
+    <Paper>
+        <ID>2947586446</ID>
+        <Conference_Year>2019</Conference_Year>
+        <Paper_Name>collecting design knowledge through voice notes</Paper_Name>
+    </Paper>
+    <Paper>
+        <ID>2947585627</ID>
+        <Conference_Year>2019</Conference_Year>
+        <Paper_Name>work design and job rotation in software engineering results from an industrial study</Paper_Name>
+    </Paper>
+    <Paper>
+        <ID>2921697720</ID>
+        <Conference_Year>2019</Conference_Year>
+        <Paper_Name>social identity in software development</Paper_Name>
+    </Paper>
+    <Paper>
+        <ID>2945001297</ID>
+        <Conference_Year>2019</Conference_Year>
+        <Paper_Name>hopefully we are mostly secure views on secure code in professional practice</Paper_Name>
+    </Paper>
+    <Paper>
+        <ID>2948008794</ID>
+        <Conference_Year>2019</Conference_Year>
+        <Paper_Name>a biomimicry perspective at agile software exponential organizations</Paper_Name>
+    </Paper>
+    <Paper>
+        <ID>2947989597</ID>
+        <Conference_Year>2019</Conference_Year>
+        <Paper_Name>developing software for the shopfloor on the shopfloor an ethnographic study of software engineering</Paper_Name>
+    </Paper>
+    <Paper>
+        <ID>2948001015</ID>
+        <Conference_Year>2019</Conference_Year>
+        <Paper_Name>effect of newcomers supportive strategies on open source projects socio technical activities</Paper_Name>
+    </Paper>
+    <Paper>
+        <ID>2945794032</ID>
+        <Conference_Year>2019</Conference_Year>
+        <Paper_Name>advancing the study of human values in software engineering</Paper_Name>
+    </Paper>
+    <Paper>
+        <ID>2962720376</ID>
+        <Conference_Year>2019</Conference_Year>
+        <Paper_Name>relating voluntary turnover with job characteristics satisfaction and work exhaustion an initial stu</Paper_Name>
+    </Paper>
+    <Paper>
+        <ID>2947753907</ID>
+        <Conference_Year>2019</Conference_Year>
+        <Paper_Name>directives of communicability towards better communication through software models</Paper_Name>
+    </Paper>
+    <Paper>
+        <ID>2946994487</ID>
+        <Conference_Year>2019</Conference_Year>
+        <Paper_Name>patterns of identity and interaction in an agile community of practice</Paper_Name>
+    </Paper>
+    <Paper>
+        <ID>2947979413</ID>
+        <Conference_Year>2019</Conference_Year>
+        <Paper_Name>supporting software engineering research and education by annotating public videos of developers pro</Paper_Name>
+    </Paper>
+    <Paper>
+        <ID>2947857416</ID>
+        <Conference_Year>2019</Conference_Year>
+        <Paper_Name>towards a method for creating personas with knowledge and cognitive process for user centered design</Paper_Name>
+    </Paper>
+    <Paper>
+        <ID>2924071965</ID>
+        <Conference_Year>2019</Conference_Year>
+        <Paper_Name>towards new requirements engineering competencies</Paper_Name>
+    </Paper>
+    <Paper>
+        <ID>2938952075</ID>
+        <Conference_Year>2019</Conference_Year>
+        <Paper_Name>defining agile culture a collaborative and practitioner led approach</Paper_Name>
+    </Paper>
+    <Paper>
+        <ID>2947803146</ID>
+        <Conference_Year>2019</Conference_Year>
+        <Paper_Name>pragmatic characteristics of security conversations an exploratory linguistic analysis</Paper_Name>
+    </Paper>
+    <Paper>
+        <ID>2947862137</ID>
+        <Conference_Year>2019</Conference_Year>
+        <Paper_Name>inter team coordination in agile development learning from non software contexts</Paper_Name>
+    </Paper>
+    <Paper>
+        <ID>2947373858</ID>
+        <Conference_Year>2019</Conference_Year>
+        <Paper_Name>a systematic mapping study of diversity in software engineering a perspective from the agile methodo</Paper_Name>
+    </Paper>
+    <Paper>
+        <ID>2947409175</ID>
+        <Conference_Year>2019</Conference_Year>
+        <Paper_Name>expecting the unexpected distilling bot development challenges and motivations</Paper_Name>
+    </Paper>
+    <Paper>
+        <ID>2947212126</ID>
+        <Conference_Year>2019</Conference_Year>
+        <Paper_Name>collaborative practices for software requirements gathering in software startups</Paper_Name>
+    </Paper>
+    <Paper>
+        <ID>2947524240</ID>
+        <Conference_Year>2019</Conference_Year>
+        <Paper_Name>scientific developers v s static analysis tools vision and position paper</Paper_Name>
+    </Paper>
+    <Paper>
+        <ID>2963040205</ID>
+        <Conference_Year>2019</Conference_Year>
+        <Paper_Name>short datathon for the interdisciplinary development of data analysis and visualization skills</Paper_Name>
+    </Paper>
+    <Paper>
+        <ID>2946869533</ID>
+        <Conference_Year>2019</Conference_Year>
+        <Paper_Name>the role of platform moderators in software crowdsourcing projects</Paper_Name>
+    </Paper>
+    <Paper>
+        <ID>2947102745</ID>
+        <Conference_Year>2019</Conference_Year>
+        <Paper_Name>social aspects and how they influence mseco developers</Paper_Name>
+    </Paper>
+    <Paper>
+        <ID>2947658852</ID>
+        <Conference_Year>2019</Conference_Year>
+        <Paper_Name>an extended reality approach for creating immersive software project workspaces</Paper_Name>
+    </Paper>
+    <Paper>
+        <ID>2947926098</ID>
+        <Conference_Year>2019</Conference_Year>
+        <Paper_Name>soft skills training performance psychology applied to software development</Paper_Name>
+    </Paper>
+    <Paper>
+        <ID>2947783080</ID>
+        <Conference_Year>2019</Conference_Year>
+        <Paper_Name>designing dojo a collaborative method for teaching design patterns</Paper_Name>
+    </Paper>
+    <Paper>
+        <ID>1963555928</ID>
+        <Conference_Year>2008</Conference_Year>
+        <Paper_Name>towards individualized software engineering empirical studies should collect psychometrics</Paper_Name>
+    </Paper>
+    <Paper>
+        <ID>2084362971</ID>
+        <Conference_Year>2008</Conference_Year>
+        <Paper_Name>communication patterns in geographically distributed software development and engineers contribution</Paper_Name>
+    </Paper>
+    <Paper>
+        <ID>2135295137</ID>
+        <Conference_Year>2008</Conference_Year>
+        <Paper_Name>continuous coordination within the context of cooperative and human aspects of software engineering</Paper_Name>
+    </Paper>
+    <Paper>
+        <ID>2099912421</ID>
+        <Conference_Year>2008</Conference_Year>
+        <Paper_Name>articulation work in small scale offshore software development projects</Paper_Name>
+    </Paper>
+    <Paper>
+        <ID>2101284766</ID>
+        <Conference_Year>2008</Conference_Year>
+        <Paper_Name>what dynamic network metrics can tell us about developer roles</Paper_Name>
+    </Paper>
+    <Paper>
+        <ID>2139502068</ID>
+        <Conference_Year>2008</Conference_Year>
+        <Paper_Name>effecting change coordination in large scale software development</Paper_Name>
+    </Paper>
+    <Paper>
+        <ID>1989192970</ID>
+        <Conference_Year>2008</Conference_Year>
+        <Paper_Name>a sketch of the programmer s coach making programmers more effective</Paper_Name>
+    </Paper>
+    <Paper>
+        <ID>2053465203</ID>
+        <Conference_Year>2008</Conference_Year>
+        <Paper_Name>promoting developer specific awareness</Paper_Name>
+    </Paper>
+    <Paper>
+        <ID>2087466259</ID>
+        <Conference_Year>2008</Conference_Year>
+        <Paper_Name>fostering user developer collaboration with infrastructure probes</Paper_Name>
+    </Paper>
+    <Paper>
+        <ID>2114747891</ID>
+        <Conference_Year>2008</Conference_Year>
+        <Paper_Name>collaborative process management and virtual teams</Paper_Name>
+    </Paper>
+    <Paper>
+        <ID>2003285671</ID>
+        <Conference_Year>2008</Conference_Year>
+        <Paper_Name>sharing usability information in interactive system development</Paper_Name>
+    </Paper>
+    <Paper>
+        <ID>2019554308</ID>
+        <Conference_Year>2008</Conference_Year>
+        <Paper_Name>del icio us development tools</Paper_Name>
+    </Paper>
+    <Paper>
+        <ID>2029488227</ID>
+        <Conference_Year>2008</Conference_Year>
+        <Paper_Name>cooperation and coordination concerns in a distributed software development project</Paper_Name>
+    </Paper>
+    <Paper>
+        <ID>2087923521</ID>
+        <Conference_Year>2008</Conference_Year>
+        <Paper_Name>cooperation between developers and operations in software engineering projects</Paper_Name>
+    </Paper>
+    <Paper>
+        <ID>1984505681</ID>
+        <Conference_Year>2008</Conference_Year>
+        <Paper_Name>mimec intelligent user notification of faults in the eclipse ide</Paper_Name>
+    </Paper>
+    <Paper>
+        <ID>2107060294</ID>
+        <Conference_Year>2008</Conference_Year>
+        <Paper_Name>reporting user experience through usability within the telecommunications industry</Paper_Name>
+    </Paper>
+    <Paper>
+        <ID>1998841656</ID>
+        <Conference_Year>2008</Conference_Year>
+        <Paper_Name>measuring oss quality trough centrality</Paper_Name>
+    </Paper>
+    <Paper>
+        <ID>2009581584</ID>
+        <Conference_Year>2008</Conference_Year>
+        <Paper_Name>the economy of collective attention for situated knowledge collaboration in software development</Paper_Name>
+    </Paper>
+    <Paper>
+        <ID>1982175967</ID>
+        <Conference_Year>2008</Conference_Year>
+        <Paper_Name>source level debugging with the whyline</Paper_Name>
+    </Paper>
+    <Paper>
+        <ID>2067072439</ID>
+        <Conference_Year>2008</Conference_Year>
+        <Paper_Name>creating a cognitive metric of programming task difficulty</Paper_Name>
+    </Paper>
+    <Paper>
+        <ID>2050514837</ID>
+        <Conference_Year>2008</Conference_Year>
+        <Paper_Name>team towards a software engineering semantic web</Paper_Name>
+    </Paper>
+    <Paper>
+        <ID>1993272670</ID>
+        <Conference_Year>2008</Conference_Year>
+        <Paper_Name>practices around customization of standard systems</Paper_Name>
+    </Paper>
+    <Paper>
+        <ID>2079128191</ID>
+        <Conference_Year>2008</Conference_Year>
+        <Paper_Name>towards a framework for software navigation techniques</Paper_Name>
+    </Paper>
+    <Paper>
+        <ID>2039176016</ID>
+        <Conference_Year>2008</Conference_Year>
+        <Paper_Name>scrum down a software engineer and a sociologist explore the implementation of an agile method</Paper_Name>
+    </Paper>
+    <Paper>
+        <ID>2031624663</ID>
+        <Conference_Year>2008</Conference_Year>
+        <Paper_Name>cooperative work in software testing</Paper_Name>
+    </Paper>
+    <Paper>
+        <ID>2111598217</ID>
+        <Conference_Year>2008</Conference_Year>
+        <Paper_Name>benefits of interactive display environments in the software development process</Paper_Name>
+    </Paper>
+    <Paper>
+        <ID>2047298882</ID>
+        <Conference_Year>2008</Conference_Year>
+        <Paper_Name>social aspects of a continuous inspection platform for software source code</Paper_Name>
+    </Paper>
+    <Paper>
+        <ID>2017083356</ID>
+        <Conference_Year>2008</Conference_Year>
+        <Paper_Name>examining life at the code face</Paper_Name>
+    </Paper>
+    <Paper>
+        <ID>2120089691</ID>
+        <Conference_Year>2011</Conference_Year>
+        <Paper_Name>collabode collaborative coding in the browser</Paper_Name>
+    </Paper>
+    <Paper>
+        <ID>2088946319</ID>
+        <Conference_Year>2011</Conference_Year>
+        <Paper_Name>branching and merging an investigation into current version control practices</Paper_Name>
+    </Paper>
+    <Paper>
+        <ID>1989360578</ID>
+        <Conference_Year>2011</Conference_Year>
+        <Paper_Name>how do we trace requirements an initial study of analyst behavior in trace validation tasks</Paper_Name>
+    </Paper>
+    <Paper>
+        <ID>2022897498</ID>
+        <Conference_Year>2011</Conference_Year>
+        <Paper_Name>mining and visualizing developer networks from version control systems</Paper_Name>
+    </Paper>
+    <Paper>
+        <ID>2017003061</ID>
+        <Conference_Year>2011</Conference_Year>
+        <Paper_Name>which bug should i fix helping new developers onboard a new project</Paper_Name>
+    </Paper>
+    <Paper>
+        <ID>2153739469</ID>
+        <Conference_Year>2011</Conference_Year>
+        <Paper_Name>a case study of post deployment user feedback triage</Paper_Name>
+    </Paper>
+    <Paper>
+        <ID>2169060050</ID>
+        <Conference_Year>2011</Conference_Year>
+        <Paper_Name>a theory of branches as goals and virtual teams</Paper_Name>
+    </Paper>
+    <Paper>
+        <ID>1993750715</ID>
+        <Conference_Year>2011</Conference_Year>
+        <Paper_Name>an exploratory study of awareness interests about software modifications</Paper_Name>
+    </Paper>
+    <Paper>
+        <ID>2059538265</ID>
+        <Conference_Year>2011</Conference_Year>
+        <Paper_Name>impact of collaborative traces on trustworthiness</Paper_Name>
+    </Paper>
+    <Paper>
+        <ID>1967005621</ID>
+        <Conference_Year>2011</Conference_Year>
+        <Paper_Name>studying team evolution during software testing</Paper_Name>
+    </Paper>
+    <Paper>
+        <ID>2142270676</ID>
+        <Conference_Year>2011</Conference_Year>
+        <Paper_Name>stcml an extensible xml based language for socio technical modeling</Paper_Name>
+    </Paper>
+    <Paper>
+        <ID>2013659036</ID>
+        <Conference_Year>2011</Conference_Year>
+        <Paper_Name>workplace warriors identifying team practices of appropriation in software ecosystems</Paper_Name>
+    </Paper>
+    <Paper>
+        <ID>2020934373</ID>
+        <Conference_Year>2011</Conference_Year>
+        <Paper_Name>teambugs a collaborative bug tracking tool</Paper_Name>
+    </Paper>
+    <Paper>
+        <ID>1995693085</ID>
+        <Conference_Year>2011</Conference_Year>
+        <Paper_Name>a qualitative study of the determinants of self managing team effectiveness in a scrum team</Paper_Name>
+    </Paper>
+    <Paper>
+        <ID>2085966304</ID>
+        <Conference_Year>2011</Conference_Year>
+        <Paper_Name>of code and context collaboration between developers and translators</Paper_Name>
+    </Paper>
+    <Paper>
+        <ID>1989289156</ID>
+        <Conference_Year>2011</Conference_Year>
+        <Paper_Name>supporting collaboration in the development of complex engineering software</Paper_Name>
+    </Paper>
+    <Paper>
+        <ID>2135031301</ID>
+        <Conference_Year>2011</Conference_Year>
+        <Paper_Name>requirements maturation analysis based on the distance between the source and developers</Paper_Name>
+    </Paper>
+    <Paper>
+        <ID>1973581385</ID>
+        <Conference_Year>2011</Conference_Year>
+        <Paper_Name>strawberries are nuts</Paper_Name>
+    </Paper>
+    <Paper>
+        <ID>2046110714</ID>
+        <Conference_Year>2011</Conference_Year>
+        <Paper_Name>some non usage data for a distributed editor the saros outreach</Paper_Name>
+    </Paper>
+    <Paper>
+        <ID>1969649640</ID>
+        <Conference_Year>2014</Conference_Year>
+        <Paper_Name>the hard life of open source software project newcomers</Paper_Name>
+    </Paper>
+    <Paper>
+        <ID>2168612058</ID>
+        <Conference_Year>2014</Conference_Year>
+        <Paper_Name>improving code review effectiveness through reviewer recommendations</Paper_Name>
+    </Paper>
+    <Paper>
+        <ID>2139954865</ID>
+        <Conference_Year>2014</Conference_Year>
+        <Paper_Name>towards a behavioral software engineering</Paper_Name>
+    </Paper>
+    <Paper>
+        <ID>2092554020</ID>
+        <Conference_Year>2014</Conference_Year>
+        <Paper_Name>thirty years of software problems in the news</Paper_Name>
+    </Paper>
+    <Paper>
+        <ID>2001979442</ID>
+        <Conference_Year>2014</Conference_Year>
+        <Paper_Name>understanding the role of requirements artifacts in kanban</Paper_Name>
+    </Paper>
+    <Paper>
+        <ID>1964096253</ID>
+        <Conference_Year>2014</Conference_Year>
+        <Paper_Name>perceptions of answer quality in an online technical question and answer forum</Paper_Name>
+    </Paper>
+    <Paper>
+        <ID>2090229519</ID>
+        <Conference_Year>2014</Conference_Year>
+        <Paper_Name>an open innovation approach in support of product release decisions</Paper_Name>
+    </Paper>
+    <Paper>
+        <ID>2610883413</ID>
+        <Conference_Year>2014</Conference_Year>
+        <Paper_Name>innovating in india designing for constraint computing for inclusion keynote</Paper_Name>
+    </Paper>
+    <Paper>
+        <ID>2047734408</ID>
+        <Conference_Year>2014</Conference_Year>
+        <Paper_Name>factors affecting team evolution during software projects</Paper_Name>
+    </Paper>
+    <Paper>
+        <ID>2089903962</ID>
+        <Conference_Year>2014</Conference_Year>
+        <Paper_Name>delivering software projects using captive university crowd</Paper_Name>
+    </Paper>
+    <Paper>
+        <ID>2069828553</ID>
+        <Conference_Year>2014</Conference_Year>
+        <Paper_Name>u can touch this touchifying an ide</Paper_Name>
+    </Paper>
+    <Paper>
+        <ID>2089548805</ID>
+        <Conference_Year>2014</Conference_Year>
+        <Paper_Name>how social software supports cooperative practices in a globally distributed software project</Paper_Name>
+    </Paper>
+    <Paper>
+        <ID>2133793249</ID>
+        <Conference_Year>2014</Conference_Year>
+        <Paper_Name>linking strategy governance and performance in software engineering</Paper_Name>
+    </Paper>
+    <Paper>
+        <ID>2134197591</ID>
+        <Conference_Year>2014</Conference_Year>
+        <Paper_Name>towards refactoring aware code review</Paper_Name>
+    </Paper>
+    <Paper>
+        <ID>2079324198</ID>
+        <Conference_Year>2014</Conference_Year>
+        <Paper_Name>communication strategies for mentoring in software development projects</Paper_Name>
+    </Paper>
+    <Paper>
+        <ID>2085625027</ID>
+        <Conference_Year>2014</Conference_Year>
+        <Paper_Name>a comparison of junior and senior software engineering students personalities</Paper_Name>
+    </Paper>
+    <Paper>
+        <ID>1994422445</ID>
+        <Conference_Year>2014</Conference_Year>
+        <Paper_Name>agile methods organizational culture and agility some insights</Paper_Name>
+    </Paper>
+    <Paper>
+        <ID>2015449862</ID>
+        <Conference_Year>2014</Conference_Year>
+        <Paper_Name>a culture of involving the vox populi for evolution of workforce policy</Paper_Name>
+    </Paper>
+    <Paper>
+        <ID>2007384730</ID>
+        <Conference_Year>2014</Conference_Year>
+        <Paper_Name>do xp customer developer interactions impact motivation findings from an industrial case study</Paper_Name>
+    </Paper>
+    <Paper>
+        <ID>2021207254</ID>
+        <Conference_Year>2014</Conference_Year>
+        <Paper_Name>on the nature of roles in software engineering</Paper_Name>
+    </Paper>
+    <Paper>
+        <ID>2010813215</ID>
+        <Conference_Year>2014</Conference_Year>
+        <Paper_Name>modeling work ethics spread in software organizations</Paper_Name>
+    </Paper>
+    <Paper>
+        <ID>2043038918</ID>
+        <Conference_Year>2014</Conference_Year>
+        <Paper_Name>the concept of ba applied to software knowledge</Paper_Name>
+    </Paper>
+    <Paper>
+        <ID>2069802661</ID>
+        <Conference_Year>2014</Conference_Year>
+        <Paper_Name>the calling of the third dimension</Paper_Name>
+    </Paper>
+    <Paper>
+        <ID>2094029523</ID>
+        <Conference_Year>2014</Conference_Year>
+        <Paper_Name>leverage human aspects in test engineering</Paper_Name>
+    </Paper>
+    <Paper>
+        <ID>2095279469</ID>
+        <Conference_Year>2014</Conference_Year>
+        <Paper_Name>changing dynamics of software engineering and mysterious human passion</Paper_Name>
+    </Paper>
+    <Paper>
+        <ID>2053619615</ID>
+        <Conference_Year>2015</Conference_Year>
+        <Paper_Name>perceptions of diversity on git hub a user survey</Paper_Name>
+    </Paper>
+    <Paper>
+        <ID>2018851841</ID>
+        <Conference_Year>2015</Conference_Year>
+        <Paper_Name>towards emotion based collaborative software engineering</Paper_Name>
+    </Paper>
+    <Paper>
+        <ID>1966725869</ID>
+        <Conference_Year>2015</Conference_Year>
+        <Paper_Name>the pair as a problematic unit of analysis for pair programming</Paper_Name>
+    </Paper>
+    <Paper>
+        <ID>2074134415</ID>
+        <Conference_Year>2015</Conference_Year>
+        <Paper_Name>human factors related challenges in software engineering an industrial perspective</Paper_Name>
+    </Paper>
+    <Paper>
+        <ID>2035680126</ID>
+        <Conference_Year>2015</Conference_Year>
+        <Paper_Name>exploring causes of frustration for software developers</Paper_Name>
+    </Paper>
+    <Paper>
+        <ID>2091491161</ID>
+        <Conference_Year>2015</Conference_Year>
+        <Paper_Name>an empirical investigation of personality traits of software testers</Paper_Name>
+    </Paper>
+    <Paper>
+        <ID>2066637661</ID>
+        <Conference_Year>2015</Conference_Year>
+        <Paper_Name>an empirical study into social success factors for agile software development</Paper_Name>
+    </Paper>
+    <Paper>
+        <ID>2057201793</ID>
+        <Conference_Year>2015</Conference_Year>
+        <Paper_Name>soft skills in software development teams a survey of the points of view of team leaders and team me</Paper_Name>
+    </Paper>
+    <Paper>
+        <ID>2056035852</ID>
+        <Conference_Year>2015</Conference_Year>
+        <Paper_Name>sketching and conceptions of software design</Paper_Name>
+    </Paper>
+    <Paper>
+        <ID>2021188219</ID>
+        <Conference_Year>2015</Conference_Year>
+        <Paper_Name>characteristics of sustainable oss projects a theoretical and empirical study</Paper_Name>
+    </Paper>
+    <Paper>
+        <ID>1971964588</ID>
+        <Conference_Year>2015</Conference_Year>
+        <Paper_Name>gamifying software engineering tasks based on cognitive principles the case of code review</Paper_Name>
+    </Paper>
+    <Paper>
+        <ID>2031962963</ID>
+        <Conference_Year>2015</Conference_Year>
+        <Paper_Name>exploring flow distance in project communication</Paper_Name>
+    </Paper>
+    <Paper>
+        <ID>2074754918</ID>
+        <Conference_Year>2015</Conference_Year>
+        <Paper_Name>the affect of software developers common misconceptions and measurements</Paper_Name>
+    </Paper>
+    <Paper>
+        <ID>2042404769</ID>
+        <Conference_Year>2015</Conference_Year>
+        <Paper_Name>animating organizational patterns</Paper_Name>
+    </Paper>
+    <Paper>
+        <ID>2005569402</ID>
+        <Conference_Year>2015</Conference_Year>
+        <Paper_Name>the human side of software as a service building a tighter fit between human experiences and soa des</Paper_Name>
+    </Paper>
+    <Paper>
+        <ID>1989605146</ID>
+        <Conference_Year>2015</Conference_Year>
+        <Paper_Name>knowledge management and organizational culture in a software organization a case study</Paper_Name>
+    </Paper>
+    <Paper>
+        <ID>1965509291</ID>
+        <Conference_Year>2015</Conference_Year>
+        <Paper_Name>ask the engineers exploring repertory grids and personal constructs for software data analysis</Paper_Name>
+    </Paper>
+    <Paper>
+        <ID>1991406033</ID>
+        <Conference_Year>2015</Conference_Year>
+        <Paper_Name>integrating usability engineering into the software developing processes of sme a case study of soft</Paper_Name>
+    </Paper>
+    <Paper>
+        <ID>2076906103</ID>
+        <Conference_Year>2015</Conference_Year>
+        <Paper_Name>real time monitoring of neural state in assessing and improving software developers productivity</Paper_Name>
+    </Paper>
+    <Paper>
+        <ID>2086919246</ID>
+        <Conference_Year>2015</Conference_Year>
+        <Paper_Name>evaluation of the simulated application of the ucd lsi method the ipeople case study</Paper_Name>
+    </Paper>
+    <Paper>
+        <ID>2088008570</ID>
+        <Conference_Year>2015</Conference_Year>
+        <Paper_Name>geographically distributed sensemaking developing understanding in forum based software development </Paper_Name>
+    </Paper>
+    <Paper>
+        <ID>1996868739</ID>
+        <Conference_Year>2015</Conference_Year>
+        <Paper_Name>can social screencasting help developers learn new tools</Paper_Name>
+    </Paper>
+    <Paper>
+        <ID>2081320456</ID>
+        <Conference_Year>2015</Conference_Year>
+        <Paper_Name>regulation as an enabler for collaborative software development</Paper_Name>
+    </Paper>
+    <Paper>
+        <ID>2010179211</ID>
+        <Conference_Year>2015</Conference_Year>
+        <Paper_Name>fathoming software evangelists with the d index</Paper_Name>
+    </Paper>
+    <Paper>
+        <ID>1965604881</ID>
+        <Conference_Year>2015</Conference_Year>
+        <Paper_Name>toward defining the role of the software architect an examination of the soft aspects of this role</Paper_Name>
+    </Paper>
+    <Paper>
+        <ID>1989973809</ID>
+        <Conference_Year>2015</Conference_Year>
+        <Paper_Name>facilitating collaboration between cots stakeholders via principles of advanced isd methodologies th</Paper_Name>
+    </Paper>
+    <Paper>
+        <ID>2400116430</ID>
+        <Conference_Year>2016</Conference_Year>
+        <Paper_Name>eliciting programming challenges faced by developers with visual impairments exploratory study</Paper_Name>
+    </Paper>
+    <Paper>
+        <ID>2305152417</ID>
+        <Conference_Year>2016</Conference_Year>
+        <Paper_Name>are easily usable security libraries possible and how should experts work together to create them</Paper_Name>
+    </Paper>
+    <Paper>
+        <ID>2400711095</ID>
+        <Conference_Year>2016</Conference_Year>
+        <Paper_Name>usability challenges in an ethiopian software development organization</Paper_Name>
+    </Paper>
+    <Paper>
+        <ID>2396201818</ID>
+        <Conference_Year>2016</Conference_Year>
+        <Paper_Name>augmenting requirements gathering for people with special needs using iot a position paper</Paper_Name>
+    </Paper>
+    <Paper>
+        <ID>2289339846</ID>
+        <Conference_Year>2016</Conference_Year>
+        <Paper_Name>finding relationships between socio technical aspects and personality traits by mining developer e m</Paper_Name>
+    </Paper>
+    <Paper>
+        <ID>2394673427</ID>
+        <Conference_Year>2016</Conference_Year>
+        <Paper_Name>environmental factors influencing individual decision making behavior in software projects a systema</Paper_Name>
+    </Paper>
+    <Paper>
+        <ID>2397147651</ID>
+        <Conference_Year>2016</Conference_Year>
+        <Paper_Name>beliefs practices and personalities of software engineers a survey in a large software company</Paper_Name>
+    </Paper>
+    <Paper>
+        <ID>2402052209</ID>
+        <Conference_Year>2016</Conference_Year>
+        <Paper_Name>improving learning outcomes through systematic group reformation the role of skills and personality </Paper_Name>
+    </Paper>
+    <Paper>
+        <ID>2406714832</ID>
+        <Conference_Year>2016</Conference_Year>
+        <Paper_Name>does personality influence the usage of static analysis tools an explorative experiment</Paper_Name>
+    </Paper>
+    <Paper>
+        <ID>2402775416</ID>
+        <Conference_Year>2016</Conference_Year>
+        <Paper_Name>useful statistical methods for human factors research in software engineering a discussion on valida</Paper_Name>
+    </Paper>
+    <Paper>
+        <ID>2404041551</ID>
+        <Conference_Year>2016</Conference_Year>
+        <Paper_Name>do open projects break the mirror re conceptualization of organizational configurations in open sour</Paper_Name>
+    </Paper>
+    <Paper>
+        <ID>2400114443</ID>
+        <Conference_Year>2016</Conference_Year>
+        <Paper_Name>post completion error in software development</Paper_Name>
+    </Paper>
+    <Paper>
+        <ID>2397541445</ID>
+        <Conference_Year>2016</Conference_Year>
+        <Paper_Name>code review participation game theoretical modeling of reviewers in gerrit datasets</Paper_Name>
+    </Paper>
+    <Paper>
+        <ID>2398712915</ID>
+        <Conference_Year>2016</Conference_Year>
+        <Paper_Name>scrumlint identifying violations of agile practices using development artifacts</Paper_Name>
+    </Paper>
+    <Paper>
+        <ID>2395586449</ID>
+        <Conference_Year>2016</Conference_Year>
+        <Paper_Name>can a team coordination game help student software project teams</Paper_Name>
+    </Paper>
+    <Paper>
+        <ID>2404627741</ID>
+        <Conference_Year>2016</Conference_Year>
+        <Paper_Name>go muc a strategy design method considering requirements of user and business by goal oriented measu</Paper_Name>
+    </Paper>
+    <Paper>
+        <ID>2292698417</ID>
+        <Conference_Year>2016</Conference_Year>
+        <Paper_Name>jimbo a collaborative ide with live preview</Paper_Name>
+    </Paper>
+    <Paper>
+        <ID>2398350256</ID>
+        <Conference_Year>2016</Conference_Year>
+        <Paper_Name>an initial analysis of differences in software engineers attitudes towards organizational change</Paper_Name>
+    </Paper>
+    <Paper>
+        <ID>2398225563</ID>
+        <Conference_Year>2016</Conference_Year>
+        <Paper_Name>among the agilists participant observation in a rapidly evolving workplace</Paper_Name>
+    </Paper>
+    <Paper>
+        <ID>2405702378</ID>
+        <Conference_Year>2016</Conference_Year>
+        <Paper_Name>decision making in software project management a qualitative case study of a private organization</Paper_Name>
+    </Paper>
+    <Paper>
+        <ID>2402542647</ID>
+        <Conference_Year>2016</Conference_Year>
+        <Paper_Name>an empirical study of programming paradigms for animation</Paper_Name>
+    </Paper>
+    <Paper>
+        <ID>2405738815</ID>
+        <Conference_Year>2016</Conference_Year>
+        <Paper_Name>on the randori training dynamics</Paper_Name>
+    </Paper>
+    <Paper>
+        <ID>2397201140</ID>
+        <Conference_Year>2016</Conference_Year>
+        <Paper_Name>collaboration change in enterprise software development</Paper_Name>
+    </Paper>
+    <Paper>
+        <ID>2396277780</ID>
+        <Conference_Year>2016</Conference_Year>
+        <Paper_Name>web search behaviors for software development</Paper_Name>
+    </Paper>
+    <Paper>
+        <ID>2399951091</ID>
+        <Conference_Year>2016</Conference_Year>
+        <Paper_Name>sociodrama one more technique to foster collaboration in software engineering</Paper_Name>
+    </Paper>
+    <Paper>
+        <ID>2725264445</ID>
+        <Conference_Year>2017</Conference_Year>
+        <Paper_Name>cross disciplinary perspectives on collaborations with software engineers</Paper_Name>
+    </Paper>
+    <Paper>
+        <ID>2725479318</ID>
+        <Conference_Year>2017</Conference_Year>
+        <Paper_Name>what do developers want an advisor approach for developer priorities</Paper_Name>
+    </Paper>
+    <Paper>
+        <ID>2719617020</ID>
+        <Conference_Year>2017</Conference_Year>
+        <Paper_Name>intertemporal choice decision making and time in software engineering</Paper_Name>
+    </Paper>
+    <Paper>
+        <ID>2733771350</ID>
+        <Conference_Year>2017</Conference_Year>
+        <Paper_Name>tailoring gamification to requirements elicitation a stakeholder centric motivation concept</Paper_Name>
+    </Paper>
+    <Paper>
+        <ID>2728416740</ID>
+        <Conference_Year>2017</Conference_Year>
+        <Paper_Name>is it possible to disregard obsolete requirements an initial experiment on a potentially new bias in</Paper_Name>
+    </Paper>
+    <Paper>
+        <ID>2728826656</ID>
+        <Conference_Year>2017</Conference_Year>
+        <Paper_Name>id3p iterative data driven development of persona based on quantitative evaluation and revision</Paper_Name>
+    </Paper>
+    <Paper>
+        <ID>2727425510</ID>
+        <Conference_Year>2017</Conference_Year>
+        <Paper_Name>inadequate testing time pressure and over confidence a tale of continuous integration users</Paper_Name>
+    </Paper>
+    <Paper>
+        <ID>2725524764</ID>
+        <Conference_Year>2017</Conference_Year>
+        <Paper_Name>team maturity in software engineering teams a work in progress</Paper_Name>
+    </Paper>
+    <Paper>
+        <ID>2727155663</ID>
+        <Conference_Year>2017</Conference_Year>
+        <Paper_Name>the tech talk balance what technical interviewers expect from technical candidates</Paper_Name>
+    </Paper>
+    <Paper>
+        <ID>2726134631</ID>
+        <Conference_Year>2017</Conference_Year>
+        <Paper_Name>towards effective teams for the identification of code smells</Paper_Name>
+    </Paper>
+    <Paper>
+        <ID>2732946140</ID>
+        <Conference_Year>2017</Conference_Year>
+        <Paper_Name>a preliminary evaluation of a gamification framework to jump start collaboration behavior change</Paper_Name>
+    </Paper>
+    <Paper>
+        <ID>2729348752</ID>
+        <Conference_Year>2017</Conference_Year>
+        <Paper_Name>using gamification to orient and motivate students to contribute to oss projects</Paper_Name>
+    </Paper>
+    <Paper>
+        <ID>2724646951</ID>
+        <Conference_Year>2017</Conference_Year>
+        <Paper_Name>beyond dashboards on the many facets of metrics and feedback in agile organizations</Paper_Name>
+    </Paper>
+    <Paper>
+        <ID>2733790345</ID>
+        <Conference_Year>2017</Conference_Year>
+        <Paper_Name>motivation for self assignment factors agile software developers consider</Paper_Name>
+    </Paper>
+    <Paper>
+        <ID>2669297666</ID>
+        <Conference_Year>2017</Conference_Year>
+        <Paper_Name>towards understanding the relationships between interdependence and trust in software development a </Paper_Name>
+    </Paper>
+    <Paper>
+        <ID>2729919062</ID>
+        <Conference_Year>2017</Conference_Year>
+        <Paper_Name>software development contracts the impact of the provider s risk of financial loss on project succes</Paper_Name>
+    </Paper>
+    <Paper>
+        <ID>2733093748</ID>
+        <Conference_Year>2017</Conference_Year>
+        <Paper_Name>a fourth explanation to brooks law the aspect of group developmental psychology</Paper_Name>
+    </Paper>
+    <Paper>
+        <ID>2730629941</ID>
+        <Conference_Year>2017</Conference_Year>
+        <Paper_Name>characterization of autonomy and interdependence in software engineering</Paper_Name>
+    </Paper>
+    <Paper>
+        <ID>2811031009</ID>
+        <Conference_Year>2018</Conference_Year>
+        <Paper_Name>the structure of software design discussions</Paper_Name>
+    </Paper>
+    <Paper>
+        <ID>2809915311</ID>
+        <Conference_Year>2018</Conference_Year>
+        <Paper_Name>a framework for understanding chatbots and their future</Paper_Name>
+    </Paper>
+    <Paper>
+        <ID>2795365272</ID>
+        <Conference_Year>2018</Conference_Year>
+        <Paper_Name>guidelines towards better participation of older adults in software development processes using a ne</Paper_Name>
+    </Paper>
+    <Paper>
+        <ID>2810873311</ID>
+        <Conference_Year>2018</Conference_Year>
+        <Paper_Name>who gets a patch accepted first comparing the contributions of employees and volunteers</Paper_Name>
+    </Paper>
+    <Paper>
+        <ID>2811301137</ID>
+        <Conference_Year>2018</Conference_Year>
+        <Paper_Name>code review for newcomers is it different</Paper_Name>
+    </Paper>
+    <Paper>
+        <ID>2811411709</ID>
+        <Conference_Year>2018</Conference_Year>
+        <Paper_Name>myagile sociological and cultural effects of agile on teams and their members</Paper_Name>
+    </Paper>
+    <Paper>
+        <ID>2810654183</ID>
+        <Conference_Year>2018</Conference_Year>
+        <Paper_Name>a case study of distances in a large co located software development organisation</Paper_Name>
+    </Paper>
+    <Paper>
+        <ID>2963204758</ID>
+        <Conference_Year>2018</Conference_Year>
+        <Paper_Name>psychological safety and norm clarity in software engineering teams</Paper_Name>
+    </Paper>
+    <Paper>
+        <ID>2809766540</ID>
+        <Conference_Year>2018</Conference_Year>
+        <Paper_Name>a collaborative approach to teaching software startups findings from a study using challenge based l</Paper_Name>
+    </Paper>
+    <Paper>
+        <ID>2811150573</ID>
+        <Conference_Year>2018</Conference_Year>
+        <Paper_Name>researching cooperation and communication in continuous software engineering</Paper_Name>
+    </Paper>
+    <Paper>
+        <ID>2809932755</ID>
+        <Conference_Year>2018</Conference_Year>
+        <Paper_Name>toward collecting and delivering knowledge for software design at the whiteboard</Paper_Name>
+    </Paper>
+    <Paper>
+        <ID>2810113300</ID>
+        <Conference_Year>2018</Conference_Year>
+        <Paper_Name>diversity in software engineering</Paper_Name>
+    </Paper>
+    <Paper>
+        <ID>2810404667</ID>
+        <Conference_Year>2018</Conference_Year>
+        <Paper_Name>rethinking coordination in large scale software development</Paper_Name>
+    </Paper>
+    <Paper>
+        <ID>2790146071</ID>
+        <Conference_Year>2018</Conference_Year>
+        <Paper_Name>why we engage in floss answers from core developers</Paper_Name>
+    </Paper>
+    <Paper>
+        <ID>2811098958</ID>
+        <Conference_Year>2018</Conference_Year>
+        <Paper_Name>sketching with a purpose moving from supporting modeling to supporting software engineering activiti</Paper_Name>
+    </Paper>
+    <Paper>
+        <ID>2811111552</ID>
+        <Conference_Year>2018</Conference_Year>
+        <Paper_Name>some reasons why actual cross fertilization in cross functional agile teams is difficult</Paper_Name>
+    </Paper>
+    <Paper>
+        <ID>2811480112</ID>
+        <Conference_Year>2018</Conference_Year>
+        <Paper_Name>on gender ethnicity and culture in empirical software engineering research</Paper_Name>
+    </Paper>
+    <Paper>
+        <ID>2810970967</ID>
+        <Conference_Year>2018</Conference_Year>
+        <Paper_Name>influencers of quality assurance in an open source community</Paper_Name>
+    </Paper>
+    <Paper>
+        <ID>2810006107</ID>
+        <Conference_Year>2018</Conference_Year>
+        <Paper_Name>designing a capability centric web tool to support agile team composition and task allocation a work</Paper_Name>
+    </Paper>
+    <Paper>
+        <ID>2810365728</ID>
+        <Conference_Year>2018</Conference_Year>
+        <Paper_Name>context in programming an investigation of how programmers create context</Paper_Name>
+    </Paper>
+    <Paper>
+        <ID>2789520420</ID>
+        <Conference_Year>2018</Conference_Year>
+        <Paper_Name>how do practitioners perceive assurance cases in safety critical software systems</Paper_Name>
+    </Paper>
+    <Paper>
+        <ID>2809921478</ID>
+        <Conference_Year>2018</Conference_Year>
+        <Paper_Name>an initial understanding of task interdependence in software engineering a case study</Paper_Name>
+    </Paper>
+    <Paper>
+        <ID>2810008155</ID>
+        <Conference_Year>2018</Conference_Year>
+        <Paper_Name>leveraging motivational theories for designing gamification for re</Paper_Name>
+    </Paper>
+    <Paper>
+        <ID>2809806748</ID>
+        <Conference_Year>2018</Conference_Year>
+        <Paper_Name>an exploratory study for scoping software product lines in a collaborative way</Paper_Name>
+    </Paper>
+    <Paper>
+        <ID>2811016362</ID>
+        <Conference_Year>2018</Conference_Year>
+        <Paper_Name>crowdsourcing security opportunities and challenges</Paper_Name>
+    </Paper>
+    <Paper>
+        <ID>2125146799</ID>
+        <Conference_Year>2009</Conference_Year>
+        <Paper_Name>why are software projects moving from centralized to decentralized version control systems</Paper_Name>
+    </Paper>
+    <Paper>
+        <ID>2100507340</ID>
+        <Conference_Year>2009</Conference_Year>
+        <Paper_Name>knowledge management in practice the case of agile software development</Paper_Name>
+    </Paper>
+    <Paper>
+        <ID>2161584596</ID>
+        <Conference_Year>2009</Conference_Year>
+        <Paper_Name>coordination in large scale software teams</Paper_Name>
+    </Paper>
+    <Paper>
+        <ID>2149468448</ID>
+        <Conference_Year>2009</Conference_Year>
+        <Paper_Name>enabling and enhancing collaborations between software development organizations and independent tes</Paper_Name>
+    </Paper>
+    <Paper>
+        <ID>2117029779</ID>
+        <Conference_Year>2009</Conference_Year>
+        <Paper_Name>supporting agile team composition a prototype tool for identifying personality in compatibilities</Paper_Name>
+    </Paper>
+    <Paper>
+        <ID>2145531894</ID>
+        <Conference_Year>2009</Conference_Year>
+        <Paper_Name>the role of blogging in generating a software product vision</Paper_Name>
+    </Paper>
+    <Paper>
+        <ID>2171623515</ID>
+        <Conference_Year>2009</Conference_Year>
+        <Paper_Name>distributed side by side programming</Paper_Name>
+    </Paper>
+    <Paper>
+        <ID>2106291605</ID>
+        <Conference_Year>2009</Conference_Year>
+        <Paper_Name>bridging knowledge distribution the role of knowledge brokers in distributed software development te</Paper_Name>
+    </Paper>
+    <Paper>
+        <ID>2167440525</ID>
+        <Conference_Year>2009</Conference_Year>
+        <Paper_Name>designing software for unfamiliar domains</Paper_Name>
+    </Paper>
+    <Paper>
+        <ID>2130424541</ID>
+        <Conference_Year>2009</Conference_Year>
+        <Paper_Name>writing and reading software documentation how the development process may affect understanding</Paper_Name>
+    </Paper>
+    <Paper>
+        <ID>2141608792</ID>
+        <Conference_Year>2009</Conference_Year>
+        <Paper_Name>reporting usability metrics experiences</Paper_Name>
+    </Paper>
+    <Paper>
+        <ID>2101880321</ID>
+        <Conference_Year>2009</Conference_Year>
+        <Paper_Name>audio video recording of ad hoc software development team interactions</Paper_Name>
+    </Paper>
+    <Paper>
+        <ID>2168641488</ID>
+        <Conference_Year>2009</Conference_Year>
+        <Paper_Name>an initial investigation of software practitioners motivation</Paper_Name>
+    </Paper>
+    <Paper>
+        <ID>2135424716</ID>
+        <Conference_Year>2009</Conference_Year>
+        <Paper_Name>challenges in the user interface design of an ide tool recommender</Paper_Name>
+    </Paper>
+    <Paper>
+        <ID>2106133082</ID>
+        <Conference_Year>2009</Conference_Year>
+        <Paper_Name>a qualitative study on project landscapes</Paper_Name>
+    </Paper>
+    <Paper>
+        <ID>2168926252</ID>
+        <Conference_Year>2009</Conference_Year>
+        <Paper_Name>exception handling negligence due to intra individual goal conflicts</Paper_Name>
+    </Paper>
+    <Paper>
+        <ID>2134024330</ID>
+        <Conference_Year>2009</Conference_Year>
+        <Paper_Name>taking care of cooperation when evolving socially embedded systems the plonemeeting case</Paper_Name>
+    </Paper>
+    <Paper>
+        <ID>2127522296</ID>
+        <Conference_Year>2009</Conference_Year>
+        <Paper_Name>quase a quantitative approach to analyze the human aspects of software development projects</Paper_Name>
+    </Paper>
+    <Paper>
+        <ID>2127806924</ID>
+        <Conference_Year>2009</Conference_Year>
+        <Paper_Name>the work of software development as an assemblage of computational practice</Paper_Name>
+    </Paper>
+    <Paper>
+        <ID>2108213362</ID>
+        <Conference_Year>2009</Conference_Year>
+        <Paper_Name>automatically identifying that distributed programmers are stuck</Paper_Name>
+    </Paper>
+    <Paper>
+        <ID>2157693603</ID>
+        <Conference_Year>2009</Conference_Year>
+        <Paper_Name>personalities cultures and software modeling questions scenarios and research directions</Paper_Name>
+    </Paper>
+    <Paper>
+        <ID>1980805642</ID>
+        <Conference_Year>2009</Conference_Year>
+        <Paper_Name>discovering determinants of high volatility software</Paper_Name>
+    </Paper>
+    <Paper>
+        <ID>2023636027</ID>
+        <Conference_Year>2010</Conference_Year>
+        <Paper_Name>scrum to support mobile application development projects in a just in time learning context</Paper_Name>
+    </Paper>
+    <Paper>
+        <ID>2139159781</ID>
+        <Conference_Year>2010</Conference_Year>
+        <Paper_Name>saros an eclipse plug in for distributed party programming</Paper_Name>
+    </Paper>
+    <Paper>
+        <ID>2046300231</ID>
+        <Conference_Year>2010</Conference_Year>
+        <Paper_Name>software engineering in developing communities</Paper_Name>
+    </Paper>
+    <Paper>
+        <ID>2089787523</ID>
+        <Conference_Year>2010</Conference_Year>
+        <Paper_Name>supporting enterprise stakeholders in software projects</Paper_Name>
+    </Paper>
+    <Paper>
+        <ID>2123230287</ID>
+        <Conference_Year>2010</Conference_Year>
+        <Paper_Name>casi preventing indirect conflicts through a live visualization</Paper_Name>
+    </Paper>
+    <Paper>
+        <ID>2040456583</ID>
+        <Conference_Year>2010</Conference_Year>
+        <Paper_Name>studying human and social aspects of testing in a service based software company case study</Paper_Name>
+    </Paper>
+    <Paper>
+        <ID>2063077004</ID>
+        <Conference_Year>2010</Conference_Year>
+        <Paper_Name>questions about object structure during coding activities</Paper_Name>
+    </Paper>
+    <Paper>
+        <ID>2914145772</ID>
+        <Conference_Year>2010</Conference_Year>
+        <Paper_Name>proceedings of the 2010 icse workshop on cooperative and human aspects of software engineering</Paper_Name>
+    </Paper>
+    <Paper>
+        <ID>2652374878</ID>
+        <Conference_Year>2010</Conference_Year>
+        <Paper_Name>test driven roles for pair programming</Paper_Name>
+    </Paper>
+    <Paper>
+        <ID>2049756221</ID>
+        <Conference_Year>2010</Conference_Year>
+        <Paper_Name>towards real time integration</Paper_Name>
+    </Paper>
+    <Paper>
+        <ID>1964823574</ID>
+        <Conference_Year>2010</Conference_Year>
+        <Paper_Name>shared visual attention in collaborative programming a descriptive analysis</Paper_Name>
+    </Paper>
+    <Paper>
+        <ID>2046936849</ID>
+        <Conference_Year>2010</Conference_Year>
+        <Paper_Name>balancing acts walking the agile tightrope</Paper_Name>
+    </Paper>
+    <Paper>
+        <ID>1994696992</ID>
+        <Conference_Year>2010</Conference_Year>
+        <Paper_Name>exploring software engineering practices in small and medium sized organizations</Paper_Name>
+    </Paper>
+    <Paper>
+        <ID>2092690462</ID>
+        <Conference_Year>2010</Conference_Year>
+        <Paper_Name>on the importance of understanding the strategies that developers use</Paper_Name>
+    </Paper>
+    <Paper>
+        <ID>2000152455</ID>
+        <Conference_Year>2010</Conference_Year>
+        <Paper_Name>designing motivation strategies for software engineering teams an empirical study</Paper_Name>
+    </Paper>
+    <Paper>
+        <ID>2092300736</ID>
+        <Conference_Year>2010</Conference_Year>
+        <Paper_Name>toward proactive knowledge protection in community based software development</Paper_Name>
+    </Paper>
+    <Paper>
+        <ID>1973794876</ID>
+        <Conference_Year>2010</Conference_Year>
+        <Paper_Name>exploring the human and organizational aspects of software cost estimation</Paper_Name>
+    </Paper>
+    <Paper>
+        <ID>2000255305</ID>
+        <Conference_Year>2010</Conference_Year>
+        <Paper_Name>social software in global software development</Paper_Name>
+    </Paper>
+    <Paper>
+        <ID>2085477894</ID>
+        <Conference_Year>2010</Conference_Year>
+        <Paper_Name>ad hoc leadership in agile software development environments</Paper_Name>
+    </Paper>
+    <Paper>
+        <ID>1964885079</ID>
+        <Conference_Year>2012</Conference_Year>
+        <Paper_Name>an exploratory study of backtracking strategies used by developers</Paper_Name>
+    </Paper>
+    <Paper>
+        <ID>2160109666</ID>
+        <Conference_Year>2012</Conference_Year>
+        <Paper_Name>proxiscientia toward real time visualization of task and developer dependencies in collaborating sof</Paper_Name>
+    </Paper>
+    <Paper>
+        <ID>2141302780</ID>
+        <Conference_Year>2012</Conference_Year>
+        <Paper_Name>team effectiveness in software development human and cooperative aspects in team effectiveness model</Paper_Name>
+    </Paper>
+    <Paper>
+        <ID>2049596576</ID>
+        <Conference_Year>2012</Conference_Year>
+        <Paper_Name>an approach for collaborative code reviews using multi touch technology</Paper_Name>
+    </Paper>
+    <Paper>
+        <ID>2160438957</ID>
+        <Conference_Year>2012</Conference_Year>
+        <Paper_Name>a method for prioritizing end user feedback for requirements engineering</Paper_Name>
+    </Paper>
+    <Paper>
+        <ID>1985969989</ID>
+        <Conference_Year>2012</Conference_Year>
+        <Paper_Name>agile software engineering as creative work</Paper_Name>
+    </Paper>
+    <Paper>
+        <ID>2135580947</ID>
+        <Conference_Year>2012</Conference_Year>
+        <Paper_Name>reim an improvisation workshop format to train soft skill awareness</Paper_Name>
+    </Paper>
+    <Paper>
+        <ID>2157291792</ID>
+        <Conference_Year>2012</Conference_Year>
+        <Paper_Name>a case study of using hci methods to improve tools for programmers</Paper_Name>
+    </Paper>
+    <Paper>
+        <ID>2155458933</ID>
+        <Conference_Year>2012</Conference_Year>
+        <Paper_Name>augmenting social awareness in a collaborative development environment</Paper_Name>
+    </Paper>
+    <Paper>
+        <ID>2144875727</ID>
+        <Conference_Year>2012</Conference_Year>
+        <Paper_Name>using the ideal software process improvement model for the implementation of automotive spice</Paper_Name>
+    </Paper>
+    <Paper>
+        <ID>2108167245</ID>
+        <Conference_Year>2012</Conference_Year>
+        <Paper_Name>representations of user feedback in an agile collocated software team</Paper_Name>
+    </Paper>
+    <Paper>
+        <ID>2081865306</ID>
+        <Conference_Year>2012</Conference_Year>
+        <Paper_Name>performance assessment metrics for software testers</Paper_Name>
+    </Paper>
+    <Paper>
+        <ID>2144319189</ID>
+        <Conference_Year>2012</Conference_Year>
+        <Paper_Name>documentation practices in scientific software development</Paper_Name>
+    </Paper>
+    <Paper>
+        <ID>2038999496</ID>
+        <Conference_Year>2012</Conference_Year>
+        <Paper_Name>the mystery of the writing that isn t on the wall differences in public representations in tradition</Paper_Name>
+    </Paper>
+    <Paper>
+        <ID>1978472997</ID>
+        <Conference_Year>2012</Conference_Year>
+        <Paper_Name>a proposal for enhancing user developer communication in large it projects</Paper_Name>
+    </Paper>
+    <Paper>
+        <ID>2129424428</ID>
+        <Conference_Year>2012</Conference_Year>
+        <Paper_Name>agile vs plan driven perceptions of software architecture</Paper_Name>
+    </Paper>
+    <Paper>
+        <ID>2102229494</ID>
+        <Conference_Year>2012</Conference_Year>
+        <Paper_Name>what affects team behavior preliminary linguistic analysis of communications in the jazz repository</Paper_Name>
+    </Paper>
+    <Paper>
+        <ID>2108018749</ID>
+        <Conference_Year>2012</Conference_Year>
+        <Paper_Name>tangible software modeling with multi touch technology</Paper_Name>
+    </Paper>
+    <Paper>
+        <ID>2099314629</ID>
+        <Conference_Year>2012</Conference_Year>
+        <Paper_Name>envisioning distributed usability evaluation through a virtual world platform</Paper_Name>
+    </Paper>
+    <Paper>
+        <ID>2105105997</ID>
+        <Conference_Year>2012</Conference_Year>
+        <Paper_Name>identifying the need for a sustainable architecture maintenance process</Paper_Name>
+    </Paper>
+    <Paper>
+        <ID>2010105258</ID>
+        <Conference_Year>2012</Conference_Year>
+        <Paper_Name>attitude and usage of collaboration tools in gse a practitioner oriented theory</Paper_Name>
+    </Paper>
+    <Paper>
+        <ID>2079423685</ID>
+        <Conference_Year>2012</Conference_Year>
+        <Paper_Name>supporting distributed software engineering in a fully distributed organization</Paper_Name>
+    </Paper>
+    <Paper>
+        <ID>1981070130</ID>
+        <Conference_Year>2012</Conference_Year>
+        <Paper_Name>feedback how does it impact software engineers</Paper_Name>
+    </Paper>
+    <Paper>
+        <ID>2098010669</ID>
+        <Conference_Year>2012</Conference_Year>
+        <Paper_Name>how can research about software developers generalize</Paper_Name>
+    </Paper>
+    <Paper>
+        <ID>2081344965</ID>
+        <Conference_Year>2012</Conference_Year>
+        <Paper_Name>getting at ephemeral flaws</Paper_Name>
+    </Paper>
+    <Paper>
+        <ID>2043994035</ID>
+        <Conference_Year>2012</Conference_Year>
+        <Paper_Name>wolf supporting impact analysis activities in distributed software development</Paper_Name>
+    </Paper>
+    <Paper>
+        <ID>1992202328</ID>
+        <Conference_Year>2012</Conference_Year>
+        <Paper_Name>competition on inter organizational collaboration from an organizational social technical perspectiv</Paper_Name>
+    </Paper>
+</Papers>

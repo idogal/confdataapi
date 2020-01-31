@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Context path="/academicapi">
+    <!-- <Environment name="mongodb.host" value=""
+                 type="java.lang.String" override="false"/>
+    <Environment name="mongodb.port" value=""
+                 type="java.lang.Integer" override="false"/>
+    <Environment name="mongodb.user" value=""
+                 type="java.lang.String" override="false"/>
+    <Environment name="mongodb.password" value=""
+                 type="java.lang.String" override="false"/>    
+    <Environment name="mongodb.db" value=""
+                 type="java.lang.String" override="false"/>      
+    <Environment name="mongodb.ssl" value="false"
+                 type="java.lang.Boolean" override="false"/>       
+    <Environment name="mongodb.connectionstring" value=""
+                 type="java.lang.String" override="false"/> -->
+</Context>

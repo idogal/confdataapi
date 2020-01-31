@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<Configuration>
+    <Appenders>
+        <Console name="Console" target="SYSTEM_OUT">
+            <PatternLayout pattern="%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n" />
+        </Console>
+        <RollingFile name="MyFile" fileName="C:\\Temp\\VisApiLogs\\VisApiApp.log" append="true" createOnDemand="true" filePattern="C:\\Temp\\VisApiLogs\\app-%d{MM-dd-yyyy}-%i.log">
+            <PatternLayout>
+                <Pattern>%d %p [%t] %C{2} %M %L - %m%n</Pattern>
+            </PatternLayout>
+            <Policies>
+                <TimeBasedTriggeringPolicy />
+                <SizeBasedTriggeringPolicy size="10 MB" />
+            </Policies>
+        </RollingFile>
+        <!--Socket name="Socket-Serialized" host="localhost" port="4560" protocol="TCP">
+            <SerializedLayout />
+        </Socket-->
+        <!--<ApplicationInsightsAppender name="aiAppender" />      -->
+    </Appenders>
+    <Loggers>
+        <!-- <Root level="debug">
+            <AppenderRef ref="Console" />
+        </Root> -->
+        <Root level="debug">
+            <AppenderRef ref="MyFile" />
+        </Root>
+        <!--Root level="trace">
+            <AppenderRef ref="aiAppender"/>
+        </Root-->
+        <!--Root level="debug">
+            <AppenderRef ref="Socket-Serialized"/>
+        </Root-->
+    </Loggers>
+</Configuration>
