@@ -9,10 +9,10 @@ import java.util.concurrent.TimeUnit;
 
 public class ApiCache {
 
-    private Cache<String, List<AcademicApiPaper>> apiByIdResponses;
+    private Cache<String, List<AcademicApiPaper>> academicApiPapers;
 
     public ApiCache() {        
-        apiByIdResponses
+        academicApiPapers
                 = CacheBuilder.newBuilder()
                         .maximumSize(1000)
                         //.weakKeys()
@@ -20,15 +20,15 @@ public class ApiCache {
                         .build();        
     }
 
-    public Cache<String, List<AcademicApiPaper>> getByIdResponses() {
-        return apiByIdResponses;
+    public Cache<String, List<AcademicApiPaper>> getAcademicApiPapers() {
+        return academicApiPapers;
     }
     
-    public List<AcademicApiPaper> getByIdResponse(String id) {
-        return apiByIdResponses.getIfPresent(id);
+    public List<AcademicApiPaper> getAcademicApiPaper(String id) {
+        return academicApiPapers.getIfPresent(id);
     }    
     
-    public void putByIdResponse(String id, List<AcademicApiPaper> value) {
-        apiByIdResponses.put(id, value);
+    public void putAcademicApiPapers(String id, List<AcademicApiPaper> value) {
+        academicApiPapers.put(id, value);
     }    
 }

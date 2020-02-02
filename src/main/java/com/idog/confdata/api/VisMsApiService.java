@@ -26,6 +26,7 @@ import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
+import com.idog.confdata.app.ApiCache;
 import com.idog.confdata.app.DiResources;
 import com.idog.confdata.app.VisServerAppResources;
 import com.idog.confdata.beans.AcademicApiPaper;
@@ -43,14 +44,18 @@ public class VisMsApiService {
     private final String ACADEMIC_API_SUBSCRIPTION_KEY = "46c107a906594111a8d94d822d2ef3be";
 
     private VisServerAppResources visServerAppResources;
+    private ApiCache apiCache;
 
-    public List<AcademicApiPaper> getChasePapers() throws IOException {
-        
+    public VisMsApiService() {
         visServerAppResources = DiResources.getInjector().getInstance(VisServerAppResources.class);
 
         if (visServerAppResources == null)
             throw new RuntimeException("cant inject VisServerAppResources");
-            
+
+        this.apiCache = visServerAppResources.getApiCache();
+    }
+
+    public List<AcademicApiPaper> getChasePapers() throws IOException {
         List<PaperBasicInfo> listAllPapersToHandle = listAllPapersToHandle();
         List<AcademicApiPaper> apiPapers = getPapersDetails(listAllPapersToHandle);
 
@@ -142,6 +147,13 @@ public class VisMsApiService {
 
     private List<AcademicApiPaper> getChasePaperById(String id) {
         LOGGER.info("Building a request by an ID for: {}", id);
+
+        List<AcademicApiPaper> cachedPapers = apiCache.getAcademicApiPaper(id);;
+        if (cachedPapers != null) {
+            LOGGER.info("Retrieved [{}] papers from cache for [{}]", cachedPapers.size(), id);
+            return cachedPapers;
+        }
+
         AcademicApiResponse readValue;
 
         // Send a query to the API if there is no cache
@@ -166,6 +178,7 @@ public class VisMsApiService {
             LOGGER.debug("{} papers were found with '{}' id", readValue.entities.size(), id);
         }
 
+        apiCache.putAcademicApiPapers(id, readValue.entities);
         return readValue.entities;
     }
 
