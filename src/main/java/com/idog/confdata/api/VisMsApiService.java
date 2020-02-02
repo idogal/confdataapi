@@ -59,11 +59,6 @@ public class VisMsApiService {
         List<PaperBasicInfo> listAllPapersToHandle = listAllPapersToHandle();
         List<AcademicApiPaper> apiPapers = getPapersDetails(listAllPapersToHandle);
 
-        // // PERFORM THIS TASK IN A PARRALEL MANNER
-        // List<AcademicApiPaper> apiPapers = listAllPapersToHandle.stream()
-        //         .map(paperInfo -> getChasePaperById(paperInfo.getId(), false)).flatMap(List::stream)
-        //         .collect(Collectors.toList());
-
         return apiPapers;
     }
 
@@ -75,7 +70,9 @@ public class VisMsApiService {
                     .get("C:\\Users\\idoga\\Documents\\Dev\\confdata\\src\\main\\resources\\paper_sources.xml");
             PapersBasicInfo papersInfo = objectMapper.readValue(Files.readAllBytes(resourcesFilePath),
                     PapersBasicInfo.class);
-            LOGGER.info(papersInfo.getPapers().size());
+
+            LOGGER.info("Retrieved [{}] papers to parse", papersInfo.getPapers().size());
+
             return papersInfo.getPapers();
         } catch (IOException ex) {
             LOGGER.error(ex.getMessage());
@@ -84,7 +81,7 @@ public class VisMsApiService {
     }
 
     private List<AcademicApiPaper> getPapersDetails(List<PaperBasicInfo> chasePapersIds) {
-        LOGGER.info("Trying to get the full details of the input papers list");
+        LOGGER.info("Requesting the details of the input papers");
         List<AcademicApiPaper> allPapers = new ArrayList<>();
         int startFrom = 0;
         int batchSize = 10;
@@ -141,12 +138,12 @@ public class VisMsApiService {
             }
             startFrom = startFrom + batchSize;
         }
-        LOGGER.info("Got the details of {} papers", allPapers.size());
+        LOGGER.info("Fetched the details of [{}] papers", allPapers.size());
         return allPapers;
     }    
 
     private List<AcademicApiPaper> getChasePaperById(String id) {
-        LOGGER.info("Building a request by an ID for: {}", id);
+        LOGGER.info("Building a request by ID for [{}]", id);
 
         List<AcademicApiPaper> cachedPapers = apiCache.getAcademicApiPaper(id);;
         if (cachedPapers != null) {
@@ -171,15 +168,17 @@ public class VisMsApiService {
             return Collections.emptyList();
         }
 
-        LOGGER.debug("Response was serialised into an AcademicApiResponse successfully");
         if (readValue.entities.isEmpty()) {
             LOGGER.warn("{} papers were found with '{}' id", readValue.entities.size(), id);
         } else {
             LOGGER.debug("{} papers were found with '{}' id", readValue.entities.size(), id);
         }
 
-        apiCache.putAcademicApiPapers(id, readValue.entities);
-        return readValue.entities;
+        List<AcademicApiPaper> fetcherPapers = readValue.entities;
+        apiCache.putAcademicApiPapers(id, fetcherPapers);
+
+        LOGGER.info("Retrieved [{}] papers from the MS API for [{}]", fetcherPapers.size(), id);
+        return fetcherPapers;
     }
 
     private String queryTheAcademicApi(List<AbstractMap.SimpleEntry<String, Object>> params)

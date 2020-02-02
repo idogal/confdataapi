@@ -30,9 +30,6 @@ public class AcademicDataResource {
             .collect(Collectors.toList());
 
         return Response.ok().entity(authors).build();
-
-        // ObjectMapper m = visServerAppResources.getMapper();
-        // return Response.ok().entity(m).build();
     }
 
     @Path("papers")

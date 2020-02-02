@@ -44,7 +44,7 @@ public class AcademicApiResponseDeserializer extends StdDeserializer<AcademicApi
             // Response
             expr = responseNode.get("expr").textValue();
             response.expr = expr;
-            LOGGER.info("Serialising call for {}", expr);
+            LOGGER.debug("Serialising call for {}", expr);
 
             JsonNode entitiesNode = responseNode.get("entities");
             response.entities = new ArrayList<>();
