@@ -18,7 +18,7 @@ import com.idog.confdata.beans.AcademicApiPaper;
 import javax.ws.rs.Produces;
 
 @Path("academicdata")
-public class AcademicData {
+public class AcademicDataResource {
 
     @Path("authors")
     @GET
@@ -30,6 +30,9 @@ public class AcademicData {
             .collect(Collectors.toList());
 
         return Response.ok().entity(authors).build();
+
+        // ObjectMapper m = visServerAppResources.getMapper();
+        // return Response.ok().entity(m).build();
     }
 
     @Path("papers")

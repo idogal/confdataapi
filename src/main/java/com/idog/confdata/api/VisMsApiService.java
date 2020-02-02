@@ -21,16 +21,16 @@ import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
-import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.module.SimpleModule;
 import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
+import com.google.inject.Guice;
+import com.google.inject.Injector;
+import com.idog.confdata.app.DiResources;
 import com.idog.confdata.beans.AcademicApiPaper;
 import com.idog.confdata.beans.AcademicApiResponse;
-import com.idog.confdata.beans.AcademicApiResponseDeserializer;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -42,21 +42,17 @@ public class VisMsApiService {
     private final String MS_COGNITIVE_API_TARGET = "https://api.labs.cognitive.microsoft.com";
     private final String ACEDEMIC_API_EVALUATE_PATH = "academic/v1.0/evaluate";
     private final String ACADEMIC_API_SUBSCRIPTION_KEY = "46c107a906594111a8d94d822d2ef3be";
-    //private final String EXPECTED_BV_VALUE = "WORKSHOP ON COOPERATIVE AND HUMAN ASPECTS OF SOFTWARE ENGINEERING";
-    //private final String EXPECTED_CN_VALUE = "chase";
 
-    private ObjectMapper mapper = new ObjectMapper();
-
-    public VisMsApiService() {
-        mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-        SimpleModule module = new SimpleModule();
-        module.addDeserializer(AcademicApiResponse.class, new AcademicApiResponseDeserializer());
-        mapper.registerModule(module);
-    }
+    private VisServerAppResources visServerAppResources;
 
     public List<AcademicApiPaper> getChasePapers() throws IOException {
-        List<PaperBasicInfo> listAllPapersToHandle = listAllPapersToHandle();
+        
+        visServerAppResources = DiResources.getInjector().getInstance(VisServerAppResources.class);
 
+        if (visServerAppResources == null)
+            throw new RuntimeException("cant inject VisServerAppResources");
+            
+        List<PaperBasicInfo> listAllPapersToHandle = listAllPapersToHandle();
         List<AcademicApiPaper> apiPapers = getPapersDetails(listAllPapersToHandle);
 
         // // PERFORM THIS TASK IN A PARRALEL MANNER
@@ -158,7 +154,7 @@ public class VisMsApiService {
 
         String entityJson = queryTheAcademicApi(params);
         try {
-            readValue = this.mapper.readValue(entityJson, AcademicApiResponse.class);
+            readValue = this.visServerAppResources.getMapper().readValue(entityJson, AcademicApiResponse.class);
         } catch (IOException ex) {
             LOGGER.error(ex);
             return Collections.emptyList();

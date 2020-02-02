@@ -2,7 +2,10 @@ package com.idog.confdata;
 
 import javax.ws.rs.ApplicationPath;
 
-import com.idog.confdata.resources.AcademicData;
+import com.idog.confdata.api.VisMsApiService;
+import com.idog.confdata.api.VisServerAppBinder;
+import com.idog.confdata.api.VisServerAppResourcesImpl;
+import com.idog.confdata.resources.AcademicDataResource;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -15,7 +18,7 @@ public class ApiApplication extends ResourceConfig {
 
 	public ApiApplication() {
         super (
-            AcademicData.class,
+            AcademicDataResource.class,
             JacksonFeature.class
         );
         
