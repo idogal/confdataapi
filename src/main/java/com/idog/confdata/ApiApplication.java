@@ -2,9 +2,6 @@ package com.idog.confdata;
 
 import javax.ws.rs.ApplicationPath;
 
-import com.idog.confdata.api.VisMsApiService;
-import com.idog.confdata.api.VisServerAppBinder;
-import com.idog.confdata.api.VisServerAppResourcesImpl;
 import com.idog.confdata.resources.AcademicDataResource;
 
 import org.apache.logging.log4j.LogManager;

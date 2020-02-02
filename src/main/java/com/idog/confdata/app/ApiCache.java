@@ -1,4 +1,4 @@
-package com.idog.confdata.api;
+package com.idog.confdata.app;
 
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;

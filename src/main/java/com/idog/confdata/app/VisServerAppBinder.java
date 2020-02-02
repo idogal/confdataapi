@@ -1,4 +1,4 @@
-package com.idog.confdata.api;
+package com.idog.confdata.app;
 
 import com.google.inject.AbstractModule;
 import com.google.inject.Singleton;

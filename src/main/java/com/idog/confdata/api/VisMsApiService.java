@@ -26,9 +26,8 @@ import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
-import com.google.inject.Guice;
-import com.google.inject.Injector;
 import com.idog.confdata.app.DiResources;
+import com.idog.confdata.app.VisServerAppResources;
 import com.idog.confdata.beans.AcademicApiPaper;
 import com.idog.confdata.beans.AcademicApiResponse;
 

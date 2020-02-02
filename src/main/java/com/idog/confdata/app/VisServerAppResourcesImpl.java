@@ -1,4 +1,4 @@
-package com.idog.confdata.api;
+package com.idog.confdata.app;
 
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
