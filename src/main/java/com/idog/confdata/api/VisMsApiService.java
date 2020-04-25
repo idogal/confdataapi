@@ -3,15 +3,13 @@ package com.idog.confdata.api;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.AbstractMap;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
+import java.util.stream.Collectors;
 
 import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.client.Client;
@@ -29,8 +27,9 @@ import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
 import com.idog.confdata.app.ApiCache;
 import com.idog.confdata.app.DiResources;
 import com.idog.confdata.app.VisServerAppResources;
-import com.idog.confdata.beans.AcademicApiPaper;
-import com.idog.confdata.beans.AcademicApiResponse;
+import com.idog.confdata.beans.api.AcademicApiAuthor;
+import com.idog.confdata.beans.api.AcademicApiPaper;
+import com.idog.confdata.beans.api.AcademicApiResponse;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -53,6 +52,12 @@ public class VisMsApiService {
             throw new RuntimeException("cant inject VisServerAppResources");
 
         this.apiCache = visServerAppResources.getApiCache();
+    }
+
+    public Set<AcademicApiAuthor> getChaseAuthors() throws IOException {
+        return new VisMsApiService().getChasePapers().stream()
+            .map(paper -> paper.getAuthors()).flatMap(Set::stream)
+            .collect(Collectors.toSet());
     }
 
     public List<AcademicApiPaper> getChasePapers() throws IOException {
@@ -155,7 +160,7 @@ public class VisMsApiService {
 
         // Send a query to the API if there is no cache
         String expr = "Id=" + id;
-        String attributes = "Ti,Id,Y,E,D,CC,ECC,W,AA.AuN,AA.AuId,AA.AfN,AA.AfId,AA.S,F.FN,F.FId,J.JN,J.JId,C.CN,C.CId";
+        String attributes = "Ti,Id,Y,E,D,CC,ECC,W,AA.AuN,AA.AuId,AA.AfN,AA.AfId,AA.S,F.FN,F.FId,J.JN,J.JId,C.CN,C.CId,RId";
         List<AbstractMap.SimpleEntry<String, Object>> params = new ArrayList<>();
         params.add(new AbstractMap.SimpleEntry<>("expr", expr));
         params.add(new AbstractMap.SimpleEntry<>("attributes", attributes));

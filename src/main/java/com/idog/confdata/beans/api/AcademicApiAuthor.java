@@ -1,27 +1,26 @@
-package com.idog.confdata.beans;
+package com.idog.confdata.beans.api;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import java.util.Objects;
+
 public class AcademicApiAuthor {
 
-    private Long paperId;
     @JsonProperty("AuN") private String authorName;
     @JsonProperty("AuId") private Long authorId;
     @JsonProperty("AfN") private String affiliationName;
     @JsonProperty("AfId") private Long affiliationId;
     @JsonProperty("S") private Integer paperOrder;
 
-    public AcademicApiAuthor(Long paperId, String authorName, Long authorId, String affiliationName, Long affiliationId, Integer paperOrder) {
-        this.paperId = paperId;
+    public AcademicApiAuthor(String authorName, Long authorId, String affiliationName, Long affiliationId, Integer paperOrder) {
+        if (authorName == null)
+            throw new IllegalArgumentException("authorName cannot be null.");
+
         this.authorName = authorName;
         this.authorId = authorId;
         this.affiliationName = affiliationName;
         this.affiliationId = affiliationId;
         this.paperOrder = paperOrder;
-    }    
-
-    public Long getPaperId() {
-        return paperId;
     }
     
     public Long getAffiliationId() {
@@ -64,7 +63,21 @@ public class AcademicApiAuthor {
         this.paperOrder = paperOrder;
     }
 
-    public void setPaperId(Long paperId) {
-        this.paperId = paperId;
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        AcademicApiAuthor that = (AcademicApiAuthor) o;
+        return authorName.equals(that.authorName);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(authorName);
+    }
+
+    @Override
+    public String toString() {
+        return authorName;
     }
 }

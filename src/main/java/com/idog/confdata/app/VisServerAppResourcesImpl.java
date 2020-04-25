@@ -3,8 +3,8 @@ package com.idog.confdata.app;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.module.SimpleModule;
-import com.idog.confdata.beans.AcademicApiResponse;
-import com.idog.confdata.beans.AcademicApiResponseDeserializer;
+import com.idog.confdata.beans.api.AcademicApiResponse;
+import com.idog.confdata.beans.api.AcademicApiResponseDeserializer;
 
 import javax.inject.Singleton;
 import org.apache.logging.log4j.LogManager;

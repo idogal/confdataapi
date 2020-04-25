@@ -1,16 +1,17 @@
-package com.idog.confdata.beans;
+package com.idog.confdata.beans.api;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Objects;
+import java.util.Set;
 
 public class AcademicApiPaper {
 
     private Long id;
     private String title;
     private String year;
-    private List<Long> references = new ArrayList<>();
-    private List<String> keywords = new ArrayList<>();
-    private List<AcademicApiAuthor> authors = new ArrayList<>();
+    private Set<Long> references = new HashSet<>();
+    private Set<String> keywords = new HashSet<>();
+    private Set<AcademicApiAuthor> authors = new HashSet<>();
     private AcademicApiPaperExtended extendedProperties;
 
     public void setId(Long id) {
@@ -31,7 +32,7 @@ public class AcademicApiPaper {
 
     public void addAuthor(AcademicApiAuthor author) {
         if (this.authors == null) {
-            this.authors = new ArrayList<>();
+            this.authors = new HashSet<>();
         }
 
         this.authors.add(author);
@@ -39,7 +40,7 @@ public class AcademicApiPaper {
 
     public void addKeyword(String keyword) {
         if (this.keywords == null) {
-            this.keywords = new ArrayList<>();
+            this.keywords = new HashSet<>();
         }
 
         this.keywords.add(keyword);
@@ -47,7 +48,7 @@ public class AcademicApiPaper {
 
     public void addReference(Long reference) {
         if (this.references == null) {
-            this.references = new ArrayList<>();
+            this.references = new HashSet<>();
         }
 
         this.references.add(reference);
@@ -65,15 +66,15 @@ public class AcademicApiPaper {
         return year;
     }
 
-    public List<AcademicApiAuthor> getAuthors() {
+    public Set<AcademicApiAuthor> getAuthors() {
         return authors;
     }
 
-    public List<String> getKeywords() {
+    public Set<String> getKeywords() {
         return keywords;
     }
 
-    public List<Long> getReferences() {
+    public Set<Long> getReferences() {
         return references;
     }
 
@@ -89,5 +90,18 @@ public class AcademicApiPaper {
         stringValue.append(", refs: ").append(this.references.toString());
 
         return stringValue.toString();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        AcademicApiPaper that = (AcademicApiPaper) o;
+        return Objects.equals(id, that.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
     }
 }

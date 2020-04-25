@@ -1,4 +1,4 @@
-package com.idog.confdata.beans;
+package com.idog.confdata.beans.api;
 
 import java.util.List;
 

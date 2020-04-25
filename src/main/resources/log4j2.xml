@@ -6,7 +6,7 @@
         </Console>
         <RollingFile name="MyFile" fileName="C:\\Temp\\VisApiLogs\\VisApiApp.log" append="true" createOnDemand="true" filePattern="C:\\Temp\\VisApiLogs\\app-%d{MM-dd-yyyy}-%i.log">
             <PatternLayout>
-                <Pattern>%d %p [%t] %C{2} %M %L - %m%n</Pattern>
+                <Pattern>%d %p %C{1} %M %L - %m%n</Pattern>
             </PatternLayout>
             <Policies>
                 <TimeBasedTriggeringPolicy />
@@ -22,7 +22,7 @@
         <!-- <Root level="debug">
             <AppenderRef ref="Console" />
         </Root> -->
-        <Root level="debug">
+        <Root level="info">
             <AppenderRef ref="MyFile" />
         </Root>
         <!--Root level="trace">

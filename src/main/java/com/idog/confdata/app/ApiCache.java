@@ -2,7 +2,7 @@ package com.idog.confdata.app;
 
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
-import com.idog.confdata.beans.AcademicApiPaper;
+import com.idog.confdata.beans.api.AcademicApiPaper;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;

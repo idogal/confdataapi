@@ -1,4 +1,4 @@
-package com.idog.confdata.beans;
+package com.idog.confdata.beans.api;
 
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.DeserializationContext;
@@ -113,7 +113,7 @@ public class AcademicApiResponseDeserializer extends StdDeserializer<AcademicApi
                         Long affId = (affIdNode != null) ? affIdNode.asLong() : null;
                         Integer order = (authorOrderNode != null) ? authorOrderNode.asInt() : null;
 
-                        paper.addAuthor(new AcademicApiAuthor(paperId, authorName, authorId, affName, affId, order));
+                        paper.addAuthor(new AcademicApiAuthor(authorName, authorId, affName, affId, order));
                         LOGGER.debug("Added author: {},{}", authorName, authorId);
                     }
                 }
