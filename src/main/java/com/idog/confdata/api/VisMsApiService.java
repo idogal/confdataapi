@@ -45,6 +45,9 @@ public class VisMsApiService {
     private VisServerAppResources visServerAppResources;
     private ApiCache apiCache;
 
+    private Set<AcademicApiAuthor> chaseAuthors = null;
+    private List<AcademicApiPaper> chasePapers = null;
+
     public VisMsApiService() {
         visServerAppResources = DiResources.getInjector().getInstance(VisServerAppResources.class);
 
@@ -52,19 +55,35 @@ public class VisMsApiService {
             throw new RuntimeException("cant inject VisServerAppResources");
 
         this.apiCache = visServerAppResources.getApiCache();
+        this.chaseAuthors = this.apiCache.getChaseAuthors();
+        this.chasePapers = this.apiCache.getChasePapers();
     }
 
     public Set<AcademicApiAuthor> getChaseAuthors() throws IOException {
-        return new VisMsApiService().getChasePapers().stream()
-            .map(paper -> paper.getAuthors()).flatMap(Set::stream)
-            .collect(Collectors.toSet());
+        if (this.chaseAuthors == null) {
+            this.chaseAuthors = new VisMsApiService().getChasePapers().stream()
+                    .map(paper -> paper.getAuthors()).flatMap(Set::stream)
+                    .collect(Collectors.toSet());
+
+            this.apiCache.setChaseAuthors(this.chaseAuthors);
+        }
+
+        return this.chaseAuthors;
     }
 
     public List<AcademicApiPaper> getChasePapers() throws IOException {
-        List<PaperBasicInfo> listAllPapersToHandle = listAllPapersToHandle();
-        List<AcademicApiPaper> apiPapers = getPapersDetails(listAllPapersToHandle);
+        if (this.chasePapers == null) {
+            List<PaperBasicInfo> listAllPapersToHandle = listAllPapersToHandle();
+            this.chasePapers = getPapersDetails(listAllPapersToHandle);
 
-        return apiPapers;
+            this.apiCache.setChasePapers(this.chasePapers);
+        }
+
+        return this.chasePapers;
+    }
+
+    public List<AcademicApiPaper> fetchById(Set<Long> paperIds) {
+        return getPapersDetailsById(paperIds.stream().map(String::valueOf).collect(Collectors.toList()));
     }
 
     private List<PaperBasicInfo> listAllPapersToHandle() {
@@ -86,6 +105,13 @@ public class VisMsApiService {
     }
 
     private List<AcademicApiPaper> getPapersDetails(List<PaperBasicInfo> chasePapersIds) {
+        return getPapersDetailsById(chasePapersIds.stream().map(PaperBasicInfo::getId).collect(Collectors.toList()));
+    }
+
+    private List<AcademicApiPaper> getPapersDetailsById(List<String> chasePapersIds) {
+        if (chasePapersIds.isEmpty())
+            return Collections.emptyList();
+
         LOGGER.info("Requesting the details of the input papers");
         List<AcademicApiPaper> allPapers = new ArrayList<>();
         int startFrom = 0;
@@ -99,18 +125,22 @@ public class VisMsApiService {
             }
             // Process current batch
             int poolSize = currentFinishPosition - startFrom + 1;
-            ExecutorService executor = Executors.newFixedThreadPool(poolSize);
+            ExecutorService executor = null;
+            try {
+                executor = Executors.newFixedThreadPool(poolSize);
+            }catch (IllegalArgumentException ex) {
+                Throwable cause = ex.getCause();
+            }
             List<Future<List<AcademicApiPaper>>> tasks = new ArrayList<>();
             for (int i = startFrom; i <= currentFinishPosition; i++) {
-                PaperBasicInfo chasePaper = chasePapersIds.get(i);
+                String paperId = chasePapersIds.get(i);
                 // Create thread
                 Future<List<AcademicApiPaper>> getPapersTask = executor.submit(() -> {
                     int attempts = 0;
                     for (int j = 0; j < 10; j++) {
-                        String id = chasePaper .getId();
                         TimeUnit.MILLISECONDS.sleep((j + 1) * 200);
                         attempts = j;
-                        return getChasePaperById(String.valueOf(id));
+                        return getChasePaperById(paperId);
                     }
                     LOGGER.error("Could not get response after {} attempts", attempts);
                     return null;
