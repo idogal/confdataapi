@@ -3,6 +3,8 @@ package com.idog.confdata.resources;
 
 import java.io.IOException;
 import java.util.*;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.Future;
 import java.util.stream.Collectors;
 
 import javax.ws.rs.GET;
@@ -12,6 +14,8 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
+import com.idog.confdata.api.ExpandResult;
+import com.idog.confdata.api.ExpandService;
 import com.idog.confdata.api.VisMsApiService;
 import com.idog.confdata.app.CouplingService;
 import com.idog.confdata.beans.AcademicAuthorPairCoupling;
@@ -42,10 +46,32 @@ public class AcademicDataResource {
 
         Set<AcademicApiAuthor> authors = visMsApiService.getChaseAuthors();
 
-        CouplingService couplingService = new CouplingService();
+        List<Future<ExpandResult>> tasks = ExpandService.INSTANCE.getTasks();
+        if (tasks == null)
+            return Response.serverError().build();
+
+        long doneExapnds = tasks.stream().filter(t -> t.isDone()).filter(t -> !t.isCancelled()).count();
+        if (doneExapnds != authors.size())
+            return Response.serverError().build();
+
+        Map<AcademicApiAuthor, List<AcademicApiPaper>> refsPerAuthor = tasks.stream()
+                .filter(t -> t.isDone())
+                .filter(t -> !t.isCancelled())
+                .map(t -> {
+                    try {
+                        return t.get();
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    } catch (ExecutionException e) {
+                        e.printStackTrace();
+                    }
+
+                    return null;
+                }).filter(Objects::nonNull)
+                .collect(Collectors.toMap(ExpandResult::getAuthor, ExpandResult::getPapers));
 
         Map<AcademicAuthorPair, Integer> couplings = new HashMap<>();
-        couplingService.getAuthorPairs(authors).forEach(pair -> {
+        new CouplingService().getAuthorPairs(authors).forEach(pair -> {
             AcademicApiAuthor academicApiAuthorFirst = pair.getAcademicApiAuthorFirst();
             AcademicApiAuthor academicApiAuthorSecond = pair.getAcademicApiAuthorSecond();
 
@@ -59,9 +85,8 @@ public class AcademicDataResource {
                     .map(AcademicApiPaper::getReferences).flatMap(Set::stream)
                     .collect(Collectors.toSet());
 
-            List<AcademicApiPaper> paparsThatWereReferencedByA = visMsApiService.fetchById(refsOfA);
-            List<AcademicApiPaper> paparsThatWereReferencedByB = visMsApiService.fetchById(refsOfB);
-
+            List<AcademicApiPaper> paparsThatWereReferencedByA = refsPerAuthor.get(academicApiAuthorFirst);
+            List<AcademicApiPaper> paparsThatWereReferencedByB = refsPerAuthor.get(academicApiAuthorSecond);
 
             Map<String, List<AcademicApiPaper>> a = paparsThatWereReferencedByA.stream().collect(Collectors.groupingBy(AcademicApiPaper::getTitle));
             Map<String, List<AcademicApiPaper>> b = paparsThatWereReferencedByB.stream().collect(Collectors.groupingBy(AcademicApiPaper::getTitle));
@@ -165,17 +190,35 @@ public class AcademicDataResource {
         return Response.ok().entity(authors).build();
     }
 
-//    @Path("papers/expand")
-//    @GET
-//    @Produces(MediaType.TEXT_PLAIN)
-//    public Response expandPapers() {
-//
-//
-//
-//
-//
-//        return Response.accepted().build();
-//    }
+    @Path("papers/expand")
+    @GET
+    @Produces(MediaType.TEXT_PLAIN)
+    public Response expandPapers() throws IOException {
+        List<AcademicApiPaper> academicApiPapers = visMsApiService.getChasePapers();
+        Set<AcademicApiAuthor> authors = visMsApiService.getChaseAuthors();
+        ExpandService expandService = ExpandService.INSTANCE;
+        List<Future<ExpandResult>> futures = expandService.expandAsync(academicApiPapers, authors);
+        return Response.ok("submitted [" + futures.size() + "]").build();
+    }
+
+    @Path("papers/expand/status")
+    @GET
+    @Produces(MediaType.TEXT_PLAIN)
+    public Response expandPapersStatus() {
+        ExpandService expandService = ExpandService.INSTANCE;
+        long l = expandService.checkStatus();
+        int size = expandService.getTasks().size();
+        return Response.ok(String.format("done = [%s], total = [%s]", l, size)).build();
+    }
+
+    @Path("papers/expand/cancel")
+    @GET
+    @Produces(MediaType.TEXT_PLAIN)
+    public Response cancelExpandPapers() {
+        ExpandService expandService = ExpandService.INSTANCE;
+        expandService.cancelAll();
+        return Response.accepted("Cancelled all").build();
+    }
 
     @Path("papers")
     @GET
