@@ -115,7 +115,7 @@ public class VisMsApiService {
         LOGGER.info("Requesting the details of the input papers");
         List<AcademicApiPaper> allPapers = new ArrayList<>();
         int startFrom = 0;
-        int batchSize = 10;
+        int batchSize = 15;
         boolean papersRemaining = true;
         while (papersRemaining) {
             int currentFinishPosition = startFrom + batchSize - 1;
@@ -168,6 +168,7 @@ public class VisMsApiService {
             } finally {
                 if (!executor.isTerminated()) {
                     LOGGER.error("cancel non-finished tasks");
+                    tasks.forEach(t -> t.cancel(true));
                 }
                 executor.shutdownNow();
             }
