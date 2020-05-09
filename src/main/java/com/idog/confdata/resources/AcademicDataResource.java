@@ -19,6 +19,7 @@ import com.idog.confdata.api.ExpandService;
 import com.idog.confdata.api.VisMsApiService;
 import com.idog.confdata.app.CouplingService;
 import com.idog.confdata.beans.AcademicAuthorPairCoupling;
+import com.idog.confdata.beans.AcademicBibliographicCouplingItem;
 import com.idog.confdata.beans.api.AcademicApiAuthor;
 import com.idog.confdata.beans.AcademicAuthorPair;
 import com.idog.confdata.beans.api.AcademicApiPaper;
@@ -70,20 +71,10 @@ public class AcademicDataResource {
                 }).filter(Objects::nonNull)
                 .collect(Collectors.toMap(ExpandResult::getAuthor, ExpandResult::getPapers));
 
-        Map<AcademicAuthorPair, Integer> couplings = new HashMap<>();
+        List<AcademicBibliographicCouplingItem> couplings = new ArrayList<>();
         new CouplingService().getAuthorPairs(authors).forEach(pair -> {
             AcademicApiAuthor academicApiAuthorFirst = pair.getAcademicApiAuthorFirst();
             AcademicApiAuthor academicApiAuthorSecond = pair.getAcademicApiAuthorSecond();
-
-            Set<Long> refsOfA = papersPerAuthor.get(academicApiAuthorFirst).stream()
-                    .filter(p -> !p.getAuthors().contains(academicApiAuthorSecond))
-                    .map(AcademicApiPaper::getReferences).flatMap(Set::stream)
-                    .collect(Collectors.toSet());
-
-            Set<Long> refsOfB = papersPerAuthor.get(academicApiAuthorSecond).stream()
-                    .filter(p -> !p.getAuthors().contains(academicApiAuthorFirst))
-                    .map(AcademicApiPaper::getReferences).flatMap(Set::stream)
-                    .collect(Collectors.toSet());
 
             List<AcademicApiPaper> paparsThatWereReferencedByA = refsPerAuthor.get(academicApiAuthorFirst);
             List<AcademicApiPaper> paparsThatWereReferencedByB = refsPerAuthor.get(academicApiAuthorSecond);
@@ -116,10 +107,14 @@ public class AcademicDataResource {
 
             int sum = weights.stream().mapToInt(i -> i).sum();
             if (sum > 0)
-                couplings.put(pair, sum);
+                couplings.add(new AcademicBibliographicCouplingItem(academicApiAuthorFirst, academicApiAuthorSecond, sum));
         });
 
-        return Response.accepted().build();
+        return Response
+                .ok(couplings.stream()
+                        .sorted(Comparator.comparing(AcademicBibliographicCouplingItem::getAcademicApiAuthorFirst)
+                                .thenComparing(AcademicBibliographicCouplingItem::getAcademicApiAuthorSecond))
+                        .collect(Collectors.toList())).build();
     }
 
     @Path("simple")
@@ -183,8 +178,7 @@ public class AcademicDataResource {
 
         if (sorted) {
             ArrayList<AcademicApiAuthor> authorArrayList = new ArrayList<>(authors);
-            authorArrayList.sort(Comparator.comparing(AcademicApiAuthor::getAuthorName));
-            return Response.ok().entity(authorArrayList).build();
+            return Response.ok().entity(authorArrayList.stream().sorted()).build();
         }
 
         return Response.ok().entity(authors).build();

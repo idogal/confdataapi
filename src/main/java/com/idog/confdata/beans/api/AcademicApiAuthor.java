@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.Objects;
 
-public class AcademicApiAuthor {
+public class AcademicApiAuthor implements Comparable<AcademicApiAuthor> {
 
     @JsonProperty("AuN") private String authorName;
     @JsonProperty("AuId") private Long authorId;
@@ -79,5 +79,10 @@ public class AcademicApiAuthor {
     @Override
     public String toString() {
         return authorName;
+    }
+
+    @Override
+    public int compareTo(AcademicApiAuthor o) {
+        return this.getAuthorName().compareTo(o.getAuthorName());
     }
 }
