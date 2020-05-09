@@ -24,9 +24,7 @@ import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
-import com.idog.confdata.app.ApiCache;
-import com.idog.confdata.app.DiResources;
-import com.idog.confdata.app.VisServerAppResources;
+import com.idog.confdata.app.*;
 import com.idog.confdata.beans.api.AcademicApiAuthor;
 import com.idog.confdata.beans.api.AcademicApiPaper;
 import com.idog.confdata.beans.api.AcademicApiResponse;
@@ -44,7 +42,7 @@ public class VisMsApiService {
 
     private VisServerAppResources visServerAppResources;
     private ApiCache apiCache;
-
+    private DiskStorage diskStorage;
     private Set<AcademicApiAuthor> chaseAuthors = null;
     private List<AcademicApiPaper> chasePapers = null;
 
@@ -55,6 +53,8 @@ public class VisMsApiService {
             throw new RuntimeException("cant inject VisServerAppResources");
 
         this.apiCache = visServerAppResources.getApiCache();
+        this.diskStorage = visServerAppResources.getDiskStorage();
+
         this.chaseAuthors = this.apiCache.getChaseAuthors();
         this.chasePapers = this.apiCache.getChasePapers();
     }
@@ -196,7 +196,16 @@ public class VisMsApiService {
         params.add(new AbstractMap.SimpleEntry<>("expr", expr));
         params.add(new AbstractMap.SimpleEntry<>("attributes", attributes));
 
-        String entityJson = queryTheAcademicApi(params);
+        String entityJson;
+
+        String valueFromDisk = this.diskStorage.get(id);
+        if (valueFromDisk != null && !valueFromDisk.isEmpty()) {
+            entityJson = valueFromDisk;
+        } else {
+            entityJson = queryTheAcademicApi(params);
+            this.diskStorage.persist(id, entityJson);
+        }
+
         try {
             readValue = this.visServerAppResources.getMapper().readValue(entityJson, AcademicApiResponse.class);
         } catch (IOException ex) {

@@ -7,4 +7,6 @@ public interface VisServerAppResources {
     ObjectMapper getMapper();
 
     ApiCache getApiCache();
+
+    DiskStorage getDiskStorage();
 }

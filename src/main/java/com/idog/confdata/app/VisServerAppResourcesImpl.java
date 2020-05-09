@@ -9,6 +9,8 @@ import com.idog.confdata.beans.api.AcademicApiResponseDeserializer;
 import javax.inject.Singleton;
 import org.apache.logging.log4j.LogManager;
 
+import java.io.IOException;
+
 @Singleton
 public class VisServerAppResourcesImpl implements VisServerAppResources {
 
@@ -16,9 +18,12 @@ public class VisServerAppResourcesImpl implements VisServerAppResources {
 
     private ObjectMapper mapper;
     private final ApiCache msApiCache = new ApiCache();
+    private final DiskStorage diskStorage;
     
     // @Inject
-    public VisServerAppResourcesImpl() {
+    public VisServerAppResourcesImpl() throws IOException {
+        diskStorage = new DiskStorageService("C:\\Users\\idoga\\Documents\\Dev\\confdata\\src\\main\\resources\\json_files");
+
         mapper = new ObjectMapper();
 
         LOGGER.info("Initialising the VisServerAppResources object");
@@ -42,5 +47,10 @@ public class VisServerAppResourcesImpl implements VisServerAppResources {
     @Override
     public ApiCache getApiCache() {
         return this.msApiCache;
+    }
+
+    @Override
+    public DiskStorage getDiskStorage() {
+        return diskStorage;
     }
 }
