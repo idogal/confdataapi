@@ -14,6 +14,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
+import com.google.common.collect.Sets;
 import com.idog.confdata.api.ExpandResult;
 import com.idog.confdata.api.ExpandService;
 import com.idog.confdata.api.VisMsApiService;
@@ -21,7 +22,6 @@ import com.idog.confdata.app.CouplingService;
 import com.idog.confdata.beans.AcademicAuthorPairCoupling;
 import com.idog.confdata.beans.AcademicBibliographicCouplingItem;
 import com.idog.confdata.beans.api.AcademicApiAuthor;
-import com.idog.confdata.beans.AcademicAuthorPair;
 import com.idog.confdata.beans.api.AcademicApiPaper;
 
 import javax.ws.rs.Produces;
@@ -51,19 +51,17 @@ public class AcademicDataResource {
         if (tasks == null)
             return Response.serverError().build();
 
-        long doneExapnds = tasks.stream().filter(t -> t.isDone()).filter(t -> !t.isCancelled()).count();
+        long doneExapnds = tasks.stream().filter(Future::isDone).filter(t -> !t.isCancelled()).count();
         if (doneExapnds != authors.size())
             return Response.serverError().build();
 
         Map<AcademicApiAuthor, List<AcademicApiPaper>> refsPerAuthor = tasks.stream()
-                .filter(t -> t.isDone())
+                .filter(Future::isDone)
                 .filter(t -> !t.isCancelled())
                 .map(t -> {
                     try {
                         return t.get();
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    } catch (ExecutionException e) {
+                    } catch (InterruptedException | ExecutionException e) {
                         e.printStackTrace();
                     }
 
@@ -76,32 +74,37 @@ public class AcademicDataResource {
             AcademicApiAuthor academicApiAuthorFirst = pair.getAcademicApiAuthorFirst();
             AcademicApiAuthor academicApiAuthorSecond = pair.getAcademicApiAuthorSecond();
 
-            List<AcademicApiPaper> paparsThatWereReferencedByA = refsPerAuthor.get(academicApiAuthorFirst);
-            List<AcademicApiPaper> paparsThatWereReferencedByB = refsPerAuthor.get(academicApiAuthorSecond);
+//            if (!(academicApiAuthorFirst.getAuthorName().equals("a cesar c franca") && academicApiAuthorSecond.getAuthorName().equals("andriy miranskyy")))
+//                return;
 
-            Map<String, List<AcademicApiPaper>> a = paparsThatWereReferencedByA.stream().collect(Collectors.groupingBy(AcademicApiPaper::getTitle));
-            Map<String, List<AcademicApiPaper>> b = paparsThatWereReferencedByB.stream().collect(Collectors.groupingBy(AcademicApiPaper::getTitle));
+            Set<Long> refsFromJointDocs = academicApiPapers.stream()
+                    .filter(p -> p.getAuthors().contains(academicApiAuthorFirst) && p.getAuthors().contains(academicApiAuthorSecond))
+                    .map(AcademicApiPaper::getReferences)
+                    .flatMap(Set::stream)
+                    .collect(Collectors.toSet());
+
+            List<AcademicApiPaper> papersThatWereReferencedByA =
+                    refsPerAuthor.get(academicApiAuthorFirst).stream()
+                            .filter(p -> !refsFromJointDocs.contains(p.getId()))
+                            .collect(Collectors.toList());
+
+            List<AcademicApiPaper> papersThatWereReferencedByB =
+                    refsPerAuthor.get(academicApiAuthorSecond).stream()
+                            .filter(p -> !refsFromJointDocs.contains(p.getId()))
+                            .collect(Collectors.toList());
+
+//            System.out.println("A:\n");
+//            System.out.println(papersThatWereReferencedByA.stream().map(AcademicApiPaper::getId).sorted().map(String::valueOf).collect(Collectors.joining(System.lineSeparator())));
+//            System.out.println("B:\n");
+//            System.out.println(papersThatWereReferencedByB.stream().map(AcademicApiPaper::getId).sorted().map(String::valueOf).collect(Collectors.joining(System.lineSeparator())));
+
+            Map<String, List<AcademicApiPaper>> a = papersThatWereReferencedByA.stream().collect(Collectors.groupingBy(AcademicApiPaper::getTitle));
+            Map<String, List<AcademicApiPaper>> b = papersThatWereReferencedByB.stream().collect(Collectors.groupingBy(AcademicApiPaper::getTitle));
 
             List<Integer> weights = new ArrayList<>();
-            a.forEach((nameOfA, fromA) -> {
-                List<AcademicApiPaper> fromB = b.get(nameOfA);
-
-                if (fromB == null) {
-                    return;
-                }
-
-                int min = Math.min(fromA.size(), fromB.size());
-                weights.add(min);
-            });
-
-            b.forEach((nameOfB, fromB) -> {
-                List<AcademicApiPaper> fromA = a.get(nameOfB);
-
-                if (fromA == null) {
-                    return;
-                }
-
-                int min = Math.min(fromB.size(), fromA.size());
+            Sets.SetView<String> intersection = Sets.intersection(a.keySet(), b.keySet());
+            intersection.forEach(intersected -> {
+                int min = Math.min(a.get(intersected).size(), b.get(intersected).size());
                 weights.add(min);
             });
 
