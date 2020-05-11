@@ -82,7 +82,7 @@ public class VisMsApiService {
         return this.chasePapers;
     }
 
-    public List<AcademicApiPaper> fetchById(Set<Long> paperIds) {
+    public List<AcademicApiPaper> fetchById(Collection<Long> paperIds) {
         return getPapersDetailsById(paperIds.stream().map(String::valueOf).collect(Collectors.toList()));
     }
 

@@ -60,11 +60,11 @@ public enum ExpandService {
     }
 
     private ExpandResult expand(List<AcademicApiPaper> academicApiPapers, AcademicApiAuthor author) {
-        Set<Long> refsForAuthor = academicApiPapers.stream()
+        List<Long> refsForAuthor = academicApiPapers.stream()
                 .filter(p -> p.getAuthors().contains(author))
                 .map(AcademicApiPaper::getReferences)
                 .flatMap(Set::stream)
-                .collect(Collectors.toSet());
+                .collect(Collectors.toList());
 
         return new ExpandResult(author, visMsApiService.fetchById(refsForAuthor));
     }
