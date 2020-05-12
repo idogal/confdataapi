@@ -31,90 +31,32 @@ public class AcademicDataResource {
 
     VisMsApiService visMsApiService = new VisMsApiService();
 
+
+//    @Path("abc/network")
+//    @GET
+//    @Produces(MediaType.APPLICATION_JSON)
+//    public Response getAuthorsBibliographicCouplingNetwork() throws IOException {
+//        List<AcademicApiPaper> academicApiPapers = visMsApiService.getChasePapers();
+//        Set<AcademicApiAuthor> authors = visMsApiService.getChaseAuthors();
+//        List<AcademicBibliographicCouplingItem> couplings = CouplingService.getAuthorBibliographicCouplings(academicApiPapers, authors);
+//
+//
+//        return Response.ok().build();
+//    }
+
     @Path("abc")
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public Response getAuthorsBibliographicCoupling() throws IOException {
         List<AcademicApiPaper> academicApiPapers = visMsApiService.getChasePapers();
-        HashMap<AcademicApiAuthor, Set<AcademicApiPaper>> papersPerAuthor = new HashMap<>();
-        academicApiPapers.forEach(p ->
-                p.getAuthors().forEach(a -> {
-                    Set<AcademicApiPaper> papersForCurrentAuthor = papersPerAuthor.getOrDefault(a, new HashSet<>());
-                    papersForCurrentAuthor.add(p);
-                    papersPerAuthor.putIfAbsent(a, papersForCurrentAuthor);
-                })
-        );
-
         Set<AcademicApiAuthor> authors = visMsApiService.getChaseAuthors();
+        List<AcademicBibliographicCouplingItem> couplings = CouplingService.getAuthorBibliographicCouplings(academicApiPapers, authors);
 
-        List<Future<ExpandResult>> tasks = ExpandService.INSTANCE.getTasks();
-        if (tasks == null)
+        if (couplings == null)
             return Response.serverError().build();
 
-        long doneExapnds = tasks.stream().filter(Future::isDone).filter(t -> !t.isCancelled()).count();
-        if (doneExapnds != authors.size())
-            return Response.serverError().build();
-
-        Map<AcademicApiAuthor, List<AcademicApiPaper>> refsPerAuthor = tasks.stream()
-                .filter(Future::isDone)
-                .filter(t -> !t.isCancelled())
-                .map(t -> {
-                    try {
-                        return t.get();
-                    } catch (InterruptedException | ExecutionException e) {
-                        e.printStackTrace();
-                    }
-
-                    return null;
-                }).filter(Objects::nonNull)
-                .collect(Collectors.toMap(ExpandResult::getAuthor, ExpandResult::getPapers));
-
-        List<AcademicBibliographicCouplingItem> couplings = new ArrayList<>();
-        new CouplingService().getAuthorPairs(authors).forEach(pair -> {
-            AcademicApiAuthor academicApiAuthorFirst = pair.getAcademicApiAuthorFirst();
-            AcademicApiAuthor academicApiAuthorSecond = pair.getAcademicApiAuthorSecond();
-
-//            if (!(academicApiAuthorFirst.getAuthorName().equals("a cesar c franca") && academicApiAuthorSecond.getAuthorName().equals("andriy miranskyy")))
-//                return;
-
-            Set<Long> refsFromJointDocs = academicApiPapers.stream()
-                    .filter(p -> p.getAuthors().contains(academicApiAuthorFirst) && p.getAuthors().contains(academicApiAuthorSecond))
-                    .map(AcademicApiPaper::getReferences)
-                    .flatMap(Set::stream)
-                    .collect(Collectors.toSet());
-
-            List<AcademicApiPaper> papersThatWereReferencedByA =
-                    refsPerAuthor.get(academicApiAuthorFirst).stream()
-                            .filter(p -> !refsFromJointDocs.contains(p.getId()))
-                            .collect(Collectors.toList());
-
-            List<AcademicApiPaper> papersThatWereReferencedByB =
-                    refsPerAuthor.get(academicApiAuthorSecond).stream()
-                            .filter(p -> !refsFromJointDocs.contains(p.getId()))
-                            .collect(Collectors.toList());
-
-//            System.out.println("A:\n");
-//            System.out.println(papersThatWereReferencedByA.stream().map(AcademicApiPaper::getId).sorted().map(String::valueOf).collect(Collectors.joining(System.lineSeparator())));
-//            System.out.println("B:\n");
-//            System.out.println(papersThatWereReferencedByB.stream().map(AcademicApiPaper::getId).sorted().map(String::valueOf).collect(Collectors.joining(System.lineSeparator())));
-
-            Map<String, List<AcademicApiPaper>> a = papersThatWereReferencedByA.stream().collect(Collectors.groupingBy(AcademicApiPaper::getTitle));
-            Map<String, List<AcademicApiPaper>> b = papersThatWereReferencedByB.stream().collect(Collectors.groupingBy(AcademicApiPaper::getTitle));
-
-            List<Integer> weights = new ArrayList<>();
-            Sets.SetView<String> intersection = Sets.intersection(a.keySet(), b.keySet());
-            intersection.forEach(intersected -> {
-                int min = Math.min(a.get(intersected).size(), b.get(intersected).size());
-                weights.add(min);
-            });
-
-            int sum = weights.stream().mapToInt(i -> i).sum();
-            if (sum > 0)
-                couplings.add(new AcademicBibliographicCouplingItem(academicApiAuthorFirst, academicApiAuthorSecond, sum));
-        });
-
-        return Response
-                .ok(couplings.stream()
+        return Response.ok(
+                couplings.stream()
                         .sorted(Comparator.comparing(AcademicBibliographicCouplingItem::getAcademicApiAuthorFirst)
                                 .thenComparing(AcademicBibliographicCouplingItem::getAcademicApiAuthorSecond))
                         .collect(Collectors.toList())).build();
@@ -127,7 +69,6 @@ public class AcademicDataResource {
         List<AcademicApiPaper> academicApiPapers = visMsApiService.getChasePapers();
         Set<AcademicApiAuthor> authors = visMsApiService.getChaseAuthors();
 
-        CouplingService couplingService = new CouplingService();
         HashMap<String, Set<String>> doneAuthors = new HashMap<>();
 
         HashMap<AcademicApiAuthor, Set<AcademicApiPaper>> papersPerAuthor = new HashMap<>();
@@ -140,7 +81,7 @@ public class AcademicDataResource {
         );
 
         List<AcademicAuthorPairCoupling> couplings = new ArrayList<>();
-        couplingService.getAuthorPairs(authors).forEach(pair -> {
+        CouplingService.getAuthorPairs(authors).forEach(pair -> {
             AcademicApiAuthor academicApiAuthorFirst = pair.getAcademicApiAuthorFirst();
             AcademicApiAuthor academicApiAuthorSecond = pair.getAcademicApiAuthorSecond();
 
