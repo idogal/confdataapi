@@ -23,6 +23,9 @@ import com.idog.confdata.beans.AcademicAuthorPairCoupling;
 import com.idog.confdata.beans.AcademicBibliographicCouplingItem;
 import com.idog.confdata.beans.api.AcademicApiAuthor;
 import com.idog.confdata.beans.api.AcademicApiPaper;
+import com.idog.confdata.beans.responses.AbcEdge;
+import com.idog.confdata.beans.responses.AbcNetwork;
+import com.idog.confdata.beans.responses.AbcNode;
 
 import javax.ws.rs.Produces;
 
@@ -32,17 +35,38 @@ public class AcademicDataResource {
     VisMsApiService visMsApiService = new VisMsApiService();
 
 
-//    @Path("abc/network")
-//    @GET
-//    @Produces(MediaType.APPLICATION_JSON)
-//    public Response getAuthorsBibliographicCouplingNetwork() throws IOException {
-//        List<AcademicApiPaper> academicApiPapers = visMsApiService.getChasePapers();
-//        Set<AcademicApiAuthor> authors = visMsApiService.getChaseAuthors();
-//        List<AcademicBibliographicCouplingItem> couplings = CouplingService.getAuthorBibliographicCouplings(academicApiPapers, authors);
-//
-//
-//        return Response.ok().build();
-//    }
+    @Path("abc/network")
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getAuthorsBibliographicCouplingNetwork() throws IOException {
+        List<AcademicApiPaper> academicApiPapers = visMsApiService.getChasePapers();
+        Set<AcademicApiAuthor> authors = visMsApiService.getChaseAuthors();
+        List<AcademicBibliographicCouplingItem> couplings = CouplingService.getAuthorBibliographicCouplings(academicApiPapers, authors);
+
+        Set<AbcEdge> edges = new HashSet<>();
+        Set<AbcNode> nodes = new HashSet<>();
+
+        int counter = 0;
+        int x = 0;
+        int y = 0;
+        for (AcademicBibliographicCouplingItem c : couplings) {
+            int id = x + y;
+            AcademicApiAuthor academicApiAuthorFirst = c.getAcademicApiAuthorFirst();
+            String authorName = academicApiAuthorFirst.getAuthorName();
+            nodes.add(new AbcNode(authorName, authorName, x, y, 1));
+
+            x++;
+            AcademicApiAuthor academicApiAuthorSecond = c.getAcademicApiAuthorSecond();
+            String authorName2 = academicApiAuthorSecond.getAuthorName();
+            nodes.add(new AbcNode(authorName2, authorName2, x, y, 1));
+
+            y++;
+
+            edges.add(new AbcEdge(String.valueOf(id), authorName, authorName2));
+        }
+
+        return Response.ok(new AbcNetwork(edges, nodes)).build();
+    }
 
     @Path("abc")
     @GET
