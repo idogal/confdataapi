@@ -10,6 +10,7 @@ import javax.inject.Singleton;
 import org.apache.logging.log4j.LogManager;
 
 import java.io.IOException;
+import java.nio.file.Paths;
 
 @Singleton
 public class VisServerAppResourcesImpl implements VisServerAppResources {
@@ -22,7 +23,8 @@ public class VisServerAppResourcesImpl implements VisServerAppResources {
     
     // @Inject
     public VisServerAppResourcesImpl() throws IOException {
-        diskStorage = new DiskStorageService("C:\\Users\\idoga\\Documents\\Dev\\confdata\\src\\main\\resources\\json_files");
+        String property = System.getProperty("user.dir");
+        diskStorage = new DiskStorageService(Paths.get(property, "json_files"));
 
         mapper = new ObjectMapper();
 

@@ -4,7 +4,7 @@
         <Console name="Console" target="SYSTEM_OUT">
             <PatternLayout pattern="%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n" />
         </Console>
-        <RollingFile name="MyFile" fileName="C:\\Temp\\VisApiLogs\\VisApiApp.log" append="true" createOnDemand="true" filePattern="C:\\Temp\\VisApiLogs\\app-%d{MM-dd-yyyy}-%i.log">
+        <RollingFile name="MyFile" fileName="${catalina.base}/logs/VisApiApp.log" append="true" createOnDemand="true" filePattern="C${catalina.base}/logs/app-%d{MM-dd-yyyy}-%i.log">
             <PatternLayout>
                 <Pattern>%d %p %C{1} %M %L - %m%n</Pattern>
             </PatternLayout>

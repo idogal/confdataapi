@@ -1,6 +1,9 @@
 package com.idog.confdata.api;
 
 import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.*;
@@ -35,7 +38,7 @@ import org.glassfish.jersey.client.ClientConfig;
 
 public class VisMsApiService {
 
-    private static final Logger LOGGER = LogManager.getLogger("VisApi");
+    private static final Logger LOGGER = LogManager.getLogger(VisMsApiService.class);
     private final String MS_COGNITIVE_API_TARGET = "https://api.labs.cognitive.microsoft.com";
     private final String ACEDEMIC_API_EVALUATE_PATH = "academic/v1.0/evaluate";
     private final String ACADEMIC_API_SUBSCRIPTION_KEY = "46c107a906594111a8d94d822d2ef3be";
@@ -71,7 +74,7 @@ public class VisMsApiService {
         return this.chaseAuthors;
     }
 
-    public List<AcademicApiPaper> getChasePapers() throws IOException {
+    public List<AcademicApiPaper> getChasePapers() {
         if (this.chasePapers == null) {
             List<PaperBasicInfo> listAllPapersToHandle = listAllPapersToHandle();
             this.chasePapers = getPapersDetails(listAllPapersToHandle);
@@ -90,15 +93,15 @@ public class VisMsApiService {
         ObjectMapper objectMapper = new XmlMapper();
 
         try {
-            java.nio.file.Path resourcesFilePath = Paths
-                    .get("C:\\Users\\idoga\\Documents\\Dev\\confdata\\src\\main\\resources\\paper_sources.xml");
+            URI uri = this.getClass().getClassLoader().getResource("paper_sources.xml").toURI();
+            java.nio.file.Path resourcesFilePath = Paths.get(uri);
             PapersBasicInfo papersInfo = objectMapper.readValue(Files.readAllBytes(resourcesFilePath),
                     PapersBasicInfo.class);
 
             LOGGER.info("Retrieved [{}] papers to parse", papersInfo.getPapers().size());
 
             return papersInfo.getPapers();
-        } catch (IOException ex) {
+        } catch (IOException | URISyntaxException ex) {
             LOGGER.error(ex.getMessage());
             return Collections.emptyList();
         }
