@@ -44,14 +44,12 @@ public class CouplingService {
 
         List<Future<ExpandResult>> tasks = ExpandService.INSTANCE.getTasks();
         if (tasks == null) {
-            // TODO LOG
-            return null;
+            throw new IllegalStateException("Can't get papers expansion results. Please check if the 'expand' API has been executed.");
         }
 
-        long doneExapnds = tasks.stream().filter(Future::isDone).filter(t -> !t.isCancelled()).count();
-        if (doneExapnds != authors.size()) {
-            // TODO LOG
-            return null;
+        long doneExpands = tasks.stream().filter(Future::isDone).filter(t -> !t.isCancelled()).count();
+        if (doneExpands != authors.size()) {
+            throw new IllegalStateException("Papers expansion is still running. Please wait for it to finish first.");
         }
 
         Map<AcademicApiAuthor, List<AcademicApiPaper>> refsPerAuthor = tasks.stream()

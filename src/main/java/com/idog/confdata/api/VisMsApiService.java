@@ -203,8 +203,10 @@ public class VisMsApiService {
 
         String valueFromDisk = this.diskStorage.get(id);
         if (valueFromDisk != null && !valueFromDisk.isEmpty()) {
+            LOGGER.info("Retrieved from disk [{}]", id);
             entityJson = valueFromDisk;
         } else {
+            LOGGER.info("Sending a request to the MS API for [{}]", id);
             entityJson = queryTheAcademicApi(params);
             this.diskStorage.persist(id, entityJson);
         }
@@ -225,7 +227,7 @@ public class VisMsApiService {
         List<AcademicApiPaper> fetcherPapers = readValue.entities;
         apiCache.putAcademicApiPapers(id, fetcherPapers);
 
-        LOGGER.info("Retrieved [{}] papers from the MS API for [{}]", fetcherPapers.size(), id);
+        LOGGER.info("Parsed [{}] papers for [{}]", fetcherPapers.size(), id);
         return fetcherPapers;
     }
 
