@@ -4,7 +4,7 @@
         <Console name="Console" target="SYSTEM_OUT">
             <PatternLayout pattern="%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n" />
         </Console>
-        <RollingFile name="MyFile" fileName="${catalina.base}/logs/VisApiApp.log" append="true" createOnDemand="true" filePattern="C${catalina.base}/logs/app-%d{MM-dd-yyyy}-%i.log">
+        <RollingFile name="MyFile" fileName="${sys:site.logdir}/logs/visapi.log" append="true" createOnDemand="true" filePattern="${sys:site.logdir}/logs/app-%d{MM-dd-yyyy}-%i.log">
             <PatternLayout>
                 <Pattern>%d %p %C{1} %M %L - %m%n</Pattern>
             </PatternLayout>
@@ -17,6 +17,7 @@
             <SerializedLayout />
         </Socket-->
         <!--<ApplicationInsightsAppender name="aiAppender" />      -->
+
     </Appenders>
     <Loggers>
         <!-- <Root level="debug">

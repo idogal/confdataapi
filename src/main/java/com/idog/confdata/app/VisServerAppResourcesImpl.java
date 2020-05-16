@@ -20,10 +20,9 @@ public class VisServerAppResourcesImpl implements VisServerAppResources {
     private ObjectMapper mapper;
     private final ApiCache msApiCache = new ApiCache();
     private final DiskStorage diskStorage;
-    
-    // @Inject
+
     public VisServerAppResourcesImpl() throws IOException {
-        String property = System.getProperty("user.dir");
+        String property = System.getProperty("site.home");
         diskStorage = new DiskStorageService(Paths.get(property, "json_files"));
 
         mapper = new ObjectMapper();

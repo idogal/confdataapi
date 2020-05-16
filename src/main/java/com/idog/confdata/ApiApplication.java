@@ -22,8 +22,7 @@ public class ApiApplication extends ResourceConfig {
         // this.register(new VisServerAppBinder());
         // this.register(new VisServerAppRequestBinder());        
 		// this.register(new CORSFilter());
-		
-		System.setProperty("log4j.configurationFile", "C:\\Users\\idoga\\Documents\\Dev\\confdata\\src\\main\\resources\\log4j2.xml");
+
 		LOGGER.info("Created the ApiApplication");
 	}
 

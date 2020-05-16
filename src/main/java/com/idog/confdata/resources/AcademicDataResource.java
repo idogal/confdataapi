@@ -186,12 +186,8 @@ public class AcademicDataResource {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public Response getChasePapers() {
-        try {
-            final List<AcademicApiPaper> academicApiPaper = visMsApiService.getChasePapers();
-            return Response.ok().entity(academicApiPaper).build();
-        } catch (final IOException e) {
-            return Response.status(Status.INTERNAL_SERVER_ERROR).entity(e).build();
-        }
+        final List<AcademicApiPaper> academicApiPaper = visMsApiService.getChasePapers();
+        return Response.ok().entity(academicApiPaper).build();
     }
 
     @Path("authors/count")
@@ -206,12 +202,8 @@ public class AcademicDataResource {
     @GET
     @Produces(MediaType.TEXT_PLAIN)
     public Response getChasePapersCount() {
-        try {
-            final List<AcademicApiPaper> academicApiPaper = visMsApiService.getChasePapers();
-            return Response.ok().entity(academicApiPaper.size()).build();
-        } catch (final IOException e) {
-            return Response.status(Status.INTERNAL_SERVER_ERROR).entity(e).build();
-        }
+        final List<AcademicApiPaper> academicApiPaper = visMsApiService.getChasePapers();
+        return Response.ok().entity(academicApiPaper.size()).build();
     }
 
 }
