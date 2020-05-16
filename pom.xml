@@ -4,7 +4,7 @@
 
 	<groupId>com.idog</groupId>
 	<artifactId>confdata</artifactId>
-	<version>0.5-SNAPSHOT</version>
+	<version>0.7-SNAPSHOT</version>
 	<name>Conference Data API</name>
 	<description>API That Fetches Conference Data From the MS Academic API</description>
 	<packaging>war</packaging>
