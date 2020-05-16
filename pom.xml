@@ -85,12 +85,20 @@
 			<artifactId>guice</artifactId>
 			<version>4.2.2</version>
 		  </dependency>
-		  
+
 		<dependency>
 			<groupId>org.apache.tomcat.embed</groupId>
 			<artifactId>tomcat-embed-core</artifactId>
 			<version>8.5.50</version>
 		</dependency>
+
+        <dependency>
+            <groupId>com.microsoft.azure</groupId>
+            <artifactId>applicationinsights-web-auto</artifactId>
+            <!-- or applicationinsights-web for manual web filter registration -->
+            <!-- or applicationinsights-core for bare API -->
+            <version>2.5.0</version>
+        </dependency>
 
 <!--		<dependency>-->
 <!--			<groupId>org.gephi</groupId>-->
