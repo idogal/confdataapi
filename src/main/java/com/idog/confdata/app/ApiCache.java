@@ -2,6 +2,7 @@ package com.idog.confdata.app;
 
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
+import com.idog.confdata.beans.AcademicBibliographicCouplingItem;
 import com.idog.confdata.beans.api.AcademicApiAuthor;
 import com.idog.confdata.beans.api.AcademicApiPaper;
 
@@ -15,9 +16,10 @@ import java.util.concurrent.TimeUnit;
 public class ApiCache {
     
     private static final Logger LOGGER = LogManager.getLogger("VisApi");
-    private Cache<String, List<AcademicApiPaper>> academicApiPapers;
-    private Set<AcademicApiAuthor> chaseAuthors = null;
-    private List<AcademicApiPaper> chasePapers = null;
+    private final Cache<String, List<AcademicApiPaper>> academicApiPapers;
+    private volatile Set<AcademicApiAuthor> chaseAuthors = null;
+    private volatile List<AcademicApiPaper> chasePapers = null;
+    private volatile List<AcademicBibliographicCouplingItem> abcCouplingResults = null;
 
     public ApiCache() {        
         academicApiPapers
@@ -42,19 +44,32 @@ public class ApiCache {
         academicApiPapers.put(id, value);
     }
 
-    public Set<AcademicApiAuthor> getChaseAuthors() {
+    public synchronized Set<AcademicApiAuthor> getChaseAuthors() {
         return chaseAuthors;
     }
 
-    public void setChaseAuthors(Set<AcademicApiAuthor> chaseAuthors) {
+    public synchronized void setChaseAuthors(Set<AcademicApiAuthor> chaseAuthors) {
         this.chaseAuthors = chaseAuthors;
+        LOGGER.info("Populated Cache with Authors Set");
     }
 
-    public List<AcademicApiPaper> getChasePapers() {
+    public synchronized List<AcademicApiPaper> getChasePapers() {
+        LOGGER.info("Getting Papers List from Cache");
         return chasePapers;
     }
 
-    public void setChasePapers(List<AcademicApiPaper> chasePapers) {
+    public synchronized void setChasePapers(List<AcademicApiPaper> chasePapers) {
         this.chasePapers = chasePapers;
+        LOGGER.info("Populated Cache with Papers List");
+    }
+
+    public synchronized List<AcademicBibliographicCouplingItem> getAbcCouplingResults() {
+        LOGGER.info("Getting ABC Coupling Results from Cache");
+        return abcCouplingResults;
+    }
+
+    public synchronized void setAbcCouplingResults(List<AcademicBibliographicCouplingItem> abcCouplingResults) {
+        this.abcCouplingResults = abcCouplingResults;
+        LOGGER.info("Populated Cache with ABC Coupling Results");
     }
 }

@@ -3,7 +3,6 @@ package com.idog.confdata.resources;
 
 import java.io.IOException;
 import java.util.*;
-import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 import java.util.stream.Collectors;
 
@@ -12,13 +11,12 @@ import javax.ws.rs.Path;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import javax.ws.rs.core.Response.Status;
 
-import com.google.common.collect.Sets;
 import com.idog.confdata.api.ExpandResult;
 import com.idog.confdata.api.ExpandService;
 import com.idog.confdata.api.VisMsApiService;
 import com.idog.confdata.app.CouplingService;
+import com.idog.confdata.app.CouplingServiceUtils;
 import com.idog.confdata.beans.AcademicAuthorPairCoupling;
 import com.idog.confdata.beans.AcademicBibliographicCouplingItem;
 import com.idog.confdata.beans.api.AcademicApiAuthor;
@@ -34,14 +32,14 @@ public class AcademicDataResource {
 
     VisMsApiService visMsApiService = new VisMsApiService();
 
-
     @Path("abc/network")
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public Response getAuthorsBibliographicCouplingNetwork() throws IOException {
         List<AcademicApiPaper> academicApiPapers = visMsApiService.getChasePapers();
         Set<AcademicApiAuthor> authors = visMsApiService.getChaseAuthors();
-        List<AcademicBibliographicCouplingItem> couplings = CouplingService.getAuthorBibliographicCouplings(academicApiPapers, authors);
+        CouplingService couplingService = new CouplingService();
+        List<AcademicBibliographicCouplingItem> couplings = couplingService.getAuthorBibliographicCouplingsResults(academicApiPapers, authors);
 
         Set<AbcEdge> edges = new HashSet<>();
         Set<AbcNode> nodes = new HashSet<>();
@@ -74,7 +72,8 @@ public class AcademicDataResource {
     public Response getAuthorsBibliographicCoupling() throws IOException {
         List<AcademicApiPaper> academicApiPapers = visMsApiService.getChasePapers();
         Set<AcademicApiAuthor> authors = visMsApiService.getChaseAuthors();
-        List<AcademicBibliographicCouplingItem> couplings = CouplingService.getAuthorBibliographicCouplings(academicApiPapers, authors);
+        CouplingService couplingService = new CouplingService();
+        List<AcademicBibliographicCouplingItem> couplings = couplingService.getAuthorBibliographicCouplingsResults(academicApiPapers, authors);
 
         if (couplings == null)
             return Response.serverError().build();
@@ -105,7 +104,7 @@ public class AcademicDataResource {
         );
 
         List<AcademicAuthorPairCoupling> couplings = new ArrayList<>();
-        CouplingService.getAuthorPairs(authors).forEach(pair -> {
+        CouplingServiceUtils.getAuthorPairs(authors).forEach(pair -> {
             AcademicApiAuthor academicApiAuthorFirst = pair.getAcademicApiAuthorFirst();
             AcademicApiAuthor academicApiAuthorSecond = pair.getAcademicApiAuthorSecond();
 
