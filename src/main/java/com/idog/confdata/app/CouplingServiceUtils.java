@@ -29,7 +29,7 @@ public class CouplingServiceUtils {
         return newAuthors;
     }
 
-    public static List<AcademicBibliographicCouplingItem> getAuthorBibliographicCouplings(List<AcademicApiPaper> academicApiPapers, Set<AcademicApiAuthor> authors) {
+    public static List<AcademicBibliographicCouplingItem> getAuthorBibliographicCouplings(List<AcademicApiPaper> academicApiPapers, Set<AcademicApiAuthor> authors) throws DataNotYetReadyException {
         HashMap<AcademicApiAuthor, Set<AcademicApiPaper>> papersPerAuthor = new HashMap<>();
         academicApiPapers.forEach(p ->
                 p.getAuthors().forEach(a -> {
@@ -41,12 +41,14 @@ public class CouplingServiceUtils {
 
         List<Future<ExpandResult>> tasks = ExpandService.INSTANCE.getTasks();
         if (tasks == null) {
-            throw new IllegalStateException("Can't get papers expansion results. Please check if the 'expand' API has been executed.");
+            ExpandService expandService = ExpandService.INSTANCE;
+            List<Future<ExpandResult>> futures = expandService.expandAsync(academicApiPapers, authors);
+            throw new DataNotYetReadyException("Initial network request. Preparing the data [" + futures.stream()  + "] requests...");
         }
 
         long doneExpands = tasks.stream().filter(Future::isDone).filter(t -> !t.isCancelled()).count();
         if (doneExpands != authors.size()) {
-            throw new IllegalStateException("Papers expansion is still running. Please wait for it to finish first.");
+            throw new DataNotYetReadyException("Papers expansion is still running. Please wait for it to finish first.");
         }
 
         Map<AcademicApiAuthor, List<AcademicApiPaper>> refsPerAuthor = tasks.stream()

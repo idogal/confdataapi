@@ -112,6 +112,33 @@
 		<finalName>confdata</finalName>
 		<plugins>
 			<plugin>
+				<groupId>com.microsoft.azure</groupId>
+				<artifactId>azure-webapp-maven-plugin</artifactId>
+				<version>1.9.1</version>
+				<configuration>
+					<schemaVersion>V1</schemaVersion>
+					<resourceGroup>conf-api</resourceGroup>
+					<appName>confdata</appName>
+					<pricingTier>F1</pricingTier>
+					<region>westeurope</region>
+					<runtime>
+						<os>linux</os>
+						<javaVersion>jre8</javaVersion>
+						<webContainer>TOMCAT 8.5</webContainer>
+					</runtime>
+					<deployment>
+						<resources>
+							<resource>
+								<directory>${project.basedir}/target</directory>
+								<includes>
+									<include>*.war</include>
+								</includes>
+							</resource>
+						</resources>
+					</deployment>
+				</configuration>
+			</plugin>
+			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>wagon-maven-plugin</artifactId>
 				<version>2.0.0</version>

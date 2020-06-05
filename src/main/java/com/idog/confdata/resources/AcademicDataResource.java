@@ -9,6 +9,7 @@ import java.util.stream.Collectors;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.QueryParam;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
@@ -17,6 +18,7 @@ import com.idog.confdata.api.ExpandService;
 import com.idog.confdata.api.VisMsApiService;
 import com.idog.confdata.app.CouplingService;
 import com.idog.confdata.app.CouplingServiceUtils;
+import com.idog.confdata.app.DataNotYetReadyException;
 import com.idog.confdata.beans.AcademicAuthorPairCoupling;
 import com.idog.confdata.beans.AcademicBibliographicCouplingItem;
 import com.idog.confdata.beans.api.AcademicApiAuthor;
@@ -26,9 +28,13 @@ import com.idog.confdata.beans.responses.AbcNetwork;
 import com.idog.confdata.beans.responses.AbcNode;
 
 import javax.ws.rs.Produces;
+import javax.ws.rs.core.UriInfo;
 
 @Path("academicdata")
 public class AcademicDataResource {
+
+    @Context
+    private UriInfo uriInfo;
 
     VisMsApiService visMsApiService = new VisMsApiService();
 
@@ -39,7 +45,16 @@ public class AcademicDataResource {
         List<AcademicApiPaper> academicApiPapers = visMsApiService.getChasePapers();
         Set<AcademicApiAuthor> authors = visMsApiService.getChaseAuthors();
         CouplingService couplingService = new CouplingService();
-        List<AcademicBibliographicCouplingItem> couplings = couplingService.getAuthorBibliographicCouplingsResults(academicApiPapers, authors);
+        List<AcademicBibliographicCouplingItem> couplings;
+        try {
+            couplings = couplingService.getAuthorBibliographicCouplingsResults(academicApiPapers, authors);
+        } catch (DataNotYetReadyException e) {
+            return Response
+                    .temporaryRedirect(uriInfo.getBaseUri().resolve("/papers/expand/status"))
+                    .entity(e.getMessage())
+                    .status(Response.Status.INTERNAL_SERVER_ERROR)
+                    .build();
+        }
 
         Set<AbcEdge> edges = new HashSet<>();
         Set<AbcNode> nodes = new HashSet<>();
@@ -73,10 +88,16 @@ public class AcademicDataResource {
         List<AcademicApiPaper> academicApiPapers = visMsApiService.getChasePapers();
         Set<AcademicApiAuthor> authors = visMsApiService.getChaseAuthors();
         CouplingService couplingService = new CouplingService();
-        List<AcademicBibliographicCouplingItem> couplings = couplingService.getAuthorBibliographicCouplingsResults(academicApiPapers, authors);
-
-        if (couplings == null)
-            return Response.serverError().build();
+        List<AcademicBibliographicCouplingItem> couplings;
+        try {
+            couplings = couplingService.getAuthorBibliographicCouplingsResults(academicApiPapers, authors);
+        } catch (DataNotYetReadyException e) {
+            return Response
+                    .temporaryRedirect(uriInfo.getBaseUri().resolve("/papers/expand/status"))
+                    .entity(e.getMessage())
+                    .status(Response.Status.INTERNAL_SERVER_ERROR)
+                    .build();
+        }
 
         return Response.ok(
                 couplings.stream()

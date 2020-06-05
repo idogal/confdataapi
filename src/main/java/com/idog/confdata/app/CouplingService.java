@@ -12,7 +12,7 @@ import java.util.Set;
 public class CouplingService {
     private static final Logger LOGGER = LogManager.getLogger(CouplingService.class);
 
-    public List<AcademicBibliographicCouplingItem> getAuthorBibliographicCouplingsResults(List<AcademicApiPaper> papers, Set<AcademicApiAuthor> authors) {
+    public List<AcademicBibliographicCouplingItem> getAuthorBibliographicCouplingsResults(List<AcademicApiPaper> papers, Set<AcademicApiAuthor> authors) throws DataNotYetReadyException {
 
         ApiCache apiCache = null;
         try {
