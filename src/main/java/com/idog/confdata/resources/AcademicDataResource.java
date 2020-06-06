@@ -30,7 +30,7 @@ import com.idog.confdata.beans.responses.AbcNode;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.UriInfo;
 
-@Path("academicdata")
+@Path("")
 public class AcademicDataResource {
 
     @Context

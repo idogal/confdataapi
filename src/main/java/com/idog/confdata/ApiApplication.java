@@ -9,7 +9,7 @@ import org.apache.logging.log4j.Logger;
 import org.glassfish.jersey.jackson.JacksonFeature;
 import org.glassfish.jersey.server.ResourceConfig;
 
-@ApplicationPath("/")
+@ApplicationPath("/api")
 public class ApiApplication extends ResourceConfig {
 	private static final Logger LOGGER = LogManager.getLogger("VisApi");
 

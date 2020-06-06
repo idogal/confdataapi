@@ -13,6 +13,20 @@
     </filter-mapping>
 
 <!--    <servlet>-->
+<!--        <servlet-name>rest-test</servlet-name>-->
+<!--        <servlet-class>com.sun.jersey.spi.container.servlet.ServletContainer</servlet-class>-->
+<!--        <init-param>-->
+<!--            <param-name>com.sun.jersey.config.property.packages</param-name>-->
+<!--            <param-value>com.idog.confdata</param-value>-->
+<!--        </init-param>-->
+<!--        <load-on-startup>1</load-on-startup>-->
+<!--    </servlet>-->
+<!--    <servlet-mapping>-->
+<!--        <servlet-name> rest-test</servlet-name>-->
+<!--        <url-pattern>/academicdata/*</url-pattern>-->
+<!--    </servlet-mapping>-->
+
+<!--    <servlet>-->
 <!--        <servlet-name>default</servlet-name>-->
 <!--        <servlet-class>org.apache.catalina.servlets.DefaultServlet</servlet-class>-->
 <!--        <init-param>-->
