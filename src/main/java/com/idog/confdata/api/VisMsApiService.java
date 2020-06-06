@@ -118,7 +118,7 @@ public class VisMsApiService {
         LOGGER.info("Requesting the details of the input papers");
         List<AcademicApiPaper> allPapers = new ArrayList<>();
         int startFrom = 0;
-        int batchSize = 15;
+        int batchSize = 20;
         boolean papersRemaining = true;
         while (papersRemaining) {
             int currentFinishPosition = startFrom + batchSize - 1;
@@ -131,13 +131,13 @@ public class VisMsApiService {
             ExecutorService executor = null;
             try {
                 executor = Executors.newFixedThreadPool(poolSize);
-            }catch (IllegalArgumentException ex) {
-                Throwable cause = ex.getCause();
+            } catch (IllegalArgumentException ex) {
+                LOGGER.error("Failed to create a thread pool", ex);
+                return null;
             }
             List<Future<List<AcademicApiPaper>>> tasks = new ArrayList<>();
             for (int i = startFrom; i <= currentFinishPosition; i++) {
                 String paperId = chasePapersIds.get(i);
-                // Create thread
                 Future<List<AcademicApiPaper>> getPapersTask = executor.submit(() -> {
                     int attempts = 0;
                     for (int j = 0; j < 10; j++) {
