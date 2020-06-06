@@ -15,6 +15,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 public class AcademicApiResponseDeserializer extends StdDeserializer<AcademicApiResponse> {
+    ObjectMapper mapper = new ObjectMapper(); // Check if it's possible to use the same ObjectMapper
 
     /**
      *
@@ -28,6 +29,8 @@ public class AcademicApiResponseDeserializer extends StdDeserializer<AcademicApi
 
     public AcademicApiResponseDeserializer(Class<?> vc) {
         super(vc);
+        mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+        //TODO: reuse from VisServerAppResources
     }
 
     @Override
@@ -86,10 +89,6 @@ public class AcademicApiResponseDeserializer extends StdDeserializer<AcademicApi
             //////////////////////////
             // Composited Properties //
             //////////////////////////
-            ObjectMapper mapper = new ObjectMapper(); // Check if it's possible to use the same ObjectMapper
-            // instance in the AppResources
-            mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-
             // Authos
             JsonNode authorNodes = paperNode.get("AA");
             LOGGER.debug("Getting authors...");

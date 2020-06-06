@@ -13,12 +13,11 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
+import com.fasterxml.jackson.dataformat.csv.CsvMapper;
 import com.idog.confdata.api.ExpandResult;
 import com.idog.confdata.api.ExpandService;
 import com.idog.confdata.api.VisMsApiService;
-import com.idog.confdata.app.CouplingService;
-import com.idog.confdata.app.CouplingServiceUtils;
-import com.idog.confdata.app.DataNotYetReadyException;
+import com.idog.confdata.app.*;
 import com.idog.confdata.beans.AcademicAuthorPairCoupling;
 import com.idog.confdata.beans.AcademicBibliographicCouplingItem;
 import com.idog.confdata.beans.api.AcademicApiAuthor;
@@ -26,6 +25,7 @@ import com.idog.confdata.beans.api.AcademicApiPaper;
 import com.idog.confdata.beans.responses.AbcEdge;
 import com.idog.confdata.beans.responses.AbcNetwork;
 import com.idog.confdata.beans.responses.AbcNode;
+import com.idog.confdata.beans.responses.EdgeDirection;
 
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.UriInfo;
@@ -38,16 +38,14 @@ public class AcademicDataResource {
 
     VisMsApiService visMsApiService = new VisMsApiService();
 
-    @Path("abc/network")
+    @Path("abc/network/edges")
     @GET
-    @Produces(MediaType.APPLICATION_JSON)
-    public Response getAuthorsBibliographicCouplingNetwork() throws IOException {
-        List<AcademicApiPaper> academicApiPapers = visMsApiService.getChasePapers();
-        Set<AcademicApiAuthor> authors = visMsApiService.getChaseAuthors();
-        CouplingService couplingService = new CouplingService();
-        List<AcademicBibliographicCouplingItem> couplings;
+    @Produces(MediaType.TEXT_PLAIN)
+    public Response getAuthorsBibliographicCouplingNetworkEdges() throws IOException {
         try {
-            couplings = couplingService.getAuthorBibliographicCouplingsResults(academicApiPapers, authors);
+            AbcNetwork network = getNetwork();
+            String s = formatEdgesAsCsv(network.getEdges());
+            return Response.ok().entity(s).build();
         } catch (DataNotYetReadyException e) {
             return Response
                     .temporaryRedirect(uriInfo.getBaseUri().resolve("/papers/expand/status"))
@@ -55,15 +53,59 @@ public class AcademicDataResource {
                     .status(Response.Status.INTERNAL_SERVER_ERROR)
                     .build();
         }
+    }
 
+    @Path("abc/network/nodes")
+    @GET
+    @Produces(MediaType.TEXT_PLAIN)
+    public Response getAuthorsBibliographicCouplingNetworkNodes() throws IOException {
+        try {
+            AbcNetwork network = getNetwork();
+            String s = formatNodesAsCsv(network.getNodes());
+            return Response.ok().entity(s).build();
+        } catch (DataNotYetReadyException e) {
+            return Response
+                    .temporaryRedirect(uriInfo.getBaseUri().resolve("/papers/expand/status"))
+                    .entity(e.getMessage())
+                    .status(Response.Status.INTERNAL_SERVER_ERROR)
+                    .build();
+        }
+    }
+
+
+    @Path("abc/network")
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getAuthorsBibliographicCouplingNetwork() throws IOException {
+        try {
+            AbcNetwork network = getNetwork();
+            return Response.ok(network).build();
+        } catch (DataNotYetReadyException e) {
+            return Response
+                    .temporaryRedirect(uriInfo.getBaseUri().resolve("/papers/expand/status"))
+                    .entity(e.getMessage())
+                    .status(Response.Status.INTERNAL_SERVER_ERROR)
+                    .build();
+        }
+    }
+
+    private AbcNetwork getNetwork() throws DataNotYetReadyException, IOException {
+        List<AcademicApiPaper> academicApiPapers = visMsApiService.getChasePapers();
+        Set<AcademicApiAuthor> authors = visMsApiService.getChaseAuthors();
+        CouplingService couplingService = new CouplingService();
+        List<AcademicBibliographicCouplingItem> couplings = couplingService.getAuthorBibliographicCouplingsResults(academicApiPapers, authors);
+        return buildNetwork(couplings);
+    }
+
+    private AbcNetwork buildNetwork(List<AcademicBibliographicCouplingItem> couplings) {
         Set<AbcEdge> edges = new HashSet<>();
         Set<AbcNode> nodes = new HashSet<>();
 
-        int counter = 0;
+        int counter = 1;
         int x = 0;
         int y = 0;
         for (AcademicBibliographicCouplingItem c : couplings) {
-            int id = x + y;
+            //int id = x + y;
             AcademicApiAuthor academicApiAuthorFirst = c.getAcademicApiAuthorFirst();
             String authorName = academicApiAuthorFirst.getAuthorName();
             nodes.add(new AbcNode(authorName, authorName, x, y, 1));
@@ -75,10 +117,21 @@ public class AcademicDataResource {
 
             y++;
 
-            edges.add(new AbcEdge(String.valueOf(id), authorName, authorName2));
+            edges.add(new AbcEdge(String.valueOf(counter), c.getCouplingStrength(), authorName, authorName2, EdgeDirection.UNDIRECTED));
+            counter++;
         }
 
-        return Response.ok(new AbcNetwork(edges, nodes)).build();
+        return new AbcNetwork(edges, nodes);
+    }
+
+    private String formatEdgesAsCsv(Set<AbcEdge> edges) {
+        String collect = edges.stream().map(AbcEdge::toString).sorted().collect(Collectors.joining(System.lineSeparator()));
+        return "Source,Target,Weight,Direction,Id" + System.lineSeparator() + collect;
+    }
+
+    private String formatNodesAsCsv(Set<AbcNode> nodes) {
+        String collect = nodes.stream().map(AbcNode::toString).sorted().collect(Collectors.joining(System.lineSeparator()));
+        return "Id" + System.lineSeparator() + collect;
     }
 
     @Path("abc")
@@ -205,8 +258,14 @@ public class AcademicDataResource {
     @Path("papers")
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public Response getChasePapers() {
+    public Response getChasePapers(@QueryParam("format") String format) {
         final List<AcademicApiPaper> academicApiPaper = visMsApiService.getChasePapers();
+
+        if (format != null && format.equalsIgnoreCase("csv")) {
+            CsvMapper mapper = new CsvMapper();
+            mapper.writerWithSchemaFor(AcademicApiPaper.class);
+        }
+
         return Response.ok().entity(academicApiPaper).build();
     }
 

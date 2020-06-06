@@ -4,11 +4,11 @@ import java.util.Objects;
 
 public class AbcNode {
 
-    private String id;
-    private String label;
-    private int x;
-    private int y;
-    private int size;
+    private final String id;
+    private final String label;
+    private final int x;
+    private final int y;
+    private final int size;
 
     public AbcNode(String id, String label, int x, int y, int size) {
         this.id = id;
@@ -49,5 +49,10 @@ public class AbcNode {
     @Override
     public int hashCode() {
         return Objects.hash(id);
+    }
+
+    @Override
+    public String toString() {
+        return id;
     }
 }
