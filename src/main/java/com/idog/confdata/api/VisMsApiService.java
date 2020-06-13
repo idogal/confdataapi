@@ -3,7 +3,6 @@ package com.idog.confdata.api;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.*;
@@ -43,11 +42,9 @@ public class VisMsApiService {
     private final String ACEDEMIC_API_EVALUATE_PATH = "academic/v1.0/evaluate";
     private final String ACADEMIC_API_SUBSCRIPTION_KEY = "46c107a906594111a8d94d822d2ef3be";
 
-    private VisServerAppResources visServerAppResources;
-    private ApiCache apiCache;
-    private DiskStorage diskStorage;
-    private Set<AcademicApiAuthor> chaseAuthors = null;
-    private List<AcademicApiPaper> chasePapers = null;
+    private final VisServerAppResources visServerAppResources;
+    private final ApiCache apiCache;
+    private final DiskStorage diskStorage;
 
     public VisMsApiService() {
         visServerAppResources = DiResources.getInjector().getInstance(VisServerAppResources.class);
@@ -57,32 +54,31 @@ public class VisMsApiService {
 
         this.apiCache = visServerAppResources.getApiCache();
         this.diskStorage = visServerAppResources.getDiskStorage();
-
-        this.chaseAuthors = this.apiCache.getChaseAuthors();
-        this.chasePapers = this.apiCache.getChasePapers();
     }
 
-    public Set<AcademicApiAuthor> getChaseAuthors() throws IOException {
-        if (this.chaseAuthors == null) {
-            this.chaseAuthors = new VisMsApiService().getChasePapers().stream()
-                    .map(paper -> paper.getAuthors()).flatMap(Set::stream)
+    public Set<AcademicApiAuthor> getChaseAuthors() {
+        Set<AcademicApiAuthor> chaseAuthors = this.apiCache.getChaseAuthors();
+        if (chaseAuthors == null) {
+            chaseAuthors = new VisMsApiService().getChasePapers().stream()
+                    .map(AcademicApiPaper::getAuthors).flatMap(Set::stream)
                     .collect(Collectors.toSet());
 
-            this.apiCache.setChaseAuthors(this.chaseAuthors);
+            this.apiCache.setChaseAuthors(chaseAuthors);
         }
 
-        return this.chaseAuthors;
+        return chaseAuthors;
     }
 
     public List<AcademicApiPaper> getChasePapers() {
-        if (this.chasePapers == null) {
+        List<AcademicApiPaper> chasePapers = this.apiCache.getChasePapers();
+        if (chasePapers == null) {
             List<PaperBasicInfo> listAllPapersToHandle = listAllPapersToHandle();
-            this.chasePapers = getPapersDetails(listAllPapersToHandle);
+            chasePapers = getPapersDetails(listAllPapersToHandle);
 
-            this.apiCache.setChasePapers(this.chasePapers);
+            this.apiCache.setChasePapers(chasePapers);
         }
 
-        return this.chasePapers;
+        return chasePapers;
     }
 
     public List<AcademicApiPaper> fetchById(Collection<Long> paperIds) {

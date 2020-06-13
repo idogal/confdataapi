@@ -32,6 +32,13 @@ public class ApiCache {
         LOGGER.info("Initialized ApiCache, academicApiPapers is set with [maxSize={}], [expireAfterAccess={}]", 1000, "60, TimeUnit.MINUTES");
     }
 
+    public void clearAll() {
+        this.academicApiPapers.invalidateAll();
+        this.chaseAuthors = null;
+        this.chasePapers = null;
+        this.abcCouplingResults = null;
+    }
+
     public Cache<String, List<AcademicApiPaper>> getAcademicApiPapers() {
         return academicApiPapers;
     }

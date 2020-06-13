@@ -18,6 +18,11 @@ public enum ExpandService {
     private ExecutorService executorService = null;
     private List<Future<ExpandResult>> tasks = null;
 
+    public void clearTasks() {
+        this.cancelAll();
+        this.tasks = null;
+    }
+
     public List<Future<ExpandResult>> expandAsync(List<AcademicApiPaper> academicApiPapers, Set<AcademicApiAuthor> authors) {
         // TODO: Allow to expand again
         if (tasks != null)

@@ -11,4 +11,4 @@ Tomcat, debug mode:
 catalina jpda start
 
 Deploy to Tomcat:
-mvn war:war org.codehaus.mojo:wagon-maven-plugin:upload-single -Dwagon.fromFile="C:\Users\idoga\Documents\Dev\confdata\target\confdata.war" -Dwagon.url=file://C:\Progra~1\apache-tomcat-8.5.50\webapps
+mvn clean install war:war org.codehaus.mojo:wagon-maven-plugin:upload-single -Dwagon.fromFile="C:\Users\idoga\Documents\Dev\confdata\target\confdata.war" -Dwagon.url=file://C:\Progra~1\apache-tomcat-8.5.50\webapps
