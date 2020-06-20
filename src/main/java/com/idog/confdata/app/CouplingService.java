@@ -30,7 +30,6 @@ public class CouplingService {
         if (apiCache != null)
             apiCache.setAbcCouplingResults(authorBibliographicCouplings);
 
-
         return authorBibliographicCouplings;
     }
 }

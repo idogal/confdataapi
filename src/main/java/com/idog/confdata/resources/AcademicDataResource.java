@@ -258,8 +258,14 @@ public class AcademicDataResource {
     @Path("papers")
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public Response getChasePapers(@QueryParam("format") String format) {
-        final List<AcademicApiPaper> academicApiPaper = visMsApiService.getChasePapers();
+    public Response getChasePapers(@QueryParam("format") String format, @QueryParam("year_start") String yearStart, @QueryParam("year_end") String yearEnd) {
+        List<AcademicApiPaper> academicApiPaper = visMsApiService.getChasePapers();
+        Integer start = yearStart != null ? Integer.valueOf(yearStart) : 0;
+        Integer end = yearEnd != null ? Integer.valueOf(yearEnd) : 0;
+        academicApiPaper = academicApiPaper.stream()
+                .filter(p -> start == 0 || Integer.valueOf(p.getYear()) >= start)
+                .filter(p -> end == 0 || Integer.valueOf(p.getYear()) <= end)
+                .collect(Collectors.toList());
 
         if (format != null && format.equalsIgnoreCase("csv")) {
             CsvMapper mapper = new CsvMapper();

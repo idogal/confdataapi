@@ -296,7 +296,7 @@ public class VisMsApiService {
         private String id;
         @JacksonXmlProperty(localName = "Conference_Year")
         private String year;
-        @JacksonXmlProperty(localName = "Paper_Name")
+        @JacksonXmlProperty(localName = "Title")
         private String name;
 
         public String getId() {
