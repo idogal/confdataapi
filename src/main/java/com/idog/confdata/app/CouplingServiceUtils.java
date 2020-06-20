@@ -4,16 +4,25 @@ import com.google.common.collect.Sets;
 import com.idog.confdata.api.ExpandResult;
 import com.idog.confdata.api.ExpandService;
 import com.idog.confdata.beans.AcademicBibliographicCouplingItem;
+import com.idog.confdata.beans.CouplingResult;
+import com.idog.confdata.beans.CouplingResultType;
 import com.idog.confdata.beans.api.AcademicApiAuthor;
 import com.idog.confdata.beans.AcademicAuthorPair;
 import com.idog.confdata.beans.api.AcademicApiPaper;
+import org.apache.commons.lang3.tuple.Pair;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.util.*;
 import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.stream.Collectors;
 
 public class CouplingServiceUtils {
+
+    private static final Logger LOGGER = LogManager.getLogger(CouplingServiceUtils.class);
 
     public static Set<AcademicAuthorPair> getAuthorPairs(Set<AcademicApiAuthor> authors) {
         Set<AcademicAuthorPair> newAuthors = new HashSet<>();
@@ -29,42 +38,9 @@ public class CouplingServiceUtils {
         return newAuthors;
     }
 
-    public static List<AcademicBibliographicCouplingItem> getAuthorBibliographicCouplings(List<AcademicApiPaper> academicApiPapers, Set<AcademicApiAuthor> authors) throws DataNotYetReadyException {
-        HashMap<AcademicApiAuthor, Set<AcademicApiPaper>> papersPerAuthor = new HashMap<>();
-        academicApiPapers.forEach(p ->
-                p.getAuthors().forEach(a -> {
-                    Set<AcademicApiPaper> papersForCurrentAuthor = papersPerAuthor.getOrDefault(a, new HashSet<>());
-                    papersForCurrentAuthor.add(p);
-                    papersPerAuthor.putIfAbsent(a, papersForCurrentAuthor);
-                })
-        );
-
-        List<Future<ExpandResult>> tasks = ExpandService.INSTANCE.getTasks();
-        if (tasks == null) {
-            ExpandService expandService = ExpandService.INSTANCE;
-            List<Future<ExpandResult>> futures = expandService.expandAsync(academicApiPapers, authors);
-            throw new DataNotYetReadyException("Initial network request. Preparing the data [" + futures.stream()  + "] requests...");
-        }
-
-        long doneExpands = tasks.stream().filter(Future::isDone).filter(t -> !t.isCancelled()).count();
-        if (doneExpands != authors.size()) {
-            throw new DataNotYetReadyException("Papers expansion is still running. Please wait for it to finish first.");
-        }
-
-        Map<AcademicApiAuthor, List<AcademicApiPaper>> refsPerAuthor = tasks.stream()
-                .filter(Future::isDone)
-                .filter(t -> !t.isCancelled())
-                .map(t -> {
-                    try {
-                        return t.get();
-                    } catch (InterruptedException | ExecutionException e) {
-                        e.printStackTrace();
-                    }
-
-                    return null;
-                }).filter(Objects::nonNull)
-                .collect(Collectors.toMap(ExpandResult::getAuthor, ExpandResult::getPapers));
-
+    public static List<AcademicBibliographicCouplingItem> getAuthorBibliographicCouplingsFromExpand(List<AcademicApiPaper> academicApiPapers,
+                                                                                                    Set<AcademicApiAuthor> authors,
+                                                                                                    Map<AcademicApiAuthor, List<AcademicApiPaper>> refsPerAuthor) {
         List<AcademicBibliographicCouplingItem> couplings = new ArrayList<>();
         getAuthorPairs(authors).forEach(pair -> {
             AcademicApiAuthor academicApiAuthorFirst = pair.getAcademicApiAuthorFirst();
@@ -102,6 +78,58 @@ public class CouplingServiceUtils {
         });
 
         return couplings;
+    }
+
+    static CouplingResult getQueuedResults(List<AcademicApiPaper> papers, Set<AcademicApiAuthor> authors, Map<AcademicApiAuthor, List<AcademicApiPaper>> refsPerAuthor) {
+        return CouplingResult.builder()
+                .setResultType(CouplingResultType.SUCCESS)
+                .setCouplings(getAuthorBibliographicCouplingsFromExpand(papers, authors, refsPerAuthor))
+                .build();
+    }
+
+//    static int queueExpandData(List<AcademicApiPaper> papers, Set<AcademicApiAuthor> authors) {
+//        ExecutorService executorService = Executors.newSingleThreadExecutor();
+//
+//        ExpandService expandService = ExpandService.INSTANCE;
+//        Future<List<Future<ExpandResult>>> expandRequest = executorService.submit(() -> expandService.expandAsync(papers, authors));
+//        try {
+//            ApiCache apiCache = DiResources.getInjector().getInstance(VisServerAppResources.class).getApiCache();
+//            return apiCache.putInExpandQueue(authors.size(), expandRequest.get());
+//        } catch (Exception ex) {
+//            return 0;
+//        }
+//    }
+
+    public static List<AcademicBibliographicCouplingItem> getAuthorBibliographicCouplings(List<AcademicApiPaper> papers, Set<AcademicApiAuthor> authors)
+            throws DataNotYetReadyException {
+
+        List<Future<ExpandResult>> tasks = ExpandService.INSTANCE.getTasks();
+        if (tasks == null) {
+            ExpandService expandService = ExpandService.INSTANCE;
+            List<Future<ExpandResult>> futures = expandService.expandAsync(papers, authors);
+            throw new DataNotYetReadyException("Initial network request. Preparing the data [" + futures.stream()  + "] requests...");
+        }
+
+        long doneExpands = tasks.stream().filter(Future::isDone).filter(t -> !t.isCancelled()).count();
+        if (doneExpands != authors.size()) {
+            throw new DataNotYetReadyException("Papers expansion is still running. Please wait for it to finish first.");
+        }
+
+        Map<AcademicApiAuthor, List<AcademicApiPaper>> refsPerAuthor = tasks.stream()
+                .filter(Future::isDone)
+                .filter(t -> !t.isCancelled())
+                .map(t -> {
+                    try {
+                        return t.get();
+                    } catch (InterruptedException | ExecutionException e) {
+                        LOGGER.error(e);
+                    }
+
+                    return null;
+                }).filter(Objects::nonNull)
+                .collect(Collectors.toMap(ExpandResult::getAuthor, ExpandResult::getPapers));
+
+        return getAuthorBibliographicCouplingsFromExpand(papers, authors, refsPerAuthor);
     }
 
 }

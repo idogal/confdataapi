@@ -3,32 +3,24 @@ package com.idog.confdata.resources;
 
 import java.io.IOException;
 import java.util.*;
-import java.util.concurrent.Future;
 import java.util.stream.Collectors;
 
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.QueryParam;
-import javax.ws.rs.core.Context;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
+import javax.ws.rs.*;
+import javax.ws.rs.core.*;
 
 import com.fasterxml.jackson.dataformat.csv.CsvMapper;
-import com.idog.confdata.api.ExpandResult;
-import com.idog.confdata.api.ExpandService;
 import com.idog.confdata.api.VisMsApiService;
 import com.idog.confdata.app.*;
 import com.idog.confdata.beans.AcademicAuthorPairCoupling;
 import com.idog.confdata.beans.AcademicBibliographicCouplingItem;
+import com.idog.confdata.beans.CouplingResult;
+import com.idog.confdata.beans.CouplingResultType;
 import com.idog.confdata.beans.api.AcademicApiAuthor;
 import com.idog.confdata.beans.api.AcademicApiPaper;
 import com.idog.confdata.beans.responses.AbcEdge;
 import com.idog.confdata.beans.responses.AbcNetwork;
 import com.idog.confdata.beans.responses.AbcNode;
 import com.idog.confdata.beans.responses.EdgeDirection;
-
-import javax.ws.rs.Produces;
-import javax.ws.rs.core.UriInfo;
 
 @Path("")
 public class AcademicDataResource {
@@ -136,28 +128,72 @@ public class AcademicDataResource {
 
     @Path("abc")
     @GET
-    @Produces(MediaType.APPLICATION_JSON)
-    public Response getAuthorsBibliographicCoupling() throws IOException {
-        List<AcademicApiPaper> academicApiPapers = visMsApiService.getChasePapers();
-        Set<AcademicApiAuthor> authors = visMsApiService.getChaseAuthors();
+    @Produces(MediaType.TEXT_PLAIN)
+    public Response queueAuthorsBibliographicCoupling(@QueryParam("year_start") String yearStart, @QueryParam("year_end") String yearEnd) {
         CouplingService couplingService = new CouplingService();
-        List<AcademicBibliographicCouplingItem> couplings;
-        try {
-            couplings = couplingService.getAuthorBibliographicCouplingsResults(academicApiPapers, authors);
-        } catch (DataNotYetReadyException e) {
-            return Response
-                    .temporaryRedirect(uriInfo.getBaseUri().resolve("/papers/expand/status"))
-                    .entity(e.getMessage())
-                    .status(Response.Status.INTERNAL_SERVER_ERROR)
-                    .build();
+        int i = couplingService.queuePreparation(yearStart, yearEnd);
+
+        UriBuilder resultPathBuilder = uriInfo.getAbsolutePathBuilder();
+        UriBuilder resultPath = resultPathBuilder.path("results").path(Integer.toString(i));
+        return Response
+                //.temporaryRedirect(resultPath.build())
+                .status(Response.Status.ACCEPTED)
+                .entity("Get results from: " + resultPath.build().toString())
+                .location(resultPath.build()).build();
+    }
+
+    @Path("abc/results/{resultNumber}")
+    @GET
+    @Produces(MediaType.TEXT_PLAIN)
+    public Response getAuthorsBibliographicCouplingResult(@PathParam("resultNumber") Integer resultNumber) throws DataNotYetReadyException {
+        if (resultNumber == null) {
+            return Response.status(Response.Status.BAD_REQUEST).entity("Please define a resultNumber").build();
         }
 
-        return Response.ok(
-                couplings.stream()
-                        .sorted(Comparator.comparing(AcademicBibliographicCouplingItem::getAcademicApiAuthorFirst)
-                                .thenComparing(AcademicBibliographicCouplingItem::getAcademicApiAuthorSecond))
-                        .collect(Collectors.toList())).build();
+        CouplingService couplingService = new CouplingService();
+        CouplingResult results = couplingService.getQueuedAuthorBibliographicCouplingsResults(resultNumber);
+
+        if (results.getCouplingResultType().equals(CouplingResultType.SUCCESS)) {
+            List<AcademicBibliographicCouplingItem> couplings = results.getAcademicBibliographicCouplings();
+
+            return Response.ok(
+                    couplings.stream()
+                            .sorted(Comparator.comparing(AcademicBibliographicCouplingItem::getAcademicApiAuthorFirst)
+                                    .thenComparing(AcademicBibliographicCouplingItem::getAcademicApiAuthorSecond))
+                            .collect(Collectors.toList())).build();
+        }
+
+        if (results.getCouplingResultType().equals(CouplingResultType.FAILURE)) {
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(results.getResultMessage()).build();
+        }
+
+        return Response.status(Response.Status.ACCEPTED).entity(results.getResultMessage()).build();
     }
+
+//    @Path("abc")
+//    @GET
+//    @Produces(MediaType.APPLICATION_JSON)
+//    public Response getAuthorsBibliographicCoupling() {
+//        List<AcademicApiPaper> academicApiPapers = visMsApiService.getChasePapers();
+//        Set<AcademicApiAuthor> authors = visMsApiService.getChaseAuthors();
+//        CouplingService couplingService = new CouplingService();
+//        List<AcademicBibliographicCouplingItem> couplings;
+//        try {
+//            couplings = couplingService.getAuthorBibliographicCouplingsResults(academicApiPapers, authors);
+//        } catch (DataNotYetReadyException e) {
+//            return Response
+//                    .temporaryRedirect(uriInfo.getBaseUri().resolve("/papers/expand/status"))
+//                    .entity(e.getMessage())
+//                    .status(Response.Status.INTERNAL_SERVER_ERROR)
+//                    .build();
+//        }
+//
+//        return Response.ok(
+//                couplings.stream()
+//                        .sorted(Comparator.comparing(AcademicBibliographicCouplingItem::getAcademicApiAuthorFirst)
+//                                .thenComparing(AcademicBibliographicCouplingItem::getAcademicApiAuthorSecond))
+//                        .collect(Collectors.toList())).build();
+//    }
 
     @Path("simple")
     @GET
@@ -225,47 +261,41 @@ public class AcademicDataResource {
         return Response.ok().entity(authors).build();
     }
 
-    @Path("papers/expand")
-    @GET
-    @Produces(MediaType.TEXT_PLAIN)
-    public Response expandPapers() throws IOException {
-        List<AcademicApiPaper> academicApiPapers = visMsApiService.getChasePapers();
-        Set<AcademicApiAuthor> authors = visMsApiService.getChaseAuthors();
-        ExpandService expandService = ExpandService.INSTANCE;
-        List<Future<ExpandResult>> futures = expandService.expandAsync(academicApiPapers, authors);
-        return Response.ok("submitted [" + futures.size() + "]").build();
-    }
-
-    @Path("papers/expand/status")
-    @GET
-    @Produces(MediaType.TEXT_PLAIN)
-    public Response expandPapersStatus() {
-        ExpandService expandService = ExpandService.INSTANCE;
-        long l = expandService.checkStatus();
-        int size = expandService.getTasks().size();
-        return Response.ok(String.format("done = [%s], total = [%s]", l, size)).build();
-    }
-
-    @Path("papers/expand/cancel")
-    @GET
-    @Produces(MediaType.TEXT_PLAIN)
-    public Response cancelExpandPapers() {
-        ExpandService expandService = ExpandService.INSTANCE;
-        expandService.cancelAll();
-        return Response.accepted("Cancelled all").build();
-    }
+//    @Path("papers/expand")
+//    @GET
+//    @Produces(MediaType.TEXT_PLAIN)
+//    public Response expandPapers() throws IOException {
+//        List<AcademicApiPaper> academicApiPapers = visMsApiService.getChasePapers();
+//        Set<AcademicApiAuthor> authors = visMsApiService.getChaseAuthors();
+//        ExpandService expandService = ExpandService.INSTANCE;
+//        List<Future<ExpandResult>> futures = expandService.expandAsync(academicApiPapers, authors);
+//        return Response.ok("submitted [" + futures.size() + "]").build();
+//    }
+//
+//    @Path("papers/expand/status")
+//    @GET
+//    @Produces(MediaType.TEXT_PLAIN)
+//    public Response expandPapersStatus() {
+//        ExpandService expandService = ExpandService.INSTANCE;
+//        long l = expandService.checkStatus();
+//        int size = expandService.getTasks().size();
+//        return Response.ok(String.format("done = [%s], total = [%s]", l, size)).build();
+//    }
+//
+//    @Path("papers/expand/cancel")
+//    @GET
+//    @Produces(MediaType.TEXT_PLAIN)
+//    public Response cancelExpandPapers() {
+//        ExpandService expandService = ExpandService.INSTANCE;
+//        expandService.cancelAll();
+//        return Response.accepted("Cancelled all").build();
+//    }
 
     @Path("papers")
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public Response getChasePapers(@QueryParam("format") String format, @QueryParam("year_start") String yearStart, @QueryParam("year_end") String yearEnd) {
-        List<AcademicApiPaper> academicApiPaper = visMsApiService.getChasePapers();
-        Integer start = yearStart != null ? Integer.valueOf(yearStart) : 0;
-        Integer end = yearEnd != null ? Integer.valueOf(yearEnd) : 0;
-        academicApiPaper = academicApiPaper.stream()
-                .filter(p -> start == 0 || Integer.valueOf(p.getYear()) >= start)
-                .filter(p -> end == 0 || Integer.valueOf(p.getYear()) <= end)
-                .collect(Collectors.toList());
+        List<AcademicApiPaper> academicApiPaper = visMsApiService.getChasePapers(yearStart, yearEnd);
 
         if (format != null && format.equalsIgnoreCase("csv")) {
             CsvMapper mapper = new CsvMapper();

@@ -69,6 +69,29 @@ public class VisMsApiService {
         return chaseAuthors;
     }
 
+    public Set<AcademicApiAuthor> deriveChaseAuthors(List<AcademicApiPaper> papers) {
+        Set<AcademicApiAuthor> chaseAuthors = this.apiCache.getChaseAuthors();
+        if (chaseAuthors == null) {
+            chaseAuthors = papers.stream()
+                    .map(AcademicApiPaper::getAuthors).flatMap(Set::stream)
+                    .collect(Collectors.toSet());
+
+            this.apiCache.setChaseAuthors(chaseAuthors);
+        }
+
+        return chaseAuthors;
+    }
+
+    public List<AcademicApiPaper> getChasePapers(String yearStart, String yearEnd) {
+        List<AcademicApiPaper> papers = getChasePapers();
+        int start = yearStart != null ? Integer.valueOf(yearStart) : 0;
+        int end = yearEnd != null ? Integer.valueOf(yearEnd) : 0;
+        return papers.stream()
+                .filter(p -> start == 0 || Integer.parseInt(p.getYear()) >= start)
+                .filter(p -> end == 0 || Integer.parseInt(p.getYear()) <= end)
+                .collect(Collectors.toList());
+    }
+
     public List<AcademicApiPaper> getChasePapers() {
         List<AcademicApiPaper> chasePapers = this.apiCache.getChasePapers();
         if (chasePapers == null) {
