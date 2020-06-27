@@ -9,14 +9,11 @@ import com.idog.confdata.beans.CouplingResultType;
 import com.idog.confdata.beans.api.AcademicApiAuthor;
 import com.idog.confdata.beans.AcademicAuthorPair;
 import com.idog.confdata.beans.api.AcademicApiPaper;
-import org.apache.commons.lang3.tuple.Pair;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.util.*;
 import java.util.concurrent.ExecutionException;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.stream.Collectors;
 
@@ -87,26 +84,13 @@ public class CouplingServiceUtils {
                 .build();
     }
 
-//    static int queueExpandData(List<AcademicApiPaper> papers, Set<AcademicApiAuthor> authors) {
-//        ExecutorService executorService = Executors.newSingleThreadExecutor();
-//
-//        ExpandService expandService = ExpandService.INSTANCE;
-//        Future<List<Future<ExpandResult>>> expandRequest = executorService.submit(() -> expandService.expandAsync(papers, authors));
-//        try {
-//            ApiCache apiCache = DiResources.getInjector().getInstance(VisServerAppResources.class).getApiCache();
-//            return apiCache.putInExpandQueue(authors.size(), expandRequest.get());
-//        } catch (Exception ex) {
-//            return 0;
-//        }
-//    }
-
-    public static List<AcademicBibliographicCouplingItem> getAuthorBibliographicCouplings(List<AcademicApiPaper> papers, Set<AcademicApiAuthor> authors)
+    public static List<AcademicBibliographicCouplingItem> getAuthorBibliographicCouplings(int hash, List<AcademicApiPaper> papers, Set<AcademicApiAuthor> authors)
             throws DataNotYetReadyException {
 
-        List<Future<ExpandResult>> tasks = ExpandService.INSTANCE.getTasks();
+        List<Future<ExpandResult>> tasks = ExpandService.INSTANCE.getTasks(hash);
         if (tasks == null) {
             ExpandService expandService = ExpandService.INSTANCE;
-            List<Future<ExpandResult>> futures = expandService.expandAsync(papers, authors);
+            List<Future<ExpandResult>> futures = expandService.expandAsync(hash, papers, authors);
             throw new DataNotYetReadyException("Initial network request. Preparing the data [" + futures.stream()  + "] requests...");
         }
 

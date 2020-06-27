@@ -27,7 +27,7 @@ public class CouplingService {
 
     VisMsApiService visMsApiService = new VisMsApiService();
 
-    public CouplingResult getQueuedAuthorBibliographicCouplingsResults(int num) throws DataNotYetReadyException {
+    public CouplingResult getQueuedAuthorBibliographicCouplingsResults(int num) {
         ApiCache apiCache = DiResources.getInjector().getInstance(VisServerAppResources.class).getApiCache();
         List<AcademicApiPaper> papers = apiCache.getPapers(num);
         Set<AcademicApiAuthor> authors = apiCache.getAuthors(num);
@@ -97,7 +97,7 @@ public class CouplingService {
         ExecutorService executorService = Executors.newSingleThreadExecutor();
 
         ExpandService expandService = ExpandService.INSTANCE;
-        Future<List<Future<ExpandResult>>> expandRequest = executorService.submit(() -> expandService.expandAsync(papers, authors));
+        Future<List<Future<ExpandResult>>> expandRequest = executorService.submit(() -> expandService.expandAsync(hash, papers, authors));
         try {
             apiCache.cachePapers(hash, papers);
             apiCache.cacheAuthors(hash, authors);
@@ -107,23 +107,20 @@ public class CouplingService {
         }
     }
 
-    public List<AcademicBibliographicCouplingItem> getAuthorBibliographicCouplingsResults(List<AcademicApiPaper> papers, Set<AcademicApiAuthor> authors) throws DataNotYetReadyException {
+    public List<AcademicBibliographicCouplingItem> getAuthorBibliographicCouplingsResults(String yearStart, String yearEnd) throws DataNotYetReadyException {
+        VisServerAppResources instance = DiResources.getInjector().getInstance(VisServerAppResources.class);
+        ApiCache apiCache = instance.getApiCache();
 
-        ApiCache apiCache = null;
-        try {
-            VisServerAppResources instance = DiResources.getInjector().getInstance(VisServerAppResources.class);
-            apiCache = instance.getApiCache();
-            List<AcademicBibliographicCouplingItem> abcCouplingResults = apiCache.getAbcCouplingResults();
-            if (abcCouplingResults != null)
-                return abcCouplingResults;
-
-        } catch (Exception exception) {
-            LOGGER.error(exception);
+        int hash = getHash(yearStart, yearEnd);
+        List<AcademicBibliographicCouplingItem> couplings = apiCache.getAbcCouplingResults(hash);
+        if (couplings != null) {
+            return couplings;
         }
 
-        List<AcademicBibliographicCouplingItem> authorBibliographicCouplings = CouplingServiceUtils.getAuthorBibliographicCouplings(papers, authors);
-        if (apiCache != null)
-            apiCache.setAbcCouplingResults(authorBibliographicCouplings);
+        List<AcademicApiPaper> papers = apiCache.getPapers(hash);
+        Set<AcademicApiAuthor> authors = apiCache.getAuthors(hash);
+        List<AcademicBibliographicCouplingItem> authorBibliographicCouplings = CouplingServiceUtils.getAuthorBibliographicCouplings(hash, papers, authors);
+        apiCache.setAbcCouplingResults(hash, authorBibliographicCouplings);
 
         return authorBibliographicCouplings;
     }

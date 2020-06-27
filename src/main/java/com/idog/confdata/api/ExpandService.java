@@ -3,10 +3,7 @@ package com.idog.confdata.api;
 import com.idog.confdata.beans.api.AcademicApiAuthor;
 import com.idog.confdata.beans.api.AcademicApiPaper;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.concurrent.*;
 import java.util.stream.Collectors;
 
@@ -14,54 +11,54 @@ public enum ExpandService {
 
     INSTANCE;
 
-    private VisMsApiService visMsApiService = new VisMsApiService();
+    private final VisMsApiService visMsApiService = new VisMsApiService();
     private ExecutorService executorService = null;
-    private List<Future<ExpandResult>> tasks = null;
+    private Map<Integer, List<Future<ExpandResult>>> tasks = new HashMap<>();
 
     public void clearTasks() {
         this.cancelAll();
         this.tasks = null;
     }
 
-    public List<Future<ExpandResult>> expandAsync(List<AcademicApiPaper> academicApiPapers, Set<AcademicApiAuthor> authors) {
-        // TODO: Allow to expand again
-        if (tasks != null)
+    public List<Future<ExpandResult>> expandAsync(int hash, List<AcademicApiPaper> academicApiPapers, Set<AcademicApiAuthor> authors) {
+        if (tasks.get(hash) != null)
             return Collections.emptyList();
 
         executorService = Executors.newFixedThreadPool(1);
-        this.tasks = new ArrayList<>();
+        List<Future<ExpandResult>> currentTasks = new ArrayList<>();
 
         authors.forEach(author ->
-            this.tasks.add(executorService.submit(() -> expand(academicApiPapers, author)))
+                currentTasks.add(executorService.submit(() -> expand(academicApiPapers, author)))
         );
+        tasks.put(hash, currentTasks);
 
         executorService.shutdown();
 
-        return this.tasks;
+        return currentTasks;
     }
 
-    public List<Future<ExpandResult>> getTasks() {
-        return tasks;
+    public List<Future<ExpandResult>> getTasks(int hash) {
+        return tasks.get(hash);
     }
 
-    public long checkStatus() {
+    public long checkStatus(int hash) {
         if (executorService == null)
             return 0L;
 
-        return tasks.stream().filter(t -> t.isDone()).filter(t -> !t.isCancelled()).count();
+        return tasks.get(hash).stream().filter(Future::isDone).filter(t -> !t.isCancelled()).count();
     }
 
     public void cancelAll() {
-        // TODO: get cancelled count
-
         if (executorService == null || executorService.isTerminated())
             return;
 
-        tasks.forEach(task -> {
-            if (!task.isDone() && !task.isCancelled()) {
-                task.cancel(true);
-            }
-        });
+        tasks.values().forEach(tasks ->
+                tasks.forEach(task -> {
+                    if (!task.isDone() && !task.isCancelled()) {
+                        task.cancel(true);
+                    }
+                })
+        );
     }
 
     private ExpandResult expand(List<AcademicApiPaper> academicApiPapers, AcademicApiAuthor author) {

@@ -70,22 +70,15 @@ public class VisMsApiService {
     }
 
     public Set<AcademicApiAuthor> deriveChaseAuthors(List<AcademicApiPaper> papers) {
-        Set<AcademicApiAuthor> chaseAuthors = this.apiCache.getChaseAuthors();
-        if (chaseAuthors == null) {
-            chaseAuthors = papers.stream()
-                    .map(AcademicApiPaper::getAuthors).flatMap(Set::stream)
-                    .collect(Collectors.toSet());
-
-            this.apiCache.setChaseAuthors(chaseAuthors);
-        }
-
-        return chaseAuthors;
+        return papers.stream()
+                .map(AcademicApiPaper::getAuthors).flatMap(Set::stream)
+                .collect(Collectors.toSet());
     }
 
     public List<AcademicApiPaper> getChasePapers(String yearStart, String yearEnd) {
         List<AcademicApiPaper> papers = getChasePapers();
-        int start = yearStart != null ? Integer.valueOf(yearStart) : 0;
-        int end = yearEnd != null ? Integer.valueOf(yearEnd) : 0;
+        int start = yearStart != null ? Integer.parseInt(yearStart) : 0;
+        int end = yearEnd != null ? Integer.parseInt(yearEnd) : 0;
         return papers.stream()
                 .filter(p -> start == 0 || Integer.parseInt(p.getYear()) >= start)
                 .filter(p -> end == 0 || Integer.parseInt(p.getYear()) <= end)
@@ -137,7 +130,7 @@ public class VisMsApiService {
         LOGGER.info("Requesting the details of the input papers");
         List<AcademicApiPaper> allPapers = new ArrayList<>();
         int startFrom = 0;
-        int batchSize = 20;
+        int batchSize = 30;
         boolean papersRemaining = true;
         while (papersRemaining) {
             int currentFinishPosition = startFrom + batchSize - 1;
@@ -162,6 +155,7 @@ public class VisMsApiService {
                     for (int j = 0; j < 10; j++) {
                         TimeUnit.MILLISECONDS.sleep((j + 1) * 200);
                         attempts = j;
+                        //TODO: Fix?
                         return getChasePaperById(paperId);
                     }
                     LOGGER.error("Could not get response after {} attempts", attempts);
@@ -203,7 +197,7 @@ public class VisMsApiService {
     private List<AcademicApiPaper> getChasePaperById(String id) {
         LOGGER.info("Building a request by ID for [{}]", id);
 
-        List<AcademicApiPaper> cachedPapers = apiCache.getAcademicApiPaper(id);;
+        List<AcademicApiPaper> cachedPapers = apiCache.getAcademicApiPaper(id);
         if (cachedPapers != null) {
             LOGGER.info("Retrieved [{}] papers from cache for [{}]", cachedPapers.size(), id);
             return cachedPapers;

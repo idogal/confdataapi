@@ -33,9 +33,9 @@ public class AcademicDataResource {
     @Path("abc/network/edges")
     @GET
     @Produces(MediaType.TEXT_PLAIN)
-    public Response getAuthorsBibliographicCouplingNetworkEdges() throws IOException {
+    public Response getAuthorsBibliographicCouplingNetworkEdges(@QueryParam("year_start") String yearStart, @QueryParam("year_end") String yearEnd) {
         try {
-            AbcNetwork network = getNetwork();
+            AbcNetwork network = getNetwork(yearStart, yearEnd);
             String s = formatEdgesAsCsv(network.getEdges());
             return Response.ok().entity(s).build();
         } catch (DataNotYetReadyException e) {
@@ -50,9 +50,9 @@ public class AcademicDataResource {
     @Path("abc/network/nodes")
     @GET
     @Produces(MediaType.TEXT_PLAIN)
-    public Response getAuthorsBibliographicCouplingNetworkNodes() throws IOException {
+    public Response getAuthorsBibliographicCouplingNetworkNodes(@QueryParam("year_start") String yearStart, @QueryParam("year_end") String yearEnd) {
         try {
-            AbcNetwork network = getNetwork();
+            AbcNetwork network = getNetwork(yearStart, yearEnd);
             String s = formatNodesAsCsv(network.getNodes());
             return Response.ok().entity(s).build();
         } catch (DataNotYetReadyException e) {
@@ -68,9 +68,9 @@ public class AcademicDataResource {
     @Path("abc/network")
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public Response getAuthorsBibliographicCouplingNetwork() throws IOException {
+    public Response getAuthorsBibliographicCouplingNetwork(@QueryParam("year_start") String yearStart, @QueryParam("year_end") String yearEnd) {
         try {
-            AbcNetwork network = getNetwork();
+            AbcNetwork network = getNetwork(yearStart, yearEnd);
             return Response.ok(network).build();
         } catch (DataNotYetReadyException e) {
             return Response
@@ -81,11 +81,9 @@ public class AcademicDataResource {
         }
     }
 
-    private AbcNetwork getNetwork() throws DataNotYetReadyException, IOException {
-        List<AcademicApiPaper> academicApiPapers = visMsApiService.getChasePapers();
-        Set<AcademicApiAuthor> authors = visMsApiService.getChaseAuthors();
+    private AbcNetwork getNetwork(@QueryParam("year_start") String yearStart, @QueryParam("year_end") String yearEnd) throws DataNotYetReadyException {
         CouplingService couplingService = new CouplingService();
-        List<AcademicBibliographicCouplingItem> couplings = couplingService.getAuthorBibliographicCouplingsResults(academicApiPapers, authors);
+        List<AcademicBibliographicCouplingItem> couplings = couplingService.getAuthorBibliographicCouplingsResults(yearStart, yearEnd);
         return buildNetwork(couplings);
     }
 
@@ -145,7 +143,7 @@ public class AcademicDataResource {
     @Path("abc/results/{resultNumber}")
     @GET
     @Produces(MediaType.TEXT_PLAIN)
-    public Response getAuthorsBibliographicCouplingResult(@PathParam("resultNumber") Integer resultNumber) throws DataNotYetReadyException {
+    public Response getAuthorsBibliographicCouplingResult(@PathParam("resultNumber") Integer resultNumber) {
         if (resultNumber == null) {
             return Response.status(Response.Status.BAD_REQUEST).entity("Please define a resultNumber").build();
         }
@@ -170,35 +168,10 @@ public class AcademicDataResource {
         return Response.status(Response.Status.ACCEPTED).entity(results.getResultMessage()).build();
     }
 
-//    @Path("abc")
-//    @GET
-//    @Produces(MediaType.APPLICATION_JSON)
-//    public Response getAuthorsBibliographicCoupling() {
-//        List<AcademicApiPaper> academicApiPapers = visMsApiService.getChasePapers();
-//        Set<AcademicApiAuthor> authors = visMsApiService.getChaseAuthors();
-//        CouplingService couplingService = new CouplingService();
-//        List<AcademicBibliographicCouplingItem> couplings;
-//        try {
-//            couplings = couplingService.getAuthorBibliographicCouplingsResults(academicApiPapers, authors);
-//        } catch (DataNotYetReadyException e) {
-//            return Response
-//                    .temporaryRedirect(uriInfo.getBaseUri().resolve("/papers/expand/status"))
-//                    .entity(e.getMessage())
-//                    .status(Response.Status.INTERNAL_SERVER_ERROR)
-//                    .build();
-//        }
-//
-//        return Response.ok(
-//                couplings.stream()
-//                        .sorted(Comparator.comparing(AcademicBibliographicCouplingItem::getAcademicApiAuthorFirst)
-//                                .thenComparing(AcademicBibliographicCouplingItem::getAcademicApiAuthorSecond))
-//                        .collect(Collectors.toList())).build();
-//    }
-
     @Path("simple")
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public List<AcademicAuthorPairCoupling> getSimple() throws IOException {
+    public List<AcademicAuthorPairCoupling> getSimple() {
         List<AcademicApiPaper> academicApiPapers = visMsApiService.getChasePapers();
         Set<AcademicApiAuthor> authors = visMsApiService.getChaseAuthors();
 
@@ -250,8 +223,11 @@ public class AcademicDataResource {
     @Path("authors")
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public Response getAuthors(@QueryParam("sorted") boolean sorted) throws IOException {
-        Collection<AcademicApiAuthor> authors = visMsApiService.getChaseAuthors();
+    public Response getAuthors(@QueryParam("sorted") boolean sorted,
+                               @QueryParam("year_start") String yearStart,
+                               @QueryParam("year_end") String yearEnd) {
+
+        Collection<AcademicApiAuthor> authors = visMsApiService.deriveChaseAuthors(visMsApiService.getChasePapers(yearStart, yearEnd));
 
         if (sorted) {
             ArrayList<AcademicApiAuthor> authorArrayList = new ArrayList<>(authors);
@@ -260,36 +236,6 @@ public class AcademicDataResource {
 
         return Response.ok().entity(authors).build();
     }
-
-//    @Path("papers/expand")
-//    @GET
-//    @Produces(MediaType.TEXT_PLAIN)
-//    public Response expandPapers() throws IOException {
-//        List<AcademicApiPaper> academicApiPapers = visMsApiService.getChasePapers();
-//        Set<AcademicApiAuthor> authors = visMsApiService.getChaseAuthors();
-//        ExpandService expandService = ExpandService.INSTANCE;
-//        List<Future<ExpandResult>> futures = expandService.expandAsync(academicApiPapers, authors);
-//        return Response.ok("submitted [" + futures.size() + "]").build();
-//    }
-//
-//    @Path("papers/expand/status")
-//    @GET
-//    @Produces(MediaType.TEXT_PLAIN)
-//    public Response expandPapersStatus() {
-//        ExpandService expandService = ExpandService.INSTANCE;
-//        long l = expandService.checkStatus();
-//        int size = expandService.getTasks().size();
-//        return Response.ok(String.format("done = [%s], total = [%s]", l, size)).build();
-//    }
-//
-//    @Path("papers/expand/cancel")
-//    @GET
-//    @Produces(MediaType.TEXT_PLAIN)
-//    public Response cancelExpandPapers() {
-//        ExpandService expandService = ExpandService.INSTANCE;
-//        expandService.cancelAll();
-//        return Response.accepted("Cancelled all").build();
-//    }
 
     @Path("papers")
     @GET
@@ -308,7 +254,7 @@ public class AcademicDataResource {
     @Path("authors/count")
     @GET
     @Produces(MediaType.TEXT_PLAIN)
-    public Response getAuthorsCount() throws IOException {
+    public Response getAuthorsCount() {
         Set<AcademicApiAuthor> authors = visMsApiService.getChaseAuthors();
         return Response.ok().entity(authors.size()).build();
     }

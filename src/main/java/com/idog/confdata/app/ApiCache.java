@@ -13,7 +13,6 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.util.List;
-import java.util.Random;
 import java.util.Set;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
@@ -25,10 +24,9 @@ public class ApiCache {
     private final Cache<Integer, Pair<Integer, List<Future<ExpandResult>>>> expandQueue;
     private final Cache<Integer, Set<AcademicApiAuthor>> authorsCache;
     private final Cache<Integer, List<AcademicApiPaper>> papersCache;
-
+    private final Cache<Integer, List<AcademicBibliographicCouplingItem>> abcCouplingResults;
     private volatile Set<AcademicApiAuthor> chaseAuthors = null;
     private volatile List<AcademicApiPaper> chasePapers = null;
-    private volatile List<AcademicBibliographicCouplingItem> abcCouplingResults = null;
 
     public ApiCache() {        
         academicApiPapers
@@ -53,14 +51,22 @@ public class ApiCache {
                 .expireAfterAccess(1, TimeUnit.DAYS)
                 .build();
 
+        abcCouplingResults = CacheBuilder.newBuilder()
+                .maximumSize(50)
+                .expireAfterAccess(1, TimeUnit.DAYS)
+                .build();
+
         LOGGER.info("Initialized ApiCache, academicApiPapers is set with [maxSize={}], [expireAfterAccess={}]", 1000, "60, TimeUnit.MINUTES");
     }
 
     public void clearAll() {
         this.academicApiPapers.invalidateAll();
+        this.authorsCache.invalidateAll();
+        this.papersCache.invalidateAll();
+        this.expandQueue.invalidateAll();
+        this.abcCouplingResults.invalidateAll();
         this.chaseAuthors = null;
         this.chasePapers = null;
-        this.abcCouplingResults = null;
     }
 
     public Pair<Integer, List<Future<ExpandResult>>> getExpandQueue(int key) {
@@ -115,13 +121,13 @@ public class ApiCache {
         LOGGER.info("Populated Cache with Papers List");
     }
 
-    public synchronized List<AcademicBibliographicCouplingItem> getAbcCouplingResults() {
+    public synchronized List<AcademicBibliographicCouplingItem> getAbcCouplingResults(int key) {
         LOGGER.info("Getting ABC Coupling Results from Cache");
-        return abcCouplingResults;
+        return abcCouplingResults.getIfPresent(key);
     }
 
-    public synchronized void setAbcCouplingResults(List<AcademicBibliographicCouplingItem> abcCouplingResults) {
-        this.abcCouplingResults = abcCouplingResults;
+    public synchronized void setAbcCouplingResults(int key, List<AcademicBibliographicCouplingItem> abcCouplingResults) {
+        this.abcCouplingResults.put(key, abcCouplingResults);
         LOGGER.info("Populated Cache with ABC Coupling Results");
     }
 }
