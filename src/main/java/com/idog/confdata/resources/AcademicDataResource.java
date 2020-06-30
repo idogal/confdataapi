@@ -1,7 +1,6 @@
 
 package com.idog.confdata.resources;
 
-import java.io.IOException;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -30,61 +29,77 @@ public class AcademicDataResource {
 
     VisMsApiService visMsApiService = new VisMsApiService();
 
-    @Path("abc/network/edges")
+    @Path("abc/network/edges/{resultNumber}")
     @GET
     @Produces(MediaType.TEXT_PLAIN)
-    public Response getAuthorsBibliographicCouplingNetworkEdges(@QueryParam("year_start") String yearStart, @QueryParam("year_end") String yearEnd) {
-        try {
-            AbcNetwork network = getNetwork(yearStart, yearEnd);
+    public Response getAuthorsBibliographicCouplingNetworkEdgesResults(@PathParam("resultNumber") Integer resultNumber) {
+        if (resultNumber == null) {
+            return null;
+        }
+
+        CouplingService couplingService = new CouplingService();
+        CouplingResult results = couplingService.getQueuedAuthorBibliographicCouplingsResults(resultNumber);
+
+        if (results.getCouplingResultType().equals(CouplingResultType.SUCCESS)) {
+            List<AcademicBibliographicCouplingItem> couplings = results.getAcademicBibliographicCouplings();
+            AbcNetwork network = buildNetwork(couplings);
             String s = formatEdgesAsCsv(network.getEdges());
             return Response.ok().entity(s).build();
-        } catch (DataNotYetReadyException e) {
-            return Response
-                    .temporaryRedirect(uriInfo.getBaseUri().resolve("/papers/expand/status"))
-                    .entity(e.getMessage())
-                    .status(Response.Status.INTERNAL_SERVER_ERROR)
-                    .build();
         }
+
+        if (results.getCouplingResultType().equals(CouplingResultType.FAILURE)) {
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(results.getResultMessage()).build();
+        }
+
+        return Response.status(Response.Status.ACCEPTED).entity(results.getResultMessage()).build();
     }
 
-    @Path("abc/network/nodes")
+    @Path("abc/network/nodes/{resultNumber}")
     @GET
     @Produces(MediaType.TEXT_PLAIN)
-    public Response getAuthorsBibliographicCouplingNetworkNodes(@QueryParam("year_start") String yearStart, @QueryParam("year_end") String yearEnd) {
-        try {
-            AbcNetwork network = getNetwork(yearStart, yearEnd);
+    public Response getAuthorsBibliographicCouplingNetworkNodesResults(@PathParam("resultNumber") Integer resultNumber) {
+        if (resultNumber == null) {
+            return null;
+        }
+
+        CouplingService couplingService = new CouplingService();
+        CouplingResult results = couplingService.getQueuedAuthorBibliographicCouplingsResults(resultNumber);
+
+        if (results.getCouplingResultType().equals(CouplingResultType.SUCCESS)) {
+            List<AcademicBibliographicCouplingItem> couplings = results.getAcademicBibliographicCouplings();
+            AbcNetwork network = buildNetwork(couplings);
             String s = formatNodesAsCsv(network.getNodes());
             return Response.ok().entity(s).build();
-        } catch (DataNotYetReadyException e) {
-            return Response
-                    .temporaryRedirect(uriInfo.getBaseUri().resolve("/papers/expand/status"))
-                    .entity(e.getMessage())
-                    .status(Response.Status.INTERNAL_SERVER_ERROR)
-                    .build();
         }
+
+        if (results.getCouplingResultType().equals(CouplingResultType.FAILURE)) {
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(results.getResultMessage()).build();
+        }
+
+        return Response.status(Response.Status.ACCEPTED).entity(results.getResultMessage()).build();
     }
 
-
-    @Path("abc/network")
+    @Path("abc/network/{resultNumber}")
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public Response getAuthorsBibliographicCouplingNetwork(@QueryParam("year_start") String yearStart, @QueryParam("year_end") String yearEnd) {
-        try {
-            AbcNetwork network = getNetwork(yearStart, yearEnd);
-            return Response.ok(network).build();
-        } catch (DataNotYetReadyException e) {
-            return Response
-                    .temporaryRedirect(uriInfo.getBaseUri().resolve("/papers/expand/status"))
-                    .entity(e.getMessage())
-                    .status(Response.Status.INTERNAL_SERVER_ERROR)
-                    .build();
+    public Response getAuthorsBibliographicCouplingNetworkResults(@PathParam("resultNumber") Integer resultNumber) {
+        if (resultNumber == null) {
+            return null;
         }
-    }
 
-    private AbcNetwork getNetwork(@QueryParam("year_start") String yearStart, @QueryParam("year_end") String yearEnd) throws DataNotYetReadyException {
         CouplingService couplingService = new CouplingService();
-        List<AcademicBibliographicCouplingItem> couplings = couplingService.getAuthorBibliographicCouplingsResults(yearStart, yearEnd);
-        return buildNetwork(couplings);
+        CouplingResult results = couplingService.getQueuedAuthorBibliographicCouplingsResults(resultNumber);
+
+        if (results.getCouplingResultType().equals(CouplingResultType.SUCCESS)) {
+            List<AcademicBibliographicCouplingItem> couplings = results.getAcademicBibliographicCouplings();
+            return Response.ok(buildNetwork(couplings)).build();
+        }
+
+        if (results.getCouplingResultType().equals(CouplingResultType.FAILURE)) {
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(results.getResultMessage()).build();
+        }
+
+        return Response.status(Response.Status.ACCEPTED).entity(results.getResultMessage()).build();
     }
 
     private AbcNetwork buildNetwork(List<AcademicBibliographicCouplingItem> couplings) {
@@ -132,17 +147,23 @@ public class AcademicDataResource {
         int i = couplingService.queuePreparation(yearStart, yearEnd);
 
         UriBuilder resultPathBuilder = uriInfo.getAbsolutePathBuilder();
-        UriBuilder resultPath = resultPathBuilder.path("results").path(Integer.toString(i));
+        UriBuilder resultPath = resultPathBuilder.path("network").path(Integer.toString(i));
+        UriBuilder resultPathEdges = resultPathBuilder.path("network").path("edges").path(Integer.toString(i));
+        UriBuilder resultPathNodes = resultPathBuilder.path("network").path("nodes").path(Integer.toString(i));
+        String msg = String.format("Get results from:\n%s\n%s\n%s",
+                resultPath,
+                resultPathEdges,
+                resultPathNodes);
+
         return Response
-                //.temporaryRedirect(resultPath.build())
                 .status(Response.Status.ACCEPTED)
-                .entity("Get results from: " + resultPath.build().toString())
+                .entity(msg)
                 .location(resultPath.build()).build();
     }
 
-    @Path("abc/results/{resultNumber}")
+    @Path("abc/{resultNumber}")
     @GET
-    @Produces(MediaType.TEXT_PLAIN)
+    @Produces(MediaType.APPLICATION_JSON)
     public Response getAuthorsBibliographicCouplingResult(@PathParam("resultNumber") Integer resultNumber) {
         if (resultNumber == null) {
             return Response.status(Response.Status.BAD_REQUEST).entity("Please define a resultNumber").build();

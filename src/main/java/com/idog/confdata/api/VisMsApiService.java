@@ -130,7 +130,7 @@ public class VisMsApiService {
         LOGGER.info("Requesting the details of the input papers");
         List<AcademicApiPaper> allPapers = new ArrayList<>();
         int startFrom = 0;
-        int batchSize = 30;
+        int batchSize = 50;
         boolean papersRemaining = true;
         while (papersRemaining) {
             int currentFinishPosition = startFrom + batchSize - 1;
