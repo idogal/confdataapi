@@ -131,7 +131,7 @@ public class AcademicDataResource {
 
     private String formatEdgesAsCsv(Set<AbcEdge> edges) {
         String collect = edges.stream().map(AbcEdge::toString).sorted().collect(Collectors.joining(System.lineSeparator()));
-        return "Source,Target,Weight,Direction,Id" + System.lineSeparator() + collect;
+        return "Source,Target,Weight,Type,Id" + System.lineSeparator() + collect;
     }
 
     private String formatNodesAsCsv(Set<AbcNode> nodes) {
