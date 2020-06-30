@@ -146,14 +146,13 @@ public class AcademicDataResource {
         CouplingService couplingService = new CouplingService();
         int i = couplingService.queuePreparation(yearStart, yearEnd);
 
-        UriBuilder resultPathBuilder = uriInfo.getAbsolutePathBuilder();
-        UriBuilder resultPath = resultPathBuilder.path("network").path(Integer.toString(i));
-        UriBuilder resultPathEdges = resultPathBuilder.path("network").path("edges").path(Integer.toString(i));
-        UriBuilder resultPathNodes = resultPathBuilder.path("network").path("nodes").path(Integer.toString(i));
+        UriBuilder resultPath = uriInfo.getAbsolutePathBuilder().path("network").path(Integer.toString(i));
+        UriBuilder resultPathEdges = uriInfo.getAbsolutePathBuilder().path("network").path("edges").path(Integer.toString(i));
+        UriBuilder resultPathNodes = uriInfo.getAbsolutePathBuilder().path("network").path("nodes").path(Integer.toString(i));
         String msg = String.format("Get results from:\n%s\n%s\n%s",
-                resultPath,
-                resultPathEdges,
-                resultPathNodes);
+                resultPath.toTemplate(),
+                resultPathEdges.toTemplate(),
+                resultPathNodes.toTemplate());
 
         return Response
                 .status(Response.Status.ACCEPTED)
