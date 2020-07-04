@@ -1,0 +1,59 @@
+#container {
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    position: absolute;
+  }
+
+
+  
+#graph-container {
+  height: calc(99% - 50px);
+  width: calc(100% - 30px);
+  position: absolute;
+}
+#credits-box{
+  background-color: rgb(249, 247, 237);
+  box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+  bottom: 3%;
+  left: calc(100% - 19% - 30px);
+  width: calc(19% - 10px);
+  position: absolute;
+  padding: 5px;                    
+}
+#details-pane {
+  top: calc(50px + 2%);
+  left: 30px;
+  position: absolute;
+  width: 17%;
+  padding: 5px;
+  background-color: rgb(249, 247, 237);
+  box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+  max-height: 90%;
+  overflow: auto;
+}                
+#control-pane {
+  top: calc(50px + 2%);
+  left: calc(100% - 19% - 30px);
+  position: absolute;
+  width: 19%;
+  background-color: rgb(249, 247, 237);
+  box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+  max-height: 70%;
+  overflow: auto;
+}
+#control-pane > div {
+  margin: 10px;
+  overflow-x: auto;
+  overflow: visible;
+}
+.line {
+  clear: both;
+  display: block;
+  width: 100%;
+  margin: 0;
+  padding: 8px 0 0 0;
+  border-bottom: 1px solid #9370DB;
+  background: transparent;
+}
