@@ -61,12 +61,58 @@
     <script src="sigma.js/plugins/sigma.layout.forceAtlas2/supervisor.js"></script>
 
     <script src="forceatlas.js" type="application/javascript"></script>
-    <link href="style.css" rel="stylesheet" type="text/css"/>        
+    <link href="style.css" rel="stylesheet" type="text/css" />
+
+    <script src="jslibs/jquery-3.2.1.min.js"></script>
 </head>
 
 
 <body>
-    <div id="container">
+    <div id="graph-container">
+    </div>
+
+    <div id="control-pane">
+        <button id="stop-btn" onclick="stopGraph()">Stop</button>
+        <br>
+        <label for="name">barnesHutOptimize</label>
+        <input type="radio" id="barnesHutOptimizeTrue" name="barnesHutOptimizeValue" value="True">
+        <label for="barnesHutOptimizeTrue">True</label><br>
+        <input type="radio" id="barnesHutOptimizeFalse" name="barnesHutOptimizeValue" value="False">
+        <label for="barnesHutOptimizeFalse">False</label>      
+        <br>
+        <label for="name">barnesHutTheta</label>
+        <input id="barnesHutThetaValue" name="barnesHutThetaValue" type="number" min="0" max="10" step="0.5" placeholder="0.5">
+        <br>
+        <label for="name">linLogMode</label>
+        <input type="radio" id="linLogModeTrue" name="linLogModeValue" value="True">
+        <label for="linLogModeTrue">True</label><br>
+        <input type="radio" id="linLogModeFalse" name="linLogModeValue" value="False">
+        <label for="linLogModeFalse">False</label>      
+        <br>
+        <label for="name">outboundAttractionDistribution</label>
+        <input type="radio" id="outboundAttractionDistributionValueTrue" name="outboundAttractionDistributionValue" value="True">
+        <label for="outboundAttractionDistributionValueTrue">True</label><br>
+        <input type="radio" id="outboundAttractionDistributionValueFalse" name="outboundAttractionDistributionValue" value="False">
+        <label for="outboundAttractionDistributionValueFalse">False</label>
+        <br>
+        <label for="name">adjustSizes</label>
+        <input type="radio" id="adjustSizesValueTrue" name="adjustSizesValue" value="True">
+        <label for="adjustSizesValueTrue">True</label><br>
+        <input type="radio" id="adjustSizesValueFalse" name="adjustSizesValue" value="False">
+        <label for="adjustSizesValueFalse">False</label>              
+        <br>
+        <label for="name">scalingRatio</label>
+        <input id="scalingRatioValue" name="scalingRatioValue" type="number" min="1" max="10" step="1" placeholder="4">
+        <br>
+        <label for="name">strongGravityMode</label>
+        <input type="radio" id="strongGravityModeValueTrue" name="strongGravityModeValue" value="True">
+        <label for="strongGravityModeValueTrue">True</label><br>
+        <input type="radio" id="strongGravityModeValueFalse" name="strongGravityModeValue" value="False">
+        <label for="strongGravityModeValueFalse">False</label>           
+        <br>
+        <label for="name">gravity</label>
+        <input id="gravityValue" name="gravityValue" type="number" min="1" max="10" step="1" placeholder="2">        
+        <br>        
     </div>
 </body>
 
