@@ -77,21 +77,22 @@ public class CouplingService {
         return CouplingServiceUtils.getQueuedResults(papers, authors, refsPerAuthor);
     }
 
-    private int getHash(String yearStart, String yearEnd) {
+    private int getHash(String yearStart, String yearEnd, Integer citationCount) {
         yearStart = (yearStart == null) ? "0" : yearStart;
         yearEnd = (yearEnd == null) ? "0" : yearEnd;
-        return  (yearStart + yearEnd).hashCode();
+        citationCount = (citationCount == null) ? 0 : citationCount;
+        return  (yearStart + yearEnd + citationCount).hashCode();
     }
 
-    public int queuePreparation(String yearStart, String yearEnd) {
-        int hash = getHash(yearStart, yearEnd);
+    public int queuePreparation(String yearStart, String yearEnd, Integer citationCount) {
+        int hash = getHash(yearStart, yearEnd, citationCount);
         ApiCache apiCache = DiResources.getInjector().getInstance(VisServerAppResources.class).getApiCache();
         Pair<Integer, List<Future<ExpandResult>>> expandQueueResult = apiCache.getExpandQueue(hash);
         if (expandQueueResult != null) {
             return hash;
         }
 
-        List<AcademicApiPaper> papers = visMsApiService.getChasePapers(yearStart, yearEnd);
+        List<AcademicApiPaper> papers = visMsApiService.getChasePapers(yearStart, yearEnd, citationCount);
         Set<AcademicApiAuthor> authors = visMsApiService.deriveChaseAuthors(papers);
 
         ExecutorService executorService = Executors.newSingleThreadExecutor();
@@ -107,11 +108,11 @@ public class CouplingService {
         }
     }
 
-    public List<AcademicBibliographicCouplingItem> getAuthorBibliographicCouplingsResults(String yearStart, String yearEnd) throws DataNotYetReadyException {
+    public List<AcademicBibliographicCouplingItem> getAuthorBibliographicCouplingsResults(String yearStart, String yearEnd, Integer citationCount) throws DataNotYetReadyException {
         VisServerAppResources instance = DiResources.getInjector().getInstance(VisServerAppResources.class);
         ApiCache apiCache = instance.getApiCache();
 
-        int hash = getHash(yearStart, yearEnd);
+        int hash = getHash(yearStart, yearEnd, citationCount);
         List<AcademicBibliographicCouplingItem> couplings = apiCache.getAbcCouplingResults(hash);
         if (couplings != null) {
             return couplings;

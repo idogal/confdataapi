@@ -142,9 +142,10 @@ public class AcademicDataResource {
     @Path("abc")
     @GET
     @Produces(MediaType.TEXT_PLAIN)
-    public Response queueAuthorsBibliographicCoupling(@QueryParam("year_start") String yearStart, @QueryParam("year_end") String yearEnd) {
+    public Response queueAuthorsBibliographicCoupling(@QueryParam("year_start") String yearStart, @QueryParam("year_end") String yearEnd
+            , @QueryParam("cc") Integer citationCount) {
         CouplingService couplingService = new CouplingService();
-        int i = couplingService.queuePreparation(yearStart, yearEnd);
+        int i = couplingService.queuePreparation(yearStart, yearEnd, citationCount);
 
         UriBuilder resultPath = uriInfo.getAbsolutePathBuilder().path("network").path(Integer.toString(i));
         UriBuilder resultPathEdges = uriInfo.getAbsolutePathBuilder().path("network").path("edges").path(Integer.toString(i));
@@ -247,7 +248,7 @@ public class AcademicDataResource {
                                @QueryParam("year_start") String yearStart,
                                @QueryParam("year_end") String yearEnd) {
 
-        Collection<AcademicApiAuthor> authors = visMsApiService.deriveChaseAuthors(visMsApiService.getChasePapers(yearStart, yearEnd));
+        Collection<AcademicApiAuthor> authors = visMsApiService.deriveChaseAuthors(visMsApiService.getChasePapers(yearStart, yearEnd, 0));
 
         if (sorted) {
             ArrayList<AcademicApiAuthor> authorArrayList = new ArrayList<>(authors);
@@ -260,8 +261,8 @@ public class AcademicDataResource {
     @Path("papers")
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public Response getChasePapers(@QueryParam("format") String format, @QueryParam("year_start") String yearStart, @QueryParam("year_end") String yearEnd) {
-        List<AcademicApiPaper> academicApiPaper = visMsApiService.getChasePapers(yearStart, yearEnd);
+    public Response getChasePapers(@QueryParam("format") String format, @QueryParam("year_start") String yearStart, @QueryParam("year_end") String yearEnd, @QueryParam("cc") Integer citationCount) {
+        List<AcademicApiPaper> academicApiPaper = visMsApiService.getChasePapers(yearStart, yearEnd, citationCount);
 
         if (format != null && format.equalsIgnoreCase("csv")) {
             CsvMapper mapper = new CsvMapper();

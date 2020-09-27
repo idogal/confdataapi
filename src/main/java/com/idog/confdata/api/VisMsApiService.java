@@ -75,13 +75,16 @@ public class VisMsApiService {
                 .collect(Collectors.toSet());
     }
 
-    public List<AcademicApiPaper> getChasePapers(String yearStart, String yearEnd) {
+    public List<AcademicApiPaper> getChasePapers(String yearStart, String yearEnd, Integer citationCount) {
         List<AcademicApiPaper> papers = getChasePapers();
         int start = yearStart != null ? Integer.parseInt(yearStart) : 0;
         int end = yearEnd != null ? Integer.parseInt(yearEnd) : 0;
+        int cc = citationCount != null ? citationCount : 0;
+
         return papers.stream()
                 .filter(p -> start == 0 || Integer.parseInt(p.getYear()) >= start)
                 .filter(p -> end == 0 || Integer.parseInt(p.getYear()) <= end)
+                .filter(p -> cc == 0 || p.getCitationCount() >= cc)
                 .collect(Collectors.toList());
     }
 
