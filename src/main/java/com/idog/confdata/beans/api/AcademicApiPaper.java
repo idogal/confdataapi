@@ -9,6 +9,7 @@ public class AcademicApiPaper {
     private Long id;
     private String title;
     private String year;
+    private Integer citationCount;
     private Set<Long> references = new HashSet<>();
     private Set<String> keywords = new HashSet<>();
     private Set<AcademicApiAuthor> authors = new HashSet<>();
@@ -80,6 +81,14 @@ public class AcademicApiPaper {
 
     public AcademicApiPaperExtended getExtendedProperties() {
         return extendedProperties;
+    }
+
+    public Integer getCitationCount() {
+        return citationCount;
+    }
+
+    public void setCitationCount(Integer citationCount) {
+        this.citationCount = citationCount;
     }
 
     @Override

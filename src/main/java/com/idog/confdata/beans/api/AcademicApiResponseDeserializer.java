@@ -59,12 +59,15 @@ public class AcademicApiResponseDeserializer extends StdDeserializer<AcademicApi
             JsonNode tiNode = paperNode.get("Ti");
             JsonNode idNode = paperNode.get("Id");
             JsonNode yearNode = paperNode.get("Y");
+            JsonNode citationCountNode = paperNode.get("CC");
 
             Long paperId = (idNode != null) ? idNode.asLong() : null;
+            Integer citationCount = (citationCountNode != null) ? citationCountNode.asInt() : null;
 
             paper.setTitle((tiNode != null) ? tiNode.asText() : null);
             paper.setId(paperId);
             paper.setYear((yearNode != null) ? yearNode.asText() : null);
+            paper.setCitationCount(citationCount);
 
             LOGGER.debug("Title value: {}", (tiNode != null) ? tiNode.asText("") : "");
             LOGGER.debug("Id value: {}", paperId);
