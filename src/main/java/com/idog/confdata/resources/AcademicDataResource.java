@@ -16,6 +16,10 @@ import com.idog.confdata.beans.CouplingResult;
 import com.idog.confdata.beans.CouplingResultType;
 import com.idog.confdata.beans.api.AcademicApiAuthor;
 import com.idog.confdata.beans.api.AcademicApiPaper;
+import com.idog.confdata.beans.cocitation.CoCitationCouple;
+import com.idog.confdata.beans.cocitation.CoCitationItem;
+import com.idog.confdata.beans.cocitation.CoCitationResult;
+import com.idog.confdata.beans.cocitation.CoCitationScore;
 import com.idog.confdata.beans.responses.AbcEdge;
 import com.idog.confdata.beans.responses.AbcNetwork;
 import com.idog.confdata.beans.responses.AbcNode;
@@ -187,6 +191,60 @@ public class AcademicDataResource {
         }
 
         return Response.status(Response.Status.ACCEPTED).entity(results.getResultMessage()).build();
+    }
+
+    @Path("co-citation")
+    @GET
+    @Produces(MediaType.TEXT_PLAIN)
+    public Response queueCoCitationNetwork(@QueryParam("year_start") String yearStart,
+                                         @QueryParam("year_end") String yearEnd,
+                                         @QueryParam("min_cc") Integer minCitationCount) {
+
+        CouplingService couplingService = new CouplingService();
+        int i = couplingService.queueCoCitationPreparation(yearStart, yearEnd, minCitationCount);
+
+        UriBuilder resultPath = uriInfo.getAbsolutePathBuilder().path("network").path(Integer.toString(i));
+        UriBuilder resultPathEdges = uriInfo.getAbsolutePathBuilder().path("network").path("edges").path(Integer.toString(i));
+        UriBuilder resultPathNodes = uriInfo.getAbsolutePathBuilder().path("network").path("nodes").path(Integer.toString(i));
+        String msg = String.format("Get results from:\n%s\n%s\n%s",
+                resultPath.toTemplate(),
+                resultPathEdges.toTemplate(),
+                resultPathNodes.toTemplate());
+
+        return Response
+                .status(Response.Status.ACCEPTED)
+                .entity(msg)
+                .location(resultPath.build()).build();
+    }
+
+
+    @Path("co-citation/{resultNumber}")
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getCoCitationNetwork(@PathParam("resultNumber") Integer resultNumber, @QueryParam("min_strength") Integer minCcStrength) {
+        if (resultNumber == null) {
+            return Response.status(Response.Status.BAD_REQUEST).entity("Please define a resultNumber").build();
+        }
+
+        CouplingService couplingService = new CouplingService();
+        CoCitationResult coCitationResults = couplingService.getCoCitationResults(resultNumber);
+
+        if (coCitationResults.getCouplingResultType().equals(CouplingResultType.SUCCESS)) {
+            Map<CoCitationCouple, CoCitationScore> couplesToPapers = coCitationResults.getCouplesToPapers();
+
+            return Response.ok(
+                    couplesToPapers.entrySet().stream()
+                            .filter(entry -> entry.getValue().getScore() >= minCcStrength)
+                            .map(entry ->
+                                CoCitationItem.builder().addCoCitationCouple(entry.getKey()).addCoCitationScore(entry.getValue()).build())
+                            .collect(Collectors.toList())).build();
+        }
+
+        if (coCitationResults.getCouplingResultType().equals(CouplingResultType.FAILURE)) {
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(coCitationResults.getResultMessage()).build();
+        }
+
+        return Response.status(Response.Status.ACCEPTED).entity(coCitationResults.getResultMessage()).build();
     }
 
     @Path("simple")

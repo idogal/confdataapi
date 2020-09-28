@@ -22,6 +22,7 @@ public class ApiCache {
     private static final Logger LOGGER = LogManager.getLogger("VisApi");
     private final Cache<String, List<AcademicApiPaper>> academicApiPapers;
     private final Cache<Integer, Pair<Integer, List<Future<ExpandResult>>>> expandQueue;
+    private final Cache<Integer, Pair<Integer, Future<Set<AcademicApiPaper>>>> expandPapersQueue;
     private final Cache<Integer, Set<AcademicApiAuthor>> authorsCache;
     private final Cache<Integer, List<AcademicApiPaper>> papersCache;
     private final Cache<Integer, List<AcademicBibliographicCouplingItem>> abcCouplingResults;
@@ -37,6 +38,11 @@ public class ApiCache {
                         .build();
 
         expandQueue = CacheBuilder.newBuilder()
+                .maximumSize(50)
+                .expireAfterAccess(1, TimeUnit.DAYS)
+                .build();
+
+        expandPapersQueue = CacheBuilder.newBuilder()
                 .maximumSize(50)
                 .expireAfterAccess(1, TimeUnit.DAYS)
                 .build();
@@ -73,8 +79,17 @@ public class ApiCache {
         return expandQueue.getIfPresent(key);
     }
 
+    public Pair<Integer, Future<Set<AcademicApiPaper>>> getExpandPapersQueue(int key) {
+        return expandPapersQueue.getIfPresent(key);
+    }
+
     public int putInExpandQueue(int key, int size, List<Future<ExpandResult>> value) {
         expandQueue.put(key, new ImmutablePair<>(size, value));
+        return key;
+    }
+
+    public int putInExpandPapersQueue(int key, int size, Future<Set<AcademicApiPaper>> value) {
+        expandPapersQueue.put(key, new ImmutablePair<>(size, value));
         return key;
     }
 
