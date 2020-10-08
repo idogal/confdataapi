@@ -35,7 +35,7 @@ public class AcademicAuthorPair implements Comparable<AcademicAuthorPair> {
 
     @Override
     public int hashCode() {
-        return Objects.hash(academicApiAuthorFirst, academicApiAuthorSecond);
+        return academicApiAuthorFirst.hashCode() + academicApiAuthorSecond.hashCode();
     }
 
     @Override
