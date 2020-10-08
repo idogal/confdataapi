@@ -36,7 +36,8 @@ public class AcademicDataResource {
     @Path("abc/network/edges/{resultNumber}")
     @GET
     @Produces(MediaType.TEXT_PLAIN)
-    public Response getAuthorsBibliographicCouplingNetworkEdgesResults(@PathParam("resultNumber") Integer resultNumber) {
+    public Response getAuthorsBibliographicCouplingNetworkEdgesResults(@PathParam("resultNumber") Integer resultNumber,
+                                                                       @QueryParam("authorName") String authorName) {
         if (resultNumber == null) {
             return null;
         }
@@ -46,7 +47,7 @@ public class AcademicDataResource {
 
         if (results.getCouplingResultType().equals(CouplingResultType.SUCCESS)) {
             List<AcademicBibliographicCouplingItem> couplings = results.getAcademicBibliographicCouplings();
-            AbcNetwork network = buildNetwork(couplings);
+            AbcNetwork network = buildNetwork(couplings, authorName);
             String s = formatEdgesAsCsv(network.getEdges());
             return Response.ok().entity(s).build();
         }
@@ -61,7 +62,8 @@ public class AcademicDataResource {
     @Path("abc/network/nodes/{resultNumber}")
     @GET
     @Produces(MediaType.TEXT_PLAIN)
-    public Response getAuthorsBibliographicCouplingNetworkNodesResults(@PathParam("resultNumber") Integer resultNumber) {
+    public Response getAuthorsBibliographicCouplingNetworkNodesResults(@PathParam("resultNumber") Integer resultNumber,
+                                                                       @QueryParam("authorName") String authorName) {
         if (resultNumber == null) {
             return null;
         }
@@ -71,7 +73,7 @@ public class AcademicDataResource {
 
         if (results.getCouplingResultType().equals(CouplingResultType.SUCCESS)) {
             List<AcademicBibliographicCouplingItem> couplings = results.getAcademicBibliographicCouplings();
-            AbcNetwork network = buildNetwork(couplings);
+            AbcNetwork network = buildNetwork(couplings, authorName);
             String s = formatNodesAsCsv(network.getNodes());
             return Response.ok().entity(s).build();
         }
@@ -86,7 +88,8 @@ public class AcademicDataResource {
     @Path("abc/network/{resultNumber}")
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public Response getAuthorsBibliographicCouplingNetworkResults(@PathParam("resultNumber") Integer resultNumber) {
+    public Response getAuthorsBibliographicCouplingNetworkResults(@PathParam("resultNumber") Integer resultNumber,
+                                                                  @QueryParam("authorName") String authorName) {
         if (resultNumber == null) {
             return null;
         }
@@ -96,7 +99,7 @@ public class AcademicDataResource {
 
         if (results.getCouplingResultType().equals(CouplingResultType.SUCCESS)) {
             List<AcademicBibliographicCouplingItem> couplings = results.getAcademicBibliographicCouplings();
-            return Response.ok(buildNetwork(couplings)).build();
+            return Response.ok(buildNetwork(couplings, authorName)).build();
         }
 
         if (results.getCouplingResultType().equals(CouplingResultType.FAILURE)) {
@@ -107,8 +110,15 @@ public class AcademicDataResource {
     }
 
     private AbcNetwork buildNetwork(List<AcademicBibliographicCouplingItem> couplings) {
+        return buildNetwork(couplings, "");
+    }
+
+    private AbcNetwork buildNetwork(List<AcademicBibliographicCouplingItem> couplings, String filterAuthorName) {
         Set<AbcEdge> edges = new HashSet<>();
         Set<AbcNode> nodes = new HashSet<>();
+
+        if (filterAuthorName == null)
+            filterAuthorName = "";
 
         int counter = 1;
         int x = 0;
@@ -126,8 +136,11 @@ public class AcademicDataResource {
 
             y++;
 
-            edges.add(new AbcEdge(String.valueOf(counter), c.getCouplingStrength(), authorName, authorName2, EdgeDirection.UNDIRECTED));
-            counter++;
+            if (filterAuthorName.isEmpty() || filterAuthorName.equalsIgnoreCase(authorName) || filterAuthorName.equalsIgnoreCase(authorName2)) {
+                edges.add(new AbcEdge(String.valueOf(counter), c.getCouplingStrength(), authorName, authorName2, EdgeDirection.UNDIRECTED));
+                counter++;
+                continue;
+            }
         }
 
         return new AbcNetwork(edges, nodes);
