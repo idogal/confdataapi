@@ -37,7 +37,8 @@ public class AcademicDataResource {
     @GET
     @Produces(MediaType.TEXT_PLAIN)
     public Response getAuthorsBibliographicCouplingNetworkEdgesResults(@PathParam("resultNumber") Integer resultNumber,
-                                                                       @QueryParam("authorName") String authorName) {
+                                                                       @QueryParam("authorName") String authorName,
+                                                                       @QueryParam("minStrength") int minStrength) {
         if (resultNumber == null) {
             return null;
         }
@@ -47,7 +48,7 @@ public class AcademicDataResource {
 
         if (results.getCouplingResultType().equals(CouplingResultType.SUCCESS)) {
             List<AcademicBibliographicCouplingItem> couplings = results.getAcademicBibliographicCouplings();
-            AbcNetwork network = buildNetwork(couplings, authorName);
+            AbcNetwork network = buildNetwork(couplings, authorName, minStrength);
             String s = formatEdgesAsCsv(network.getEdges());
             return Response.ok().entity(s).build();
         }
@@ -63,7 +64,8 @@ public class AcademicDataResource {
     @GET
     @Produces(MediaType.TEXT_PLAIN)
     public Response getAuthorsBibliographicCouplingNetworkNodesResults(@PathParam("resultNumber") Integer resultNumber,
-                                                                       @QueryParam("authorName") String authorName) {
+                                                                       @QueryParam("authorName") String authorName,
+                                                                       @QueryParam("minStrength") int minStrength) {
         if (resultNumber == null) {
             return null;
         }
@@ -73,7 +75,7 @@ public class AcademicDataResource {
 
         if (results.getCouplingResultType().equals(CouplingResultType.SUCCESS)) {
             List<AcademicBibliographicCouplingItem> couplings = results.getAcademicBibliographicCouplings();
-            AbcNetwork network = buildNetwork(couplings, authorName);
+            AbcNetwork network = buildNetwork(couplings, authorName, minStrength);
             String s = formatNodesAsCsv(network.getNodes());
             return Response.ok().entity(s).build();
         }
@@ -89,7 +91,8 @@ public class AcademicDataResource {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public Response getAuthorsBibliographicCouplingNetworkResults(@PathParam("resultNumber") Integer resultNumber,
-                                                                  @QueryParam("authorName") String authorName) {
+                                                                  @QueryParam("authorName") String authorName,
+                                                                  @QueryParam("minStrength") int minStrength) {
         if (resultNumber == null) {
             return null;
         }
@@ -99,7 +102,7 @@ public class AcademicDataResource {
 
         if (results.getCouplingResultType().equals(CouplingResultType.SUCCESS)) {
             List<AcademicBibliographicCouplingItem> couplings = results.getAcademicBibliographicCouplings();
-            return Response.ok(buildNetwork(couplings, authorName)).build();
+            return Response.ok(buildNetwork(couplings, authorName, minStrength)).build();
         }
 
         if (results.getCouplingResultType().equals(CouplingResultType.FAILURE)) {
@@ -110,10 +113,10 @@ public class AcademicDataResource {
     }
 
     private AbcNetwork buildNetwork(List<AcademicBibliographicCouplingItem> couplings) {
-        return buildNetwork(couplings, "");
+        return buildNetwork(couplings, "", 0);
     }
 
-    private AbcNetwork buildNetwork(List<AcademicBibliographicCouplingItem> couplings, String filterAuthorName) {
+    private AbcNetwork buildNetwork(List<AcademicBibliographicCouplingItem> couplings, String filterAuthorName, int minStrength) {
         Set<AbcEdge> edges = new HashSet<>();
         Set<AbcNode> nodes = new HashSet<>();
 
@@ -136,7 +139,9 @@ public class AcademicDataResource {
 
             y++;
 
-            if (filterAuthorName.isEmpty() || filterAuthorName.equalsIgnoreCase(authorName) || filterAuthorName.equalsIgnoreCase(authorName2)) {
+            if ((filterAuthorName.isEmpty() ||
+                    filterAuthorName.equalsIgnoreCase(authorName) || filterAuthorName.equalsIgnoreCase(authorName2)) &&
+                    c.getCouplingStrength() >= minStrength) {
                 edges.add(new AbcEdge(String.valueOf(counter), c.getCouplingStrength(), authorName, authorName2, EdgeDirection.UNDIRECTED));
                 counter++;
                 continue;
@@ -159,8 +164,9 @@ public class AcademicDataResource {
     @Path("abc")
     @GET
     @Produces(MediaType.TEXT_PLAIN)
-    public Response queueAuthorsBibliographicCoupling(@QueryParam("year_start") String yearStart, @QueryParam("year_end") String yearEnd
-            , @QueryParam("cc") Integer citationCount) {
+    public Response queueAuthorsBibliographicCoupling(@QueryParam("year_start") String yearStart,
+                                                      @QueryParam("year_end") String yearEnd,
+                                                      @QueryParam("cc") Integer citationCount) {
         CouplingService couplingService = new CouplingService();
         int i = couplingService.queuePreparation(yearStart, yearEnd, citationCount);
 
@@ -210,8 +216,8 @@ public class AcademicDataResource {
     @GET
     @Produces(MediaType.TEXT_PLAIN)
     public Response queueCoCitationNetwork(@QueryParam("year_start") String yearStart,
-                                         @QueryParam("year_end") String yearEnd,
-                                         @QueryParam("min_cc") Integer minCitationCount) {
+                                           @QueryParam("year_end") String yearEnd,
+                                           @QueryParam("min_cc") Integer minCitationCount) {
 
         CouplingService couplingService = new CouplingService();
         int i = couplingService.queueCoCitationPreparation(yearStart, yearEnd, minCitationCount);
@@ -249,7 +255,7 @@ public class AcademicDataResource {
                     couplesToPapers.entrySet().stream()
                             .filter(entry -> entry.getValue().getScore() >= minCcStrength)
                             .map(entry ->
-                                CoCitationItem.builder().addCoCitationCouple(entry.getKey()).addCoCitationScore(entry.getValue()).build())
+                                    CoCitationItem.builder().addCoCitationCouple(entry.getKey()).addCoCitationScore(entry.getValue()).build())
                             .collect(Collectors.toList())).build();
         }
 
